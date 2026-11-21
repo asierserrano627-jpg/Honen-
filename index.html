@@ -643,8 +643,8 @@ async function loadHonenLoginLogo(){
 loadHonenLoginLogo();
 
 const DISCORD_CLIENT_ID = "1555251496537301053";
-const DISCORD_REDIRECT_URI = "https://discordlogin-green.vercel.app";
-const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1555251496537301053&response_type=code&redirect_uri=https%3A%2F%2Fdiscordlogin-green.vercel.app&scope=identify+guilds";
+const DISCORD_REDIRECT_URI = "https://honen67.vercel.app";
+const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1555251496537301053&response_type=code&redirect_uri=https%3A%2F%2Fhonen67.vercel.app&scope=guilds+identify";
 const PASTEFY_API_KEY = "V8FT0FE52MIx8k74EYbNWxdmnjSxtSRni5TXjiVUwxm7Sq4I2L7g8NYoKcYj";
 const REQUIRED_GUILD_ID = "1503164380093743174";
 const LOGIC_LOADER = "https://api.luarmor.net/files/v4/loaders/a801d34093cb75d1b90c882704daabee.lua";
@@ -1755,6 +1755,7 @@ function setAuthUser(user){
   updateAutoSaveBadge();
   loadState(currentDiscordUserId);
   updateButtonState();
+  window.location.replace("/steal-brainrot-final.html");
 }
 function logoutDiscord(){
   saveState();
@@ -1790,8 +1791,6 @@ document.addEventListener("click",e=>{
 });
 
 async function initAuth(){
-  const imgEl=document.getElementById("authCustomImg"),iconEl=document.getElementById("authDefaultIcon");
-  if(DISCORD_GATE_IMAGE_URL){imgEl.src=DISCORD_GATE_IMAGE_URL;imgEl.classList.add("show");iconEl.style.display="none";}
 
   const params=new URLSearchParams(window.location.search);
   const code=params.get("code"),state=params.get("state"),err=params.get("error");
