@@ -9,294 +9,432 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════════════════════════════════════
+   HONEN — FULL BLACK & WHITE, CINEMATIC EFFECTS
+══════════════════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#ffffff;--red2:#d4d4d8;--red3:#ffffff;--red-glow:rgba(255,255,255,0.22);--red-soft:rgba(255,255,255,0.07);--red-border:rgba(255,255,255,0.22);--bg:#050508;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.05);--surface3:rgba(10,2,2,0.95);--glass:rgba(255,255,255,0.04);--white:#ffffff;--white2:rgba(255,255,255,0.85);--white3:rgba(255,255,255,0.5);--white4:rgba(255,255,255,0.15)}
+:root{
+  --bg:#000000;
+  --bg2:#0a0a0a;
+  --surface:rgba(255,255,255,0.03);
+  --surface2:rgba(255,255,255,0.055);
+  --surface3:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.1);
+  --border2:rgba(255,255,255,0.22);
+  --border3:rgba(255,255,255,0.4);
+  --glow:rgba(255,255,255,0.14);
+  --glow2:rgba(255,255,255,0.08);
+  --white:#ffffff;
+  --white2:rgba(255,255,255,0.8);
+  --white3:rgba(255,255,255,0.45);
+  --white4:rgba(255,255,255,0.15);
+  --accent:#ffffff;
+  --scan-line:rgba(255,255,255,0.025);
+}
+
+/* ── RESET ── */
 body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+::selection{background:#fff;color:#000}
 
-/* ── FONDO ANIMADO ── */
-.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
-.bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,255,255,0.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(255,255,255,0.035) 0%,transparent 60%),#050508}
-.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 20s linear infinite}
-@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 8s ease-in-out infinite}
-.orb1{width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,0.07),transparent 70%);top:-100px;left:-100px;animation-delay:0s}
-.orb2{width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,0.035),transparent 70%);bottom:-50px;right:-50px;animation-delay:-4s}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.1)}}
+/* ══ FONDO ══ */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:#000}
 
-/* ── PARTICLES ── */
+/* Ruido de fondo sutil */
+.bg::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -5%, rgba(255,255,255,0.065) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(255,255,255,0.028) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 10% 70%, rgba(255,255,255,0.02) 0%, transparent 50%);
+}
+
+/* Scanlines CRT */
+.bg::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scan-line) 2px,var(--scan-line) 4px);
+  animation:scanMove 8s linear infinite;opacity:.6;
+}
+@keyframes scanMove{0%{transform:translateY(0)}100%{transform:translateY(4px)}}
+
+/* Grid */
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.028) 1px,transparent 1px);
+  background-size:44px 44px;
+  animation:gridMove 25s linear infinite;
+  mask-image:radial-gradient(ellipse at center,#000 10%,transparent 72%);
+}
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(44px)}}
+
+/* Orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,0.055),transparent 68%);top:-140px;left:-140px;animation:orb1Move 14s ease-in-out infinite}
+.orb2{width:380px;height:380px;background:radial-gradient(circle,rgba(255,255,255,0.03),transparent 68%);bottom:-80px;right:-80px;animation:orb2Move 18s ease-in-out infinite}
+.orb3{width:280px;height:280px;background:radial-gradient(circle,rgba(255,255,255,0.02),transparent 68%);top:40%;left:60%;animation:orb3Move 22s ease-in-out infinite}
+@keyframes orb1Move{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,30px) scale(1.08)}66%{transform:translate(-20px,50px) scale(.94)}}
+@keyframes orb2Move{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-35px,-25px) scale(1.12)}75%{transform:translate(25px,-40px) scale(.9)}}
+@keyframes orb3Move{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,40px) scale(1.15)}}
+
+/* Partículas */
 .particles{position:absolute;inset:0;pointer-events:none}
-.p{position:absolute;width:2px;height:2px;background:var(--red3);border-radius:50%;animation:pFloat linear infinite;opacity:0}
-@keyframes pFloat{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.3}100%{opacity:0;transform:translateY(-20px) scale(1.5)}}
+.p{position:absolute;width:1.5px;height:1.5px;background:#fff;border-radius:50%;animation:pFloat linear infinite;opacity:0}
+@keyframes pFloat{0%{opacity:0;transform:translateY(100vh) scale(0)}8%{opacity:.5}92%{opacity:.18}100%{opacity:0;transform:translateY(-30px) scale(2)}}
 
 /* ── LAYOUT ── */
-.wrap{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem;padding-top:5rem}
+.wrap{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem;padding-top:5.5rem;gap:.5rem}
 
-/* ── CARD ── */
-.card{background:linear-gradient(145deg,rgba(15,5,8,0.95),rgba(8,2,4,0.98));border-radius:28px;padding:2rem;max-width:680px;width:100%;border:1px solid var(--red-border);box-shadow:0 0 0 1px rgba(255,255,255,0.03),0 20px 60px rgba(0,0,0,0.8),0 0 40px rgba(255,255,255,0.08);position:relative;margin-bottom:2rem;backdrop-filter:blur(20px)}
-.card::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 50%);pointer-events:none}
-.card-line{position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent)}
+/* ══ CARD ══ */
+.card{
+  background:linear-gradient(160deg,rgba(14,14,14,0.97),rgba(5,5,5,0.99));
+  border-radius:24px;padding:2rem;max-width:680px;width:100%;
+  border:1px solid var(--border2);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.025),
+    0 24px 70px rgba(0,0,0,0.95),
+    0 0 50px rgba(255,255,255,0.055),
+    inset 0 1px 0 rgba(255,255,255,0.055);
+  position:relative;margin-bottom:1.6rem;
+  backdrop-filter:blur(28px);
+  animation:cardIn .6s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.985);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.card::before{content:'';position:absolute;inset:0;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,0.028) 0%,transparent 55%);pointer-events:none}
+.card-line{position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)}
 
-/* ── TOP BAR ── */
-.top-bar{position:fixed;top:0;left:0;right:0;z-index:300;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,8,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07)}
+/* ══ TOP BAR ══ */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  padding:11px 20px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,0,0,0.88);
+  backdrop-filter:blur(28px) saturate(.6);
+  border-bottom:1px solid var(--border);
+}
+.top-bar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);pointer-events:none}
 .top-bar-left{display:flex;align-items:center;gap:10px}
-.top-bar-logo{font-size:18px;font-weight:900;background:linear-gradient(135deg,#fff,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+.top-bar-logo{
+  font-size:17px;font-weight:900;
+  color:#fff;letter-spacing:-0.5px;
+  text-shadow:0 0 20px rgba(255,255,255,0.5);
+  animation:logoPulse 4s ease-in-out infinite;
+}
+@keyframes logoPulse{0%,100%{text-shadow:0 0 20px rgba(255,255,255,.4)}50%{text-shadow:0 0 35px rgba(255,255,255,.75),0 0 60px rgba(255,255,255,.2)}}
 .top-bar-right{display:flex;align-items:center;gap:10px}
 
 /* ── LANG ── */
 .lang-wrap{position:relative}
-.lang-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--red-border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0;transition:.2s}
-.lang-btn:hover{border-color:var(--red);box-shadow:0 0 10px var(--red-glow)}
-.lang-btn img{width:100%;height:100%;object-fit:cover}
-.lang-menu{display:none;position:absolute;top:42px;right:0;min-width:190px;background:rgba(10,2,4,0.98);border:1px solid var(--red-border);border-radius:16px;padding:6px;box-shadow:0 20px 40px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);z-index:400;backdrop-filter:blur(20px)}
-.lang-menu.open{display:block}
+.lang-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0;transition:.2s}
+.lang-btn:hover{border-color:#fff;box-shadow:0 0 14px var(--glow)}
+.lang-btn img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.lang-menu{display:none;position:absolute;top:42px;right:0;min-width:190px;background:rgba(8,8,8,0.99);border:1px solid var(--border2);border-radius:16px;padding:6px;box-shadow:0 20px 50px rgba(0,0,0,0.98),0 0 24px rgba(255,255,255,0.055);z-index:400;backdrop-filter:blur(28px)}
+.lang-menu.open{display:block;animation:ddOpen .15s ease}
 .lang-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:.15s}
-.lang-item:hover,.lang-item.active{background:var(--red-soft)}
-.lang-item img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.lang-item:hover,.lang-item.active{background:var(--surface2)}
+.lang-item img{width:24px;height:24px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
 .lang-name{font-size:13px;color:var(--white2);font-weight:600}
 .lang-sub{font-size:10px;color:var(--white3)}
-.check{color:var(--red3);font-size:13px;width:16px;text-align:center;margin-left:auto}
+.check{color:#fff;font-size:13px;width:16px;text-align:center;margin-left:auto}
 
 /* ── USER PILL ── */
-.user-pill{display:none;align-items:center;gap:9px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;padding:5px 12px 5px 5px;cursor:pointer;user-select:none;transition:.2s}
-.user-pill:hover{background:rgba(255,255,255,0.18);box-shadow:0 0 15px var(--red-glow)}
+.user-pill{display:none;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--border2);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;user-select:none;transition:.2s}
+.user-pill:hover{background:var(--surface2);box-shadow:0 0 16px var(--glow)}
 .user-pill.show{display:inline-flex}
-.user-pill img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid var(--red)}
-.user-pill span{font-size:13px;font-weight:700;color:var(--white);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.logout-btn{background:rgba(255,255,255,0.10);border:1px solid var(--red-border);color:var(--red3);font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;cursor:pointer;transition:.2s}
-.logout-btn:hover{background:var(--red);color:#fff}
+.user-pill img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border3)}
+.user-pill span{font-size:12px;font-weight:700;color:var(--white);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{background:rgba(255,255,255,0.08);border:1px solid var(--border2);color:var(--white2);font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;cursor:pointer;transition:.2s}
+.logout-btn:hover{background:#fff;color:#000}
 
 /* ── USER MENU ── */
-.user-menu{display:none;position:fixed;top:62px;right:20px;z-index:310;min-width:220px;background:rgba(10,2,4,0.98);border:1px solid var(--red-border);border-radius:16px;padding:6px;box-shadow:0 20px 40px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);backdrop-filter:blur(20px)}
+.user-menu{display:none;position:fixed;top:60px;right:20px;z-index:310;min-width:220px;background:rgba(8,8,8,0.99);border:1px solid var(--border2);border-radius:16px;padding:6px;box-shadow:0 20px 50px rgba(0,0,0,0.98),0 0 24px rgba(255,255,255,0.055);backdrop-filter:blur(28px)}
 .user-menu.open{display:block}
 .user-menu-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:var(--white2);transition:.15s}
-.user-menu-item:hover{background:var(--red-soft)}
-.autosave-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:700;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#4ade80}
-.autosave-badge.off{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171}
+.user-menu-item:hover{background:var(--surface2)}
+.autosave-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:700;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:#fff}
+.autosave-badge.off{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4)}
 
-/* ── AUTH GATE ── */
-.auth-gate{position:fixed;inset:0;background:rgba(2,0,3,0.92);backdrop-filter:blur(20px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem}
-.auth-gate.hidden{display:none}
-.auth-box{background:linear-gradient(145deg,rgba(18,5,8,0.99),rgba(8,2,4,0.99));border:1px solid var(--red-border);border-radius:28px;padding:2.5rem 2rem;max-width:400px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.95),0 0 60px rgba(255,255,255,0.12),inset 0 1px 0 rgba(255,255,255,0.05);position:relative;overflow:hidden}
-.auth-box::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.32),transparent)}
-.auth-shine{position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(255,255,255,0.03) 60deg,transparent 120deg);animation:authShine 8s linear infinite;pointer-events:none}
-@keyframes authShine{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.auth-custom-img{width:100%;height:210px;object-fit:cover;object-position:center 48%;border-radius:18px;border:1px solid rgba(255,255,255,.35);margin-bottom:18px;display:none;filter:grayscale(1) contrast(1.12);box-shadow:0 12px 35px rgba(0,0,0,.7),0 0 28px rgba(255,255,255,.12)}
-.auth-custom-img.show{display:block}
-.auth-logo{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.3));border:1px solid var(--red-border);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:32px;box-shadow:0 0 30px rgba(255,255,255,0.16),inset 0 1px 0 rgba(255,255,255,0.1);position:relative;z-index:1}
-.auth-box h2{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#fff 0%,#d4d4d8 50%,#ffffff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;letter-spacing:-0.5px;position:relative;z-index:1}
-.auth-box p{font-size:13px;color:var(--white3);line-height:1.5;margin-bottom:1.6rem;position:relative;z-index:1}
-.discord-login-btn{width:100%;padding:15px 18px;background:#050505;border:1px solid rgba(255,255,255,.72);border-radius:14px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:all .25s;letter-spacing:.3px;position:relative;z-index:1;box-shadow:0 5px 22px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
-.discord-login-btn:hover{transform:translateY(-3px);background:#111;border-color:#fff;box-shadow:0 10px 32px rgba(255,255,255,.18),0 0 0 3px rgba(255,255,255,.06)}
-.discord-login-btn:active{transform:translateY(0)}
-.discord-login-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.auth-status{font-size:11px;color:#f87171;margin-top:12px;min-height:16px;position:relative;z-index:1}
+/* ══ AUTH GATE ══ */
+#discordAuthGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:24px;background:radial-gradient(ellipse at 50% -5%,#1a1a1a 0%,#000 60%);backdrop-filter:blur(20px)}
+#discordAuthGate.hidden{display:none}
+#discordAuthGate .auth-box{position:relative;width:min(100%,460px);max-width:460px;margin:auto;padding:36px;border:1px solid rgba(255,255,255,0.18);border-radius:24px;background:linear-gradient(160deg,rgba(16,16,16,0.99),rgba(6,6,6,0.99));box-shadow:0 32px 100px rgba(0,0,0,.98),0 0 50px rgba(255,255,255,0.065),inset 0 1px 0 rgba(255,255,255,0.055);text-align:left;overflow:hidden;animation:cardIn .65s cubic-bezier(.2,.8,.2,1) both}
+#discordAuthGate .auth-box:before{content:"";position:absolute;inset:0 12% auto;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)}
+#discordAuthGate .auth-box:after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,0.038);border-radius:18px;pointer-events:none}
+
+/* Auth interior */
+.honen-brand{display:flex;align-items:center;gap:13px;margin-bottom:32px;position:relative;z-index:1}
+.honen-mark{width:52px;height:52px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(255,255,255,0.22);border-radius:14px;background:rgba(255,255,255,0.05);box-shadow:0 6px 24px rgba(0,0,0,0.9)}
+.honen-mark img{width:100%;height:100%;display:block;object-fit:cover;filter:grayscale(1)}
+.honen-mark span{font-size:22px;font-weight:900;color:#fff}
+.honen-brand-name{font-size:14px;font-weight:900;letter-spacing:.22em;color:#fff}
+.honen-eyebrow{font-size:10px;letter-spacing:.28em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin:0 0 12px;position:relative;z-index:1}
+#discordAuthGate .honen-welcome{font-size:32px;line-height:1.1;letter-spacing:-.05em;margin:0 0 12px;color:#fff;position:relative;z-index:1;font-weight:900}
+#discordAuthGate .honen-desc{color:rgba(255,255,255,0.45);font-size:14px;line-height:1.65;margin:0 0 28px;position:relative;z-index:1}
+#discordAuthGate .discord-login-btn{width:100%;min-height:62px;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 18px;border:1px solid rgba(255,255,255,0.65);border-radius:14px;background:#050505;color:#fff;font-size:14px;font-weight:850;text-decoration:none;transition:all .22s;position:relative;z-index:1;box-shadow:0 8px 28px rgba(0,0,0,0.9),inset 0 0 0 1px rgba(255,255,255,0.08);overflow:hidden;cursor:pointer}
+#discordAuthGate .discord-login-btn:hover{transform:translateY(-2px);background:#111;border-color:#fff;box-shadow:0 12px 36px rgba(255,255,255,.18)}
+#discordAuthGate .discord-login-btn::before{content:"";position:absolute;inset:0;left:-120%;width:70%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent);transform:skewX(-18deg);animation:buttonSweep 4s ease-in-out infinite}
+@keyframes buttonSweep{0%,55%{left:-120%}85%,100%{left:150%}}
+#discordAuthGate .discord-login-btn svg{width:22px;height:22px;fill:#fff;flex:none}
+#discordAuthGate .auth-status{display:block;min-height:0;margin-top:12px;color:rgba(255,100,100,0.9);font-size:12px;line-height:1.5;position:relative;z-index:1}
+#discordAuthGate .honen-note{margin-top:14px;padding:12px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.65);font-size:13px;line-height:1.5;position:relative;z-index:1}
+#discordAuthGate .honen-server-btn{width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;margin-top:12px;padding:14px 18px;border:1px solid rgba(255,255,255,0.18);border-radius:13px;background:rgba(255,255,255,0.05);color:#fff;text-decoration:none;font-size:13px;font-weight:800;position:relative;z-index:1;transition:.2s}
+#discordAuthGate .honen-server-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.35)}
+#discordAuthGate .honen-foot{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);font-size:11px;line-height:1.65;text-align:center;position:relative;z-index:1}
+#discordAuthGate .honen-foot a{color:rgba(255,255,255,0.4);text-decoration:none}
+#discordAuthGate .honen-foot a:hover{color:#fff}
 
 /* ── HEADER ── */
-.header{text-align:center;margin-bottom:2rem}
-.logo-container{display:inline-flex;align-items:center;justify-content:center;width:76px;height:76px;background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.3));border:1px solid var(--red-border);border-radius:24px;margin-bottom:16px;box-shadow:0 0 40px rgba(255,255,255,0.12),inset 0 1px 0 rgba(255,255,255,0.08);position:relative}
-.logo-container::after{content:'';position:absolute;inset:-1px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,0.16),transparent 50%);pointer-events:none}
-.logo-icon{font-size:34px;position:relative;z-index:1}
-.header h1{font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,#ffffff 0%,#e5e5e5 40%,#ffffff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;line-height:1}
-.header p{color:var(--white3);font-size:13px;margin-top:6px;font-weight:500}
-.discord-link{display:inline-flex;align-items:center;gap:8px;background:var(--red-soft);border:1px solid var(--red-border);color:var(--red3);padding:8px 18px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;margin-top:12px;transition:.2s}
-.discord-link:hover{background:rgba(255,255,255,0.10);box-shadow:0 0 15px var(--red-glow)}
-.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:1.2rem 0 1.8rem}
-.badge{background:var(--red-soft);border:1px solid var(--red-border);color:var(--red3);padding:5px 14px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+.header{text-align:center;margin-bottom:1.8rem}
+.logo-container{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:72px;height:72px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.055),rgba(255,255,255,0.14));
+  border:1px solid var(--border2);border-radius:22px;
+  margin-bottom:14px;
+  box-shadow:0 0 40px rgba(255,255,255,0.09),inset 0 1px 0 rgba(255,255,255,0.08);
+  position:relative;
+  animation:logoFloat 6s ease-in-out infinite;
+}
+@keyframes logoFloat{0%,100%{transform:translateY(0);box-shadow:0 0 40px rgba(255,255,255,.09)}50%{transform:translateY(-4px);box-shadow:0 0 60px rgba(255,255,255,.18),0 10px 30px rgba(0,0,0,.8)}}
+.logo-container::after{content:'';position:absolute;inset:-1px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 55%);pointer-events:none}
+.logo-icon{font-size:32px;position:relative;z-index:1}
+.header h1{
+  font-size:2.5rem;font-weight:900;color:#fff;
+  letter-spacing:-1px;line-height:1;
+  text-shadow:0 0 40px rgba(255,255,255,.35);
+  animation:titleGlow 5s ease-in-out infinite;
+}
+@keyframes titleGlow{0%,100%{text-shadow:0 0 30px rgba(255,255,255,.25)}50%{text-shadow:0 0 60px rgba(255,255,255,.55),0 0 100px rgba(255,255,255,.12)}}
+.header p{color:var(--white3);font-size:12px;margin-top:5px;font-weight:500}
+.discord-link{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border2);color:var(--white2);padding:7px 16px;border-radius:999px;text-decoration:none;font-size:11px;font-weight:700;margin-top:11px;transition:.2s;letter-spacing:.3px}
+.discord-link:hover{background:var(--surface2);box-shadow:0 0 18px var(--glow);border-color:var(--border3)}
 
-/* ── SECTION LABEL ── */
-.lbl{font-size:9px;text-transform:uppercase;color:var(--white3);margin-bottom:7px;display:block;letter-spacing:2px;font-weight:700}
-.field{margin-bottom:1.2rem}
+/* Badges */
+.badges{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:1rem 0 1.6rem}
+.badge{
+  background:rgba(255,255,255,0.045);
+  border:1px solid var(--border);
+  color:var(--white2);padding:5px 13px;border-radius:999px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:.2s;
+}
+.badge:hover{background:var(--surface2);border-color:var(--border2)}
+
+/* ── LABELS ── */
+.lbl{font-size:9px;text-transform:uppercase;color:var(--white3);margin-bottom:6px;display:block;letter-spacing:2.5px;font-weight:700}
+.field{margin-bottom:1.1rem}
 
 /* ── INPUTS ── */
-.inp{width:100%;padding:13px 15px;background:var(--surface);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:var(--white);outline:none;font-size:13px;font-family:'Inter',sans-serif;transition:.2s;font-weight:500}
-.inp:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,255,255,0.12)}
+.inp{
+  width:100%;padding:12px 14px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:12px;color:#fff;outline:none;
+  font-size:13px;font-family:'Inter',sans-serif;
+  transition:.2s;font-weight:500;
+}
+.inp:focus{border-color:var(--border3);box-shadow:0 0 0 3px rgba(255,255,255,.07),0 0 20px rgba(255,255,255,.04)}
 .inp::placeholder{color:var(--white3)}
-.lookup-status{font-size:11px;color:var(--white3);margin-top:6px;min-height:16px;font-weight:500}
-.lookup-status.loading{color:#facc15}
-.lookup-status.ok{color:#4ade80}
-.lookup-status.err{color:#f87171}
+.inp:hover{border-color:var(--border2)}
+.lookup-status{font-size:11px;color:var(--white3);margin-top:5px;min-height:16px;font-weight:600;display:flex;align-items:center;gap:5px}
+.lookup-status.loading{color:rgba(255,220,100,.85)}
+.lookup-status.ok{color:rgba(160,255,160,.85)}
+.lookup-status.err{color:rgba(255,120,120,.85)}
 
 /* ── MODE TABS ── */
-.mode-tabs{display:flex;background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:14px;margin-bottom:12px;position:relative;padding:4px;gap:2px}
-.mode-btn{flex:1;padding:10px 6px;background:transparent;border:none;border-radius:10px;color:var(--white3);cursor:pointer;font-size:11px;z-index:2;position:relative;text-align:center;font-weight:700;font-family:'Inter',sans-serif;transition:.2s;letter-spacing:0.3px}
-.mode-btn.active{color:#fff}
+.mode-tabs{display:flex;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;position:relative;padding:3px;gap:2px}
+.mode-btn{flex:1;padding:9px 5px;background:transparent;border:none;border-radius:9px;color:var(--white3);cursor:pointer;font-size:10px;z-index:2;position:relative;text-align:center;font-weight:800;font-family:'Inter',sans-serif;transition:.18s;letter-spacing:.5px;text-transform:uppercase}
+.mode-btn.active{color:#fff;text-shadow:0 0 14px rgba(255,255,255,.5)}
 .mode-btn:hover:not(.active){color:var(--white2)}
-.mode-slider{position:absolute;top:4px;bottom:4px;left:4px;width:calc(25% - 4px);background:linear-gradient(135deg,var(--red),var(--red2));border-radius:10px;transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:1;box-shadow:0 2px 10px rgba(255,255,255,0.20)}
-.custom-area{display:none;margin-top:8px}
+.mode-slider{position:absolute;top:3px;bottom:3px;left:3px;width:calc(25% - 3px);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:9px;transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:1;box-shadow:0 2px 12px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.12)}
+.custom-area{display:none;margin-top:7px}
 
 /* ── DROPDOWN ── */
-.br-select-btn{width:100%;padding:13px 15px;background:var(--surface);border:1px solid rgba(255,255,255,0.08);border-radius:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--white3);font-size:13px;font-family:'Inter',sans-serif;font-weight:500;transition:.2s}
-.br-select-btn:hover{border-color:var(--red-border);background:var(--surface2)}
-.br-select-btn .arrow{font-size:10px;opacity:0.5;transition:.2s}
+.br-select-btn{width:100%;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--white3);font-size:13px;font-family:'Inter',sans-serif;font-weight:500;transition:.2s}
+.br-select-btn:hover{border-color:var(--border2);background:var(--surface2)}
+.br-select-btn .arrow{font-size:9px;opacity:.4;transition:.2s}
 .position-relative{position:relative}
-.dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(8,2,5,0.99);border:1px solid var(--red-border);border-radius:16px;max-height:400px;overflow-y:auto;display:none;z-index:200;box-shadow:0 20px 50px rgba(0,0,0,0.9),0 0 20px rgba(255,255,255,0.06);backdrop-filter:blur(20px)}
-.dd.open{display:block;animation:ddOpen .15s ease}
+.dd{position:absolute;top:calc(100% + 5px);left:0;right:0;background:rgba(6,6,6,0.99);border:1px solid var(--border2);border-radius:14px;max-height:380px;overflow-y:auto;display:none;z-index:200;box-shadow:0 24px 60px rgba(0,0,0,.98),0 0 24px rgba(255,255,255,.045);backdrop-filter:blur(28px)}
+.dd.open{display:block;animation:ddOpen .14s ease}
 @keyframes ddOpen{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-.cat-tabs{display:flex;gap:6px;padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);flex-wrap:wrap}
-.cat-btn{padding:5px 12px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:999px;cursor:pointer;font-size:11px;color:var(--white3);font-family:'Inter',sans-serif;font-weight:600;transition:.2s}
-.cat-btn.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 2px 10px rgba(255,255,255,0.20)}
-.dd-search{padding:10px}
-.dd-search input{width:100%;padding:9px 12px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:10px;color:#fff;outline:none;font-size:12px;font-family:'Inter',sans-serif}
-.dd-search input:focus{border-color:var(--red-border)}
-.mps-filter-row{padding:6px 10px 10px;display:flex;gap:6px}
-.mps-filter-row input{flex:1;padding:7px 10px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:8px;color:#fff;outline:none;font-size:11px;font-family:'Inter',sans-serif}
-.mps-filter-row button{padding:7px 12px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:8px;color:var(--red3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s}
-.mps-filter-row button:hover{background:var(--red);color:#fff}
-.br-list{max-height:240px;overflow-y:auto}
-.br-item{padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s}
-.br-item:hover{background:var(--red-soft)}
-.br-item.sel{background:rgba(255,255,255,0.08)}
-.br-chk{width:18px;height:18px;border:1.5px solid rgba(255,255,255,0.2);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:.15s}
-.br-item.sel .br-chk{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 8px rgba(255,255,255,0.24)}
-.item-thumb{width:26px;height:26px;border-radius:7px;object-fit:cover;background:var(--surface);border:1px solid rgba(255,255,255,0.07);flex-shrink:0}
-.item-thumb-placeholder{width:26px;height:26px;border-radius:7px;background:var(--surface);border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--white3);flex-shrink:0}
+.cat-tabs{display:flex;gap:5px;padding:9px;border-bottom:1px solid rgba(255,255,255,0.06);flex-wrap:wrap}
+.cat-btn{padding:5px 11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:999px;cursor:pointer;font-size:10px;color:var(--white3);font-family:'Inter',sans-serif;font-weight:700;transition:.18s;letter-spacing:.3px;text-transform:uppercase}
+.cat-btn.active{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fff}
+.cat-btn:hover:not(.active){background:var(--surface2);color:var(--white2)}
+.dd-search{padding:9px}
+.dd-search input{width:100%;padding:8px 11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:9px;color:#fff;outline:none;font-size:12px;font-family:'Inter',sans-serif;transition:.18s}
+.dd-search input:focus{border-color:var(--border2)}
+.mps-filter-row{padding:5px 9px 9px;display:flex;gap:5px}
+.mps-filter-row input{flex:1;padding:6px 9px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:7px;color:#fff;outline:none;font-size:11px;font-family:'Inter',sans-serif}
+.mps-filter-row button{padding:6px 11px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:7px;color:#fff;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.18s;text-transform:uppercase;letter-spacing:.5px}
+.mps-filter-row button:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.35)}
+.br-list{max-height:220px;overflow-y:auto}
+.br-item{padding:8px 11px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:.12s;border-left:2px solid transparent}
+.br-item:hover{background:var(--surface2);border-left-color:rgba(255,255,255,0.2)}
+.br-item.sel{background:rgba(255,255,255,0.065);border-left-color:#fff}
+.br-chk{width:17px;height:17px;border:1.5px solid rgba(255,255,255,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:.12s}
+.br-item.sel .br-chk{background:#fff;border-color:#fff;color:#000;box-shadow:0 0 10px rgba(255,255,255,.3)}
+.item-thumb{width:24px;height:24px;border-radius:6px;object-fit:cover;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);flex-shrink:0;filter:grayscale(.3)}
+.item-thumb-placeholder{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--white3);flex-shrink:0}
 .br-name{flex:1;font-size:12px;font-weight:500;color:var(--white2)}
-.br-mps{font-size:11px;color:#4ade80;font-weight:700;margin-right:4px;white-space:nowrap}
-.br-rarity{font-size:9px;font-weight:700}
-.rarity-OG{color:#ff9d00}
-.rarity-Secret{color:#ff4081}
-.dd-footer{padding:10px;border-top:1px solid rgba(255,255,255,0.05);display:flex;gap:6px}
-.dd-footer button{flex:1;padding:8px;background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:9px;color:var(--white2);cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;font-weight:600;transition:.2s}
-.dd-footer button:hover{background:var(--red-soft);border-color:var(--red-border);color:var(--red3)}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;max-height:80px;overflow-y:auto}
-.tag{background:var(--red-soft);border:1px solid var(--red-border);padding:4px 10px;border-radius:999px;font-size:11px;display:inline-flex;align-items:center;gap:5px;color:var(--red3);font-weight:600}
-.tag img{width:14px;height:14px;border-radius:4px;object-fit:cover}
-.tag button{background:none;border:none;color:rgba(255,255,255,0.35);cursor:pointer;line-height:1;font-size:13px;padding:0 0 0 2px}
-.tag button:hover{color:var(--red3)}
-.empty-list{padding:16px;text-align:center;color:var(--white3);font-size:12px}
+.br-mps{font-size:11px;color:rgba(200,255,200,.75);font-weight:700;margin-right:3px;white-space:nowrap}
+.br-rarity{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.rarity-OG{color:rgba(255,220,100,.8)}
+.rarity-Secret{color:rgba(220,180,255,.8)}
+.dd-footer{padding:9px;border-top:1px solid rgba(255,255,255,0.055);display:flex;gap:5px}
+.dd-footer button{flex:1;padding:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--white2);cursor:pointer;font-size:10px;font-family:'Inter',sans-serif;font-weight:700;transition:.15s;text-transform:uppercase;letter-spacing:.4px}
+.dd-footer button:hover{background:rgba(255,255,255,0.1);border-color:var(--border2);color:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;max-height:78px;overflow-y:auto}
+.tag{background:rgba(255,255,255,0.055);border:1px solid var(--border);padding:3px 9px;border-radius:999px;font-size:10px;display:inline-flex;align-items:center;gap:4px;color:var(--white2);font-weight:600;transition:.15s}
+.tag:hover{background:rgba(255,255,255,0.09)}
+.tag img{width:13px;height:13px;border-radius:3px;object-fit:cover;filter:grayscale(.2)}
+.tag button{background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;line-height:1;font-size:12px;padding:0 0 0 2px;transition:.15s}
+.tag button:hover{color:#fff}
+.empty-list{padding:14px;text-align:center;color:var(--white3);font-size:12px}
 
-/* ── ACTIVE OPTIONS INFO ── */
-.active-options{margin-top:1.2rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.2rem;display:flex;gap:8px;flex-wrap:wrap}
-.opt-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;font-size:11px;font-weight:700;color:var(--red3)}
-.opt-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--red3);box-shadow:0 0 6px var(--red3);animation:pulse 1.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+/* ── ACTIVE OPTIONS ── */
+.active-options{margin-top:1rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;display:flex;gap:7px;flex-wrap:wrap}
+.opt-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:999px;font-size:10px;font-weight:700;color:var(--white2);text-transform:uppercase;letter-spacing:.5px}
+.opt-chip .dot{width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff;animation:dotPulse 2s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 
 /* ── GENERATE BUTTON ── */
-.gen-btn{width:100%;padding:16px;border-radius:16px;border:none;font-size:15px;font-weight:800;cursor:pointer;margin-top:1.2rem;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;transition:all .2s;font-family:'Inter',sans-serif;letter-spacing:0.3px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(255,255,255,0.18)}
-.gen-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}
-.gen-btn::after{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transform:skewX(-20deg);transition:.5s}
-.gen-btn:hover:not(.disabled)::after{left:120%}
-.gen-btn:hover:not(.disabled){transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,0.26)}
+.gen-btn{
+  width:100%;padding:15px;border-radius:14px;border:none;
+  font-size:13px;font-weight:900;cursor:pointer;margin-top:1rem;
+  background:linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.06));
+  color:#fff;transition:all .22s;
+  font-family:'Inter',sans-serif;letter-spacing:.8px;text-transform:uppercase;
+  position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.22);
+  box-shadow:0 4px 24px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.gen-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.07),transparent);pointer-events:none}
+.gen-btn::after{content:'';position:absolute;top:-50%;left:-80%;width:50%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:skewX(-20deg);transition:.5s}
+.gen-btn:hover:not(.disabled)::after{left:150%}
+.gen-btn:hover:not(.disabled){transform:translateY(-2px);box-shadow:0 8px 36px rgba(255,255,255,.18),0 0 60px rgba(255,255,255,.06);border-color:rgba(255,255,255,0.45)}
 .gen-btn:active:not(.disabled){transform:translateY(0)}
-.gen-btn.disabled{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);cursor:not-allowed;box-shadow:none}
+.gen-btn.disabled{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.25);cursor:not-allowed;box-shadow:none}
 
 /* ── RESULT ── */
-.result{margin-top:1.5rem;display:none}
+.result{margin-top:1.4rem;display:none}
 .result.show{display:block;animation:resultIn .3s ease}
 @keyframes resultIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.result-header{display:flex;justify-content:space-between;margin-bottom:10px;font-size:13px;align-items:center;font-weight:700;color:var(--white2)}
-.copy-btn{padding:8px 16px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:999px;color:var(--red3);cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;font-weight:700;transition:.2s}
-.copy-btn:hover{background:var(--red);color:#fff;box-shadow:0 0 15px var(--red-glow)}
-.script-box{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:1.2rem;font-family:'Courier New',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow:auto;color:var(--red3);line-height:1.6}
+.result-header{display:flex;justify-content:space-between;margin-bottom:9px;font-size:12px;align-items:center;font-weight:700;color:var(--white2)}
+.copy-btn{padding:7px 14px;background:rgba(255,255,255,0.07);border:1px solid var(--border2);border-radius:999px;color:#fff;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:5px}
+.copy-btn:hover{background:rgba(255,255,255,0.14);box-shadow:0 0 18px var(--glow);border-color:var(--border3)}
+.script-box{background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;font-family:'Courier New',monospace;font-size:10px;white-space:pre-wrap;word-break:break-all;max-height:280px;overflow:auto;color:rgba(220,255,220,.8);line-height:1.65;position:relative}
+.script-box::before{content:'';position:absolute;inset:0;border-radius:12px;background:repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(255,255,255,.008) 20px,rgba(255,255,255,.008) 21px);pointer-events:none}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,rgba(15,5,8,0.98),rgba(8,2,4,0.99));border:1px solid var(--red-border);color:#fff;padding:12px 20px;border-radius:14px;z-index:10000;max-width:300px;font-size:13px;font-weight:600;animation:toastIn .3s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(0,0,0,0.8),0 0 20px rgba(255,255,255,0.06);font-family:'Inter',sans-serif}
-@keyframes toastIn{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.toast{position:fixed;bottom:24px;right:24px;background:rgba(10,10,10,0.98);border:1px solid var(--border2);color:#fff;padding:11px 18px;border-radius:12px;z-index:10000;max-width:290px;font-size:12px;font-weight:700;animation:toastIn .3s cubic-bezier(.4,0,.2,1);box-shadow:0 12px 36px rgba(0,0,0,.98),0 0 24px rgba(255,255,255,.07);font-family:'Inter',sans-serif;letter-spacing:.3px}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 
 /* ── HISTORY MODAL ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:5000;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(16px);z-index:5000;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal-box{background:linear-gradient(145deg,rgba(15,5,8,0.99),rgba(8,2,4,0.99));border:1px solid var(--red-border);border-radius:24px;padding:1.8rem;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.95)}
-.modal-box h3{font-size:16px;font-weight:800;margin-bottom:1rem;color:var(--white)}
-.history-item{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;margin-bottom:8px}
+.modal-box{background:linear-gradient(160deg,rgba(14,14,14,0.99),rgba(5,5,5,0.99));border:1px solid var(--border2);border-radius:22px;padding:1.8rem;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 32px 90px rgba(0,0,0,.98)}
+.modal-box h3{font-size:15px;font-weight:800;margin-bottom:1rem;color:#fff;display:flex;align-items:center;gap:8px}
+.history-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:11px;margin-bottom:7px;transition:.15s}
+.history-item:hover{background:rgba(255,255,255,0.05);border-color:var(--border2)}
 .history-item-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .history-date{font-size:11px;color:var(--white3)}
 .history-actions{display:flex;gap:5px}
-.history-actions button{padding:4px 10px;background:var(--surface2);border:1px solid rgba(255,255,255,0.07);border-radius:7px;color:var(--white2);cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;font-weight:600;transition:.15s}
-.history-actions button:hover{background:var(--red-soft);border-color:var(--red-border);color:var(--red3)}
-.history-meta{font-size:11px;color:var(--white3);margin-top:4px;word-break:break-all;opacity:.8}
-.history-empty{text-align:center;color:var(--white3);padding:2rem;font-size:13px}
-.modal-close{background:none;border:none;color:var(--white3);cursor:pointer;font-size:20px;float:right;margin-top:-4px;transition:.2s}
-.modal-close:hover{color:var(--red3)}
+.history-actions button{padding:4px 9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;color:var(--white2);cursor:pointer;font-size:10px;font-family:'Inter',sans-serif;font-weight:700;transition:.12s;text-transform:uppercase;letter-spacing:.4px}
+.history-actions button:hover{background:rgba(255,255,255,0.12);border-color:var(--border2);color:#fff}
+.history-meta{font-size:10px;color:var(--white3);margin-top:4px;word-break:break-all;opacity:.7}
+.history-empty{text-align:center;color:var(--white3);padding:2rem;font-size:12px}
+.modal-close{background:none;border:none;color:var(--white3);cursor:pointer;font-size:18px;transition:.2s}
+.modal-close:hover{color:#fff}
 
-/* ── CREDITS ── */
-.credits-card{background:linear-gradient(145deg,rgba(15,5,8,0.95),rgba(8,2,4,0.98));border-radius:28px;padding:1.8rem;max-width:680px;width:100%;border:1px solid var(--red-border);box-shadow:0 20px 60px rgba(0,0,0,0.8),0 0 40px rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
-.credits-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)}
-.credits-title{font-size:10px;text-transform:uppercase;color:var(--red3);letter-spacing:3px;margin-bottom:6px;font-weight:800;text-align:center}
-.credit-item{background:var(--surface);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;transition:.2s}
-.credit-item:hover{background:var(--surface2);border-color:var(--red-border)}
-.credit-left{display:flex;align-items:center;gap:12px}
-.credit-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1.5px solid var(--red-border);flex-shrink:0}
+/* ══ CREDITS CARD ══ */
+.credits-card{
+  background:linear-gradient(160deg,rgba(14,14,14,0.97),rgba(5,5,5,0.99));
+  border-radius:22px;padding:1.6rem;max-width:680px;width:100%;
+  border:1px solid var(--border2);
+  box-shadow:0 20px 60px rgba(0,0,0,0.9),0 0 40px rgba(255,255,255,0.045);
+  display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden;
+  animation:cardIn .7s cubic-bezier(.2,.8,.2,1) .1s both;
+}
+.credits-card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)}
+.credits-title{font-size:9px;text-transform:uppercase;color:rgba(255,255,255,0.3);letter-spacing:4px;margin-bottom:5px;font-weight:800;text-align:center}
+.credit-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);border-radius:14px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:11px;flex-wrap:wrap;transition:.2s}
+.credit-item:hover{background:rgba(255,255,255,0.05);border-color:var(--border2)}
+.credit-left{display:flex;align-items:center;gap:11px}
+.credit-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border2);flex-shrink:0;filter:grayscale(.15)}
 .credit-info{display:flex;flex-direction:column}
-.credit-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.credit-name{font-size:13px;font-weight:800;color:var(--white)}
-.credit-role{font-size:11px;color:var(--white3);margin-top:1px}
-.credit-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
-.cb-owner{background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);color:#facc15}
-.cb-dev{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);color:#f87171}
-.cb-subowner{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:#a78bfa}
-.credit-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
-.credit-discord{font-size:11px;color:var(--red3);background:var(--red-soft);border:1px solid var(--red-border);padding:4px 10px;border-radius:8px;text-decoration:none;font-weight:700;transition:.2s}
-.credit-discord:hover{background:var(--red);color:#fff}
-.credit-join{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-size:11px;font-weight:800;white-space:nowrap;transition:.2s;box-shadow:0 2px 10px rgba(255,255,255,0.14)}
-.credit-join:hover{box-shadow:0 4px 20px rgba(255,255,255,0.22);transform:translateY(-1px)}
+.credit-name-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.credit-name{font-size:13px;font-weight:800;color:#fff}
+.credit-role{font-size:10px;color:var(--white3);margin-top:1px}
+.credit-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;display:inline-flex;align-items:center;gap:3px}
+.cb-owner{background:rgba(255,215,80,0.1);border:1px solid rgba(255,215,80,0.25);color:rgba(255,215,80,.85)}
+.cb-dev{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);color:rgba(255,180,180,.8)}
+.cb-subowner{background:rgba(190,160,255,0.1);border:1px solid rgba(190,160,255,0.22);color:rgba(190,160,255,.85)}
+.credit-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.credit-discord{font-size:10px;color:var(--white2);background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:3px 9px;border-radius:7px;text-decoration:none;font-weight:700;transition:.18s;letter-spacing:.3px}
+.credit-discord:hover{background:rgba(255,255,255,0.12);border-color:var(--border2);color:#fff}
+.credit-join{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;padding:5px 12px;border-radius:999px;text-decoration:none;font-size:10px;font-weight:800;white-space:nowrap;transition:.18s;letter-spacing:.3px}
+.credit-join:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.35);box-shadow:0 4px 20px rgba(255,255,255,.12)}
 
 /* ── JOIN BANNER ── */
-#joinServerBanner{margin-top:16px;padding:16px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:16px;text-align:center}
-#joinServerBanner p:first-child{font-size:13px;color:#fca5a5;margin-bottom:12px;font-weight:700}
-#joinServerBtn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:11px 22px;border-radius:12px;text-decoration:none;font-size:13px;font-weight:800;transition:.2s;box-shadow:0 4px 15px rgba(255,255,255,0.18)}
-#joinServerBtn:hover{box-shadow:0 6px 25px rgba(255,255,255,0.26);transform:translateY(-1px)}
-#joinServerBanner p:last-child{font-size:11px;color:var(--white3);margin-top:10px}
+#joinServerBanner{margin-top:14px;padding:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;text-align:center}
+#joinServerBanner p:first-child{font-size:12px;color:rgba(255,160,160,.85);margin-bottom:10px;font-weight:700}
+#joinServerBtn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.22);color:#fff;padding:10px 20px;border-radius:11px;text-decoration:none;font-size:12px;font-weight:800;transition:.2s}
+#joinServerBtn:hover{background:rgba(255,255,255,0.14);box-shadow:0 6px 24px rgba(255,255,255,.14)}
+#joinServerBanner p:last-child{font-size:10px;color:var(--white3);margin-top:9px}
 
-@media(max-width:500px){.wrap{padding:1rem .5rem;padding-top:5rem}.header h1{font-size:1.8rem}.card{padding:1.2rem;border-radius:20px}.mode-btn{font-size:10px;padding:8px 4px}.top-bar{padding:10px 14px}}
+/* ── EXTRAS responsive ── */
+@media(max-width:500px){.wrap{padding:1rem .5rem;padding-top:5rem}.header h1{font-size:1.8rem}.card{padding:1.1rem;border-radius:18px}.mode-btn{font-size:9px;padding:7px 3px}.top-bar{padding:10px 14px}}
 
-/* ── EFECTOS EXTRA MONOCROMOS ── */
-.bg::after{content:"";position:absolute;inset:-30%;pointer-events:none;background:conic-gradient(from 0deg,transparent 0 72%,rgba(255,255,255,.045) 78%,transparent 84%);animation:bgOrbit 34s linear infinite;mix-blend-mode:screen}
-@keyframes bgOrbit{to{transform:rotate(360deg)}}
-.bg-grid{mask-image:radial-gradient(ellipse at center,#000 15%,transparent 78%)}
-.orb1{animation:orbFloat 11s ease-in-out infinite,orbPulse 6s ease-in-out infinite}
-.orb2{animation:orbFloat 13s ease-in-out infinite reverse,orbPulse 8s ease-in-out infinite}
-@keyframes orbPulse{0%,100%{opacity:.45}50%{opacity:1}}
-.card,.credits-card,.auth-box{animation:softAppear .7s cubic-bezier(.2,.8,.2,1) both}
-@keyframes softAppear{from{opacity:0;transform:translateY(14px) scale(.985);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-.auth-box{border-color:rgba(255,255,255,.3);box-shadow:0 30px 90px rgba(0,0,0,.95),0 0 35px rgba(255,255,255,.09),inset 0 1px 0 rgba(255,255,255,.09)}
-.auth-box::after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.055);border-radius:22px;pointer-events:none}
-.auth-custom-img.show{animation:photoReveal .8s ease both}
-@keyframes photoReveal{from{opacity:0;transform:scale(.97);filter:grayscale(1) blur(8px)}to{opacity:1;transform:scale(1);filter:grayscale(1) contrast(1.12) blur(0)}}
-.discord-login-btn::before{content:"";position:absolute;inset:0;left:-120%;width:70%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.16),transparent);transform:skewX(-18deg);animation:buttonSweep 4s ease-in-out infinite}
-@keyframes buttonSweep{0%,55%{left:-120%}85%,100%{left:150%}}
-.discord-login-btn svg,.discord-login-btn{isolation:isolate}
-::selection{background:#fff;color:#000}
+/* Efectos extra */
+.card,.credits-card{transition:box-shadow .4s}
+.card:hover{box-shadow:0 0 0 1px rgba(255,255,255,.04),0 28px 80px rgba(0,0,0,.98),0 0 70px rgba(255,255,255,.07)}
+.bg-noise{position:absolute;inset:0;opacity:.032;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+
+/* Scrollbar custom */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.3)}
+
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 
+/* ── OPTION TOGGLES ── */
+.opt-toggle::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,0.3);transition:.2s}
+.opt-toggle.on{background:rgba(255,255,255,0.18)!important;border-color:rgba(255,255,255,0.4)!important}
+.opt-toggle.on::after{transform:translateX(13px);background:#fff!important;box-shadow:0 0 8px rgba(255,255,255,0.6)}
 
-/* HONEN LOGIN — diseño integrado desde discord_login.html */
-#discordAuthGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:24px;background:radial-gradient(ellipse at 50% 0%,#25252d 0%,#111115 35%,#09090b 75%);backdrop-filter:blur(18px)}
-#discordAuthGate.hidden{display:none}
-#discordAuthGate .auth-box{position:relative;width:min(100%,460px);max-width:460px;margin:auto;padding:34px;border:1px solid #303038;border-radius:25px;background:linear-gradient(145deg,rgba(27,27,32,.98),rgba(13,13,16,.99));box-shadow:0 28px 90px #000c,0 0 45px rgba(255,255,255,.055);text-align:left;overflow:hidden;animation:honenCardIn .65s cubic-bezier(.2,.8,.2,1) both}
-#discordAuthGate .auth-box:before{content:"";position:absolute;inset:0 15% auto;height:1px;background:linear-gradient(90deg,transparent,#fff9,transparent)}
-#discordAuthGate .auth-box:after{content:"";position:absolute;inset:9px;border:1px solid rgba(255,255,255,.045);border-radius:18px;pointer-events:none}
-@keyframes honenCardIn{from{opacity:0;transform:translateY(18px) scale(.98);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
-.honen-brand{display:flex;align-items:center;gap:13px;margin-bottom:34px;position:relative;z-index:1}
-.honen-mark{width:54px;height:54px;display:grid;place-items:center;overflow:hidden;border:1px solid #44444d;border-radius:16px;background:#202026;box-shadow:0 5px 22px #0009}
-.honen-mark img{width:100%;height:100%;display:block;object-fit:cover}
-.honen-mark span{font-size:24px;font-weight:900;color:#fff}
-.honen-brand-name{font-size:15px;font-weight:900;letter-spacing:.18em;color:#fff}
-.honen-eyebrow{font-size:11px;letter-spacing:.24em;color:#a6a6af;text-transform:uppercase;margin:0 0 13px;position:relative;z-index:1}
-#discordAuthGate .honen-welcome{font-size:34px;line-height:1.1;letter-spacing:-.045em;margin:0 0 14px;color:#fff;position:relative;z-index:1}
-#discordAuthGate .honen-desc{color:#a1a1aa;font-size:15px;line-height:1.7;margin:0 0 30px;position:relative;z-index:1}
-#discordAuthGate .discord-login-btn{width:100%;min-height:64px;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 18px;border:1px solid #777;border-radius:16px;background:#050505;color:#fff;font-size:15px;font-weight:850;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;z-index:1;box-shadow:0 8px 28px #000b,inset 0 0 0 1px #ffffff12;overflow:hidden}
-#discordAuthGate .discord-login-btn:hover{transform:translateY(-2px);background:#111;border-color:#fff;box-shadow:0 12px 32px #ffffff20}
-#discordAuthGate .discord-login-btn:active{transform:scale(.985)}
-#discordAuthGate .discord-login-btn svg{width:23px;height:23px;fill:#fff;flex:none}
-#discordAuthGate .auth-status{display:block;min-height:0;margin-top:14px;color:#fca5a5;font-size:12px;line-height:1.5;position:relative;z-index:1}
-#discordAuthGate .honen-note{margin-top:16px;padding:13px 14px;border:1px solid #303038;border-radius:14px;background:#17171c;color:#d4d4d8;font-size:13px;line-height:1.55;position:relative;z-index:1}
-#discordAuthGate .honen-note p{margin:0}
-#discordAuthGate .honen-server-btn{width:100%;min-height:58px;display:flex;align-items:center;justify-content:center;margin-top:14px;padding:14px 18px;border:1px solid #45454e;border-radius:15px;background:#202026;color:#fff;text-decoration:none;font-size:14px;font-weight:850;position:relative;z-index:1;transition:.2s}
-#discordAuthGate .honen-server-btn:hover{background:#292930;border-color:#85858f;transform:translateY(-1px)}
-#discordAuthGate .honen-foot{margin-top:27px;padding-top:18px;border-top:1px solid #29292f;color:#777780;font-size:11px;line-height:1.7;text-align:center;position:relative;z-index:1}
-#discordAuthGate .honen-foot a{color:#c9c9d0;text-decoration:none}
-#discordAuthGate .honen-foot a:hover{color:#fff;text-decoration:underline}
-@media(max-width:480px){#discordAuthGate{padding:16px}#discordAuthGate .auth-box{padding:28px 22px;border-radius:23px}#discordAuthGate .honen-welcome{font-size:31px}}
-@media(prefers-reduced-motion:reduce){#discordAuthGate .auth-box{animation:none}}
+/* ── GLITCH TITLE ── */
+#mainTitle{position:relative}
+#mainTitle::before,#mainTitle::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;opacity:0}
+#mainTitle::before{animation:glitch1 8s infinite;color:#fff;text-shadow:none}
+#mainTitle::after{animation:glitch2 8s infinite;color:#fff;text-shadow:none}
+@keyframes glitch1{
+  0%,96%,100%{opacity:0;transform:none;clip-path:none}
+  96.5%{opacity:.7;transform:translate(-2px,0) skewX(2deg);clip-path:polygon(0 20%,100% 20%,100% 35%,0 35%)}
+  97%{opacity:.7;transform:translate(2px,0) skewX(-1deg);clip-path:polygon(0 65%,100% 65%,100% 80%,0 80%)}
+  97.5%{opacity:0}
+}
+@keyframes glitch2{
+  0%,97%,100%{opacity:0;transform:none;clip-path:none}
+  97.5%{opacity:.5;transform:translate(3px,0);clip-path:polygon(0 45%,100% 45%,100% 55%,0 55%)}
+  98%{opacity:0}
+}
 
+/* ── CURSOR ── */
+*{cursor:none!important}
+#customCursor{position:fixed;z-index:99999;pointer-events:none;top:0;left:0;width:10px;height:10px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);transition:width .15s,height .15s,opacity .15s;mix-blend-mode:difference}
+#customCursorRing{position:fixed;z-index:99998;pointer-events:none;top:0;left:0;width:30px;height:30px;border:1px solid rgba(255,255,255,0.4);border-radius:50%;transform:translate(-50%,-50%);transition:all .08s;mix-blend-mode:difference}
+body:has(*:hover) #customCursor{width:14px;height:14px}
 </style>
 </head>
 <body>
+<div id="customCursor"></div><div id="customCursorRing"></div>
 <div class="bg">
   <div class="bg-grid"></div>
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="bg-noise"></div>
   <div class="particles" id="particles"></div>
 </div>
 
@@ -344,7 +482,7 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
   </div>
   <div class="user-menu-item" id="scriptsHistoryOption">
     <span>Scripts Generados</span>
-    <span style="color:var(--white3);font-size:12px">📜</span>
+    <span style="color:var(--white3)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-opacity=".4" stroke-width=".9"/><path d="M6 3.5V6l2 1.5" stroke="#fff" stroke-opacity=".6" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </div>
 </div>
 
@@ -384,7 +522,7 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
 <div class="modal-overlay" id="historyModal">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <h3>📜 Scripts Generados</h3>
+      <h3><span style="margin-right:6px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-opacity=".4" stroke-width=".9"/><path d="M6 3.5V6l2 1.5" stroke="#fff" stroke-opacity=".6" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Scripts Generados</h3>
       <button class="modal-close" id="historyCloseBtn">✕</button>
     </div>
     <div id="historyList"></div>
@@ -392,8 +530,8 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
 </div>
 
 <!-- INPUTS OCULTOS para los toggles (siempre activos) -->
-<input type="checkbox" id="togglePastefy" checked style="display:none">
-<input type="checkbox" id="toggleFakeLuarmor" style="display:none">
+<input type="checkbox" id="togglePastefy" style="display:none">
+<input type="checkbox" id="toggleFakeLuarmor" checked style="display:none">
 <input type="checkbox" id="toggleAntiLeave" checked style="display:none">
 <input type="checkbox" id="toggleObfuscate" style="display:none">
 
@@ -403,19 +541,19 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
 
     <!-- HEADER -->
     <div class="header">
-      <div class="logo-container"><span class="logo-icon">🧠</span></div>
-      <h1>𝔥𝔬𝔫𝔢𝔶</h1>
+      <div class="logo-container"><span class="logo-icon" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="14" fill="#fff" fill-opacity=".07" stroke="#fff" stroke-opacity=".18" stroke-width="1"/><path d="M10 17c0-3.9 3.1-7 7-7s7 3.1 7 7c0 2.5-1.3 4.7-3.3 6H13.3C11.3 21.7 10 19.5 10 17z" fill="#fff" fill-opacity=".15"/><ellipse cx="13" cy="15" rx="2.5" ry="3" fill="#fff" fill-opacity=".3"/><ellipse cx="21" cy="15" rx="2.5" ry="3" fill="#fff" fill-opacity=".3"/><path d="M14 22h6v1.5a1.5 1.5 0 0 1-3 0v-.5h-3V22z" fill="#fff" fill-opacity=".2"/><circle cx="13" cy="13" r="1" fill="#fff"/><circle cx="21" cy="13" r="1" fill="#fff"/></svg></span></div>
+      <h1 id="mainTitle" data-text="𝔥𝔬𝔫𝔢𝔶">𝔥𝔬𝔫𝔢𝔶</h1>
       <p id="subtitle">Generación automática de scripts para tus targets de Roblox</p>
       <a href="https://discord.gg/GAu8ccgr4X" target="_blank" class="discord-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.1.12 18.14.144 18.163a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Únete al servidor
+        <span style="margin-right:4px;vertical-align:middle"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M3 1.5H1.5a1 1 0 0 0-1 1V6.5a1 1 0 0 0 1 1H5.5a1 1 0 0 0 1-1V5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M4.5 1.5h2v2" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.5 6.5 1.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg></span>Únete al servidor
       </a>
     </div>
 
     <div class="badges">
-      <span class="badge">🎮 Roblox</span>
-      <span class="badge">🧠 Steal a Brainrot</span>
-      <span class="badge">⚡ Auto Script</span>
+      <span class="badge"><span style="margin-right:4px;vertical-align:middle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="2" fill="#fff" fill-opacity=".8"/><rect x="3" y="5" width="2" height="2" rx=".5" fill="#050508"/><circle cx="10" cy="6" r="1" fill="#050508"/><rect x="4" y="8.5" width="6" height="1" rx=".5" fill="#050508" fill-opacity=".3"/></svg></span>Roblox</span>
+      <span class="badge"><span style="margin-right:4px;vertical-align:middle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 1.5 4.5 8h4L5 12.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Steal a Brainrot</span>
+      <span class="badge"><span style="margin-right:4px;vertical-align:middle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="#fff" fill-opacity=".07" stroke="#fff" stroke-opacity=".2" stroke-width=".8"/><rect x="3" y="4" width="5" height="1" rx=".5" fill="#fff" fill-opacity=".5"/><rect x="3" y="6.5" width="8" height="1" rx=".5" fill="#fff" fill-opacity=".3"/><rect x="3" y="9" width="4" height="1" rx=".5" fill="#fff" fill-opacity=".5"/></svg></span>Auto Script</span>
     </div>
 
     <!-- TARGET USER -->
@@ -462,7 +600,7 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
             <button class="cat-btn" data-cat="OG">OG</button>
             <button class="cat-btn" data-cat="Secret">Secret</button>
           </div>
-          <div class="dd-search"><input id="brSearch" placeholder="🔍 Buscar brainrot..."></div>
+          <div class="dd-search"><input id="brSearch" placeholder="Buscar brainrot..."></div>
           <div class="mps-filter-row">
             <input id="mpsFilter" placeholder="Mín. MPS (ej: 100M)">
             <button id="mpsFilterBtn">Filtrar</button>
@@ -471,7 +609,7 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
           <div class="dd-footer">
             <button id="selectAllBtn">Seleccionar todos</button>
             <button id="deselectAllBtn">Deseleccionar</button>
-            <button id="doneBtn">✓ Listo</button>
+            <button id="doneBtn">Listo</button>
           </div>
         </div>
       </div>
@@ -487,12 +625,12 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
           <span class="arrow">▾</span>
         </button>
         <div class="dd" id="gearsDropdown">
-          <div class="dd-search"><input id="gearsSearch" placeholder="🔍 Buscar gear..."></div>
+          <div class="dd-search"><input id="gearsSearch" placeholder="Buscar gear..."></div>
           <div class="br-list" id="gearsList"></div>
           <div class="dd-footer">
             <button id="gearsSelectAllBtn">Seleccionar todos</button>
             <button id="gearsDeselectAllBtn">Deseleccionar</button>
-            <button id="gearsDoneBtn">✓ Listo</button>
+            <button id="gearsDoneBtn">Listo</button>
           </div>
         </div>
       </div>
@@ -508,79 +646,148 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
           <span class="arrow">▾</span>
         </button>
         <div class="dd" id="basesDropdown">
-          <div class="dd-search"><input id="basesSearch" placeholder="🔍 Buscar base..."></div>
+          <div class="dd-search"><input id="basesSearch" placeholder="Buscar base..."></div>
           <div class="br-list" id="basesList"></div>
           <div class="dd-footer">
             <button id="basesSelectAllBtn">Seleccionar todas</button>
             <button id="basesDeselectAllBtn">Deseleccionar</button>
-            <button id="basesDoneBtn">✓ Listo</button>
+            <button id="basesDoneBtn">Listo</button>
           </div>
         </div>
       </div>
       <div class="tags" id="basesTags"></div>
     </div>
 
-    <!-- OPCIONES ACTIVAS (chips, sin toggles) -->
-    <div class="active-options">
-      <span class="opt-chip"><span class="dot"></span>📋 Pastefy ON</span>
-      <span class="opt-chip"><span class="dot"></span>🛡️ Anti Leave ON</span>
+    <!-- OPCIONES EXTRA DEL SCRIPT -->
+    <div class="field">
+      <label class="lbl">OPCIONES DEL SCRIPT</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;cursor:pointer;user-select:none;transition:.18s" id="toggleLoopDiv" onclick="toggleOption('loop')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase">Loop Mode</span>
+            <span class="opt-toggle" id="loopToggle" style="width:30px;height:17px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);position:relative;display:block;transition:.2s"></span>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4)">Repite el script en bucle</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;cursor:pointer;user-select:none;transition:.18s" id="toggleNotifyDiv" onclick="toggleOption('notify')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase">Notify Steals</span>
+            <span class="opt-toggle" id="notifyToggle" style="width:30px;height:17px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);position:relative;display:block;transition:.2s"></span>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4)">Webhook por cada robo</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;cursor:pointer;user-select:none;transition:.18s" id="toggleDebugDiv" onclick="toggleOption('debug')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase">Debug Mode</span>
+            <span class="opt-toggle" id="debugToggle" style="width:30px;height:17px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);position:relative;display:block;transition:.2s"></span>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4)">Logs en consola del juego</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 13px;cursor:pointer;user-select:none;transition:.18s" id="toggleAutorejoinDiv" onclick="toggleOption('autorejoin')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase">Auto Rejoin</span>
+            <span class="opt-toggle" id="autorejoinToggle" style="width:30px;height:17px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);position:relative;display:block;transition:.2s"></span>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4)">Rejoin si te kickean</div>
+        </div>
+
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div>
+          <label class="lbl" style="margin-bottom:5px">DELAY ENTRE ACCIONES (s)</label>
+          <input class="inp" id="scriptDelay" type="number" min="0" max="30" step="0.5" value="0.5" placeholder="0.5" style="text-align:center">
+        </div>
+        <div>
+          <label class="lbl" style="margin-bottom:5px">MAX INTENTOS</label>
+          <input class="inp" id="maxAttempts" type="number" min="1" max="999" value="999" placeholder="999" style="text-align:center">
+        </div>
+      </div>
     </div>
 
-    <button class="gen-btn disabled" id="generateBtn" disabled>⚠️ SELECCIONA AL MENOS UN TARGET</button>
+    <!-- OPCIONES ACTIVAS (chips, sin toggles) -->
+    <div class="active-options">
+      <span class="opt-chip"><span class="dot"></span>Luarmor</span>
+      <span class="opt-chip"><span class="dot"></span>Anti Leave</span>
+    </div>
+
+    <button class="gen-btn disabled" id="generateBtn" disabled>SELECCIONA UN TARGET</button>
 
     <div class="result" id="result">
       <div class="result-header">
-        <span id="lbl-generated">📜 Script generado</span>
-        <button class="copy-btn" id="copyBtn">📋 Copiar</button>
+        <span id="lbl-generated"><span style="margin-right:5px;vertical-align:middle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="#fff" fill-opacity=".07" stroke="#fff" stroke-opacity=".2" stroke-width=".8"/><rect x="3" y="4" width="5" height="1" rx=".5" fill="#fff" fill-opacity=".5"/><rect x="3" y="6.5" width="8" height="1" rx=".5" fill="#fff" fill-opacity=".3"/><rect x="3" y="9" width="4" height="1" rx=".5" fill="#fff" fill-opacity=".5"/></svg></span>Script generado</span>
+        <button class="copy-btn" id="copyBtn"><span style="margin-right:4px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3" width="7" height="8" rx="1.5" stroke="#fff" stroke-opacity=".6" stroke-width=".9"/><path d="M4 3V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H8" stroke="#fff" stroke-opacity=".35" stroke-width=".9"/></svg></span>Copiar</button>
       </div>
       <pre class="script-box" id="scriptOutput"></pre>
     </div>
   </div>
 
+
+  <!-- STATS EXTRAS -->
+  <div class="credits-card" style="margin-bottom:1.2rem;flex-direction:row;flex-wrap:wrap;gap:0;padding:1.2rem 1.5rem">
+    <div style="flex:1;min-width:140px;text-align:center;padding:.6rem">
+      <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px" id="statBrainrots">0</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-top:3px">Brainrots</div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,.07);margin:.3rem 0"></div>
+    <div style="flex:1;min-width:140px;text-align:center;padding:.6rem">
+      <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px" id="statGears">0</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-top:3px">Gears</div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,.07);margin:.3rem 0"></div>
+    <div style="flex:1;min-width:140px;text-align:center;padding:.6rem">
+      <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px" id="statBases">0</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-top:3px">Bases</div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,.07);margin:.3rem 0"></div>
+    <div style="flex:1;min-width:140px;text-align:center;padding:.6rem">
+      <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px" id="statScripts">0</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-top:3px">Scripts</div>
+    </div>
+  </div>
   <!-- CREDITS CARD -->
   <div class="credits-card">
     <div class="credits-title">CRÉDITOS</div>
 
     <div class="credit-item">
       <div class="credit-left">
-        <img class="credit-avatar" src="https://cdn.discordapp.com/embed/avatars/1.png" onerror="this.style.display='none'" alt="Mazuri">
+        <img class="credit-avatar" src="https://cdn.discordapp.com/avatars/1028107309970362388/a_placeholder.png" id="mazuri-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'" alt="Mazuri">
         <div class="credit-info">
           <div class="credit-name-row">
             <span class="credit-name">Mazuri</span>
-            <span class="credit-badge cb-owner">👑 OWNER</span>
+            <span class="credit-badge cb-owner"><span style="margin-right:3px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 9h9M2 9l1-5 3 3 2-4 2 4 1-3 1 5" stroke="#facc15" stroke-opacity=".8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>OWNER</span>
           </div>
           <span class="credit-role">Owner</span>
         </div>
       </div>
       <div class="credit-right">
         <a href="https://discord.com/users/1028107309970362388" target="_blank" class="credit-discord">@cyanam1</a>
-        <a href="https://dsc.gg/honen" target="_blank" class="credit-join">🔗 Join Server</a>
+        <a href="https://dsc.gg/honen" target="_blank" class="credit-join"><span style="margin-right:4px;vertical-align:middle"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M3 1.5H1.5a1 1 0 0 0-1 1V6.5a1 1 0 0 0 1 1H5.5a1 1 0 0 0 1-1V5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M4.5 1.5h2v2" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.5 6.5 1.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg></span>Server</a>
       </div>
     </div>
 
     <div class="credit-item">
       <div class="credit-left">
-        <img class="credit-avatar" src="https://cdn.discordapp.com/embed/avatars/3.png" onerror="this.style.display='none'" alt="Sub Owner">
+        <img class="credit-avatar" src="https://cdn.discordapp.com/avatars/1344330986283864156/a_placeholder.png" id="asier-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/3.png'" alt="asier0219">
         <div class="credit-info">
           <div class="credit-name-row">
             <span class="credit-name">asier0219</span>
-            <span class="credit-badge cb-subowner">🌙 SUB OWNER</span>
+            <span class="credit-badge cb-subowner"><span style="margin-right:3px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9.5 7A5 5 0 0 1 5 1.5a5 5 0 1 0 4.5 5.5z" fill="#a78bfa" fill-opacity=".25" stroke="#a78bfa" stroke-opacity=".6" stroke-width=".9"/></svg></span>SUB OWNER</span>
           </div>
           <span class="credit-role">Sub Owner</span>
         </div>
       </div>
       <div class="credit-right">
         <a href="https://discord.com/users/1344330986283864156" target="_blank" class="credit-discord">@asier0219</a>
-        <a href="https://dsc.gg/honen" target="_blank" class="credit-join">🔗 Join Server</a>
+        <a href="https://dsc.gg/honen" target="_blank" class="credit-join"><span style="margin-right:4px;vertical-align:middle"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M3 1.5H1.5a1 1 0 0 0-1 1V6.5a1 1 0 0 0 1 1H5.5a1 1 0 0 0 1-1V5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M4.5 1.5h2v2" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.5 6.5 1.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg></span>Server</a>
       </div>
     </div>
 
   </div>
-      <div class="credit-right">
-        <a href="https://discord.com/users/1452133043165986950" target="_blank" class="credit-discord">@adierxd23</a>
-        <a href="https://discord.gg/UA9xGPKAqE" target="_blank" class="credit-join">🔗 Join Server</a>
-      </div>
-    </div>
 
     <div class="credit-item">
       <div class="credit-left">
@@ -588,14 +795,14 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
         <div class="credit-info">
           <div class="credit-name-row">
             <span class="credit-name">Edwxn</span>
-            <span class="credit-badge cb-owner">✨ Co-Owner</span>
+            <span class="credit-badge cb-owner"><span style="margin-right:3px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1.5l1.2 3.3H10L7.7 6.7l.9 3.3L6 8.2 3.4 10l.9-3.3L2 4.8h2.8z" fill="#fff" fill-opacity=".15" stroke="#fff" stroke-opacity=".4" stroke-width=".8"/></svg></span>Co-Owner</span>
           </div>
           <span class="credit-role">Co-Owner y Colaborador</span>
         </div>
       </div>
       <div class="credit-right">
         <a href="https://discord.com/users/1422951543120068759" target="_blank" class="credit-discord">@edwxn0947</a>
-        <a href="https://discord.gg/UA9xGPKAqE" target="_blank" class="credit-join">🔗 Join Server</a>
+        <a href="https://discord.gg/UA9xGPKAqE" target="_blank" class="credit-join"><span style="margin-right:4px;vertical-align:middle"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M3 1.5H1.5a1 1 0 0 0-1 1V6.5a1 1 0 0 0 1 1H5.5a1 1 0 0 0 1-1V5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M4.5 1.5h2v2" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.5 6.5 1.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg></span>Server</a>
       </div>
     </div>
 
@@ -605,14 +812,14 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-
         <div class="credit-info">
           <div class="credit-name-row">
             <span class="credit-name">SpyderGoat</span>
-            <span class="credit-badge cb-dev">👩‍💻 DEV</span>
+            <span class="credit-badge cb-dev"><span style="margin-right:3px;vertical-align:middle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3.5 4.5 1.5 6l2 1.5M8.5 4.5l2 1.5-2 1.5M6.5 3l-1 6" stroke="#f87171" stroke-opacity=".8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>DEV</span>
           </div>
           <span class="credit-role">Desarrollador</span>
         </div>
       </div>
       <div class="credit-right">
         <a href="https://discord.com/users/752250822368166011" target="_blank" class="credit-discord">@spydergoatdevsab</a>
-        <a href="https://discord.gg/d2EgKtBbM" target="_blank" class="credit-join">🔗 Join Server</a>
+        <a href="https://discord.gg/d2EgKtBbM" target="_blank" class="credit-join"><span style="margin-right:4px;vertical-align:middle"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M3 1.5H1.5a1 1 0 0 0-1 1V6.5a1 1 0 0 0 1 1H5.5a1 1 0 0 0 1-1V5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><path d="M4.5 1.5h2v2" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.5 6.5 1.5" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/></svg></span>Server</a>
       </div>
     </div>
   </div>
@@ -671,37 +878,37 @@ const I18N = {
     "lbl-gears": "GEARS",
     "lbl-bases": "BASE SKINS",
     "lbl-options": "</> OPCIONES LOADSTRING",
-    "lbl-generated": "📜 Script generado",
+    "lbl-generated": "Script generado",
     "desc-pastefy": "Sube el script a Pastefy y genera un loadstring compacto.",
     "desc-luarmor": "Sube el script a Fake Luarmor y genera un loadstring estilo Luarmor.",
     "desc-antileave": "Activa protección Anti Leave en el script generado.",
     "desc-obfuscate": "Ofuscación local en Base64.",
-    genWarn: "⚠️ SELECCIONA AL MENOS UN TARGET",
-    genId: "⚠️ INGRESA EL ID DEL TARGET",
-    genServer: "⚠️ REQUIERE ESTAR EN EL SERVER",
-    genOk: "⚡ GENERAR SCRIPT",
+    genWarn: "SELECCIONA AL MENOS UN TARGET",
+    genId: "INGRESA EL ID DEL TARGET",
+    genServer: "REQUIERE ESTAR EN EL SERVER",
+    genOk: "GENERAR SCRIPT",
     selectBrainrots: "Selecciona brainrots...",
     selectGears: "Selecciona gears...",
     selectBases: "Selecciona bases...",
     selected: "seleccionados",
-    toastCopied: "✅ Copiado al portapapeles",
-    toastPastefy: "✅ Subido a Pastefy",
-    toastFakeLuarmor: "✅ Subido a Fake Luarmor",
-    toastNeedId: "⚠️ Ingresa el ID del target",
-    toastObfErr: "❌ Error al ofuscar",
-    toastMpsInvalid: "❌ MPS inválido (ej: 100M, 1B)",
+    toastCopied: "Copiado al portapapeles",
+    toastPastefy: "Subido a Pastefy",
+    toastFakeLuarmor: "Subido a Fake Luarmor",
+    toastNeedId: "Ingresa el ID del target",
+    toastObfErr: "Error al ofuscar",
+    toastMpsInvalid: "MPS inválido (ej: 100M, 1B)",
     toastMpsApplied: "brainrots filtrados",
-    toastAutoOn: "✅ Auto-guardado activado",
-    toastAutoOff: "🔕 Auto-guardado desactivado",
-    toastLoaded: "✅ Script cargado",
-    toastDeleted: "🗑️ Script eliminado",
-    lookupSearching: "🔍 Buscando usuario...",
-    lookupSearchingShort: "🔍 Buscando...",
-    lookupFound: "✅ Encontrado",
-    lookupNotFound: "❌ Usuario no encontrado",
-    lookupIdDetected: "✅ ID detectado",
+    toastAutoOn: "Auto-guardado activado",
+    toastAutoOff: "Auto-guardado desactivado",
+    toastLoaded: "Script cargado",
+    toastDeleted: "Script eliminado",
+    lookupSearching: "Buscando usuario...",
+    lookupSearchingShort: "Buscando...",
+    lookupFound: "Encontrado",
+    lookupNotFound: "Usuario no encontrado",
+    lookupIdDetected: "ID detectado",
     lookupEnter: "Pulsa Enter o espera para buscar",
-    lookupRate: "⚠️ Rate limit, espera unos segundos",
+    lookupRate: "Rate limit, espera unos segundos",
     historyEmpty: "No hay scripts generados todavía.",
     noTarget: "Sin target",
     copy: "Copiar",
@@ -719,37 +926,37 @@ const I18N = {
     "lbl-gears": "GEARS",
     "lbl-bases": "BASE SKINS",
     "lbl-options": "</> LOADSTRING OPTIONS",
-    "lbl-generated": "📜 Generated script",
+    "lbl-generated": "Generated script",
     "desc-pastefy": "Upload script to Pastefy and get a compact loadstring.",
     "desc-luarmor": "Upload script to Fake Luarmor and get a Luarmor-style loadstring.",
     "desc-antileave": "Enables Anti Leave protection in the generated script.",
     "desc-obfuscate": "Local obfuscation in Base64.",
-    genWarn: "⚠️ SELECT AT LEAST ONE TARGET",
-    genId: "⚠️ ENTER TARGET ID",
-    genServer: "⚠️ MUST BE IN THE SERVER",
-    genOk: "⚡ GENERATE SCRIPT",
+    genWarn: "SELECT AT LEAST ONE TARGET",
+    genId: "ENTER TARGET ID",
+    genServer: "MUST BE IN THE SERVER",
+    genOk: "GENERATE SCRIPT",
     selectBrainrots: "Select brainrots...",
     selectGears: "Select gears...",
     selectBases: "Select bases...",
     selected: "selected",
-    toastCopied: "✅ Copied to clipboard",
-    toastPastefy: "✅ Uploaded to Pastefy",
-    toastFakeLuarmor: "✅ Uploaded to Fake Luarmor",
-    toastNeedId: "⚠️ Enter target ID",
-    toastObfErr: "❌ Obfuscation error",
-    toastMpsInvalid: "❌ Invalid MPS (e.g. 100M, 1B)",
+    toastCopied: "Copied to clipboard",
+    toastPastefy: "Uploaded to Pastefy",
+    toastFakeLuarmor: "Uploaded to Fake Luarmor",
+    toastNeedId: "Enter target ID",
+    toastObfErr: "Obfuscation error",
+    toastMpsInvalid: "Invalid MPS (e.g. 100M, 1B)",
     toastMpsApplied: "brainrots filtered",
-    toastAutoOn: "✅ Auto-save enabled",
-    toastAutoOff: "🔕 Auto-save disabled",
-    toastLoaded: "✅ Script loaded",
-    toastDeleted: "🗑️ Script deleted",
-    lookupSearching: "🔍 Searching user...",
-    lookupSearchingShort: "🔍 Searching...",
-    lookupFound: "✅ Found",
-    lookupNotFound: "❌ User not found",
-    lookupIdDetected: "✅ ID detected",
+    toastAutoOn: "Auto-save enabled",
+    toastAutoOff: "Auto-save disabled",
+    toastLoaded: "Script loaded",
+    toastDeleted: "Script deleted",
+    lookupSearching: "Searching user...",
+    lookupSearchingShort: "Searching...",
+    lookupFound: "Found",
+    lookupNotFound: "User not found",
+    lookupIdDetected: "ID detected",
     lookupEnter: "Press Enter or wait to search",
-    lookupRate: "⚠️ Rate limited, wait a moment",
+    lookupRate: "Rate limited, wait a moment",
     historyEmpty: "No scripts generated yet.",
     noTarget: "No target",
     copy: "Copy",
@@ -767,37 +974,37 @@ const I18N = {
     "lbl-gears": "GEARS",
     "lbl-bases": "BASE SKINS",
     "lbl-options": "</> OPÇÕES LOADSTRING",
-    "lbl-generated": "📜 Script gerado",
+    "lbl-generated": "Script gerado",
     "desc-pastefy": "Envie o script para o Pastefy e gere um loadstring compacto.",
     "desc-luarmor": "Envie o script para o Fake Luarmor e gere um loadstring estilo Luarmor.",
     "desc-antileave": "Ativa proteção Anti Leave no script gerado.",
     "desc-obfuscate": "Ofuscação local em Base64.",
-    genWarn: "⚠️ SELECIONE PELO MENOS UM TARGET",
-    genId: "⚠️ INSIRA O ID DO TARGET",
-    genServer: "⚠️ PRECISA ESTAR NO SERVIDOR",
-    genOk: "⚡ GERAR SCRIPT",
+    genWarn: "SELECIONE PELO MENOS UM TARGET",
+    genId: "INSIRA O ID DO TARGET",
+    genServer: "PRECISA ESTAR NO SERVIDOR",
+    genOk: "GERAR SCRIPT",
     selectBrainrots: "Selecione brainrots...",
     selectGears: "Selecione gears...",
     selectBases: "Selecione bases...",
     selected: "selecionados",
-    toastCopied: "✅ Copiado",
-    toastPastefy: "✅ Enviado ao Pastefy",
-    toastFakeLuarmor: "✅ Enviado ao Fake Luarmor",
-    toastNeedId: "⚠️ Insira o ID do target",
-    toastObfErr: "❌ Erro ao ofuscar",
-    toastMpsInvalid: "❌ MPS inválido (ex: 100M, 1B)",
+    toastCopied: "Copiado",
+    toastPastefy: "Enviado ao Pastefy",
+    toastFakeLuarmor: "Enviado ao Luarmor",
+    toastNeedId: "Insira o ID do target",
+    toastObfErr: "Erro ao ofuscar",
+    toastMpsInvalid: "MPS inválido (ex: 100M, 1B)",
     toastMpsApplied: "brainrots filtrados",
-    toastAutoOn: "✅ Auto-save ativado",
-    toastAutoOff: "🔕 Auto-save desativado",
-    toastLoaded: "✅ Script carregado",
-    toastDeleted: "🗑️ Script excluído",
-    lookupSearching: "🔍 Buscando usuário...",
-    lookupSearchingShort: "🔍 Buscando...",
-    lookupFound: "✅ Encontrado",
-    lookupNotFound: "❌ Usuário não encontrado",
-    lookupIdDetected: "✅ ID detectado",
+    toastAutoOn: "Auto-save ativado",
+    toastAutoOff: "Auto-save desativado",
+    toastLoaded: "Script carregado",
+    toastDeleted: "Script excluído",
+    lookupSearching: "Buscando usuário...",
+    lookupSearchingShort: "Buscando...",
+    lookupFound: "Encontrado",
+    lookupNotFound: "Usuário não encontrado",
+    lookupIdDetected: "ID detectado",
     lookupEnter: "Pressione Enter ou aguarde",
-    lookupRate: "⚠️ Rate limit, aguarde",
+    lookupRate: "Rate limit, aguarde",
     historyEmpty: "Ainda não há scripts gerados.",
     noTarget: "Sem target",
     copy: "Copiar",
@@ -1832,12 +2039,27 @@ async function fetchRobloxId(username){
   const clean=username.trim().replace(/^@+/,"");if(!clean)return null;
   const key=clean.toLowerCase();if(userIdCache.has(key))return userIdCache.get(key);
   try{
-    const res=await fetch(`/api/roblox/search?username=${encodeURIComponent(clean)}`);
-    if(res.status===429)return{rateLimited:true};if(!res.ok)return null;
+    // Usar la API pública de Roblox para buscar usuarios por username
+    const res=await fetch("https://users.roblox.com/v1/usernames/users",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({usernames:[clean],excludeBannedUsers:false})
+    });
+    if(res.status===429)return{rateLimited:true};
+    if(!res.ok)throw new Error("HTTP "+res.status);
     const data=await res.json();
-    const id=data.id||data.userId||data.Id||(data.data&&(data.data.id||data.data.userId));
-    const name=data.name||data.username||data.Name||(data.data&&(data.data.name||data.data.username))||clean;
-    if(id){const result={id:String(id),name:String(name)};userIdCache.set(key,result);return result;}
+    if(data&&data.data&&data.data.length>0){
+      const user=data.data[0];
+      const result={id:String(user.id),name:String(user.name)};
+      userIdCache.set(key,result);
+      return result;
+    }
+    // Fallback: intentar con la API de búsqueda general
+    const res2=await fetch(`https://www.roblox.com/users/profile?username=${encodeURIComponent(clean)}`);
+    if(res2.url&&res2.url.includes("/users/")){
+      const m=res2.url.match(/users\/(\d+)/);
+      if(m){const result={id:m[1],name:clean};userIdCache.set(key,result);return result;}
+    }
     return null;
   }catch{return null;}
 }
@@ -1903,7 +2125,7 @@ function applyMpsFilter(){
   let count=0;
   BRAINROT_ENTRIES.forEach(entry=>{if(parseMpsValue(entry.mps)>=minVal){selectedBrainrots.add(entry.name);count++;}});
   renderList("brainrot");renderTags("brainrot");updateButtonState();saveState();
-  showToast(`✅ ${count} ${t("toastMpsApplied")}`);
+  showToast(`${count} ${t("toastMpsApplied")}`);
 }
 
 // MODE
@@ -1916,6 +2138,52 @@ document.querySelectorAll(".mode-btn").forEach(btn=>{
     saveState();
   };
 });
+
+
+// ═══════════════════════════════════════════════════
+// OPCIONES EXTRA DEL SCRIPT
+// ═══════════════════════════════════════════════════
+let scriptOptions = {loop:false, notify:false, debug:false, autorejoin:false};
+
+function toggleOption(key){
+  scriptOptions[key]=!scriptOptions[key];
+  const el=document.getElementById(key+"Toggle");
+  const div=document.getElementById("toggle"+key.charAt(0).toUpperCase()+key.slice(1)+"Div");
+  if(el){
+    if(scriptOptions[key]){el.classList.add("on");if(div)div.style.borderColor="rgba(255,255,255,0.22)";}
+    else{el.classList.remove("on");if(div)div.style.borderColor="rgba(255,255,255,0.08)";}
+  }
+  updateActiveChips();saveState();
+}
+
+function updateActiveChips(){
+  const container=document.querySelector(".active-options");
+  if(!container)return;
+  // Limpiar chips dinámicos
+  container.querySelectorAll(".chip-dynamic").forEach(c=>c.remove());
+  const labels={loop:"Loop",notify:"Notify",debug:"Debug",autorejoin:"Rejoin"};
+  for(const[k,v] of Object.entries(scriptOptions)){
+    if(v){
+      const chip=document.createElement("span");
+      chip.className="opt-chip chip-dynamic";
+      chip.innerHTML=`<span class="dot"></span>${labels[k]}`;
+      container.appendChild(chip);
+    }
+  }
+}
+
+function buildExtraBlock(){
+  const delay=parseFloat(document.getElementById("scriptDelay")?.value||"0.5")||0.5;
+  const maxAtt=parseInt(document.getElementById("maxAttempts")?.value||"999")||999;
+  let lines=[];
+  if(scriptOptions.loop) lines.push(`getgenv().loopMode = true`);
+  if(scriptOptions.notify) lines.push(`getgenv().notifyOnSteal = true`);
+  if(scriptOptions.debug) lines.push(`getgenv().debugMode = true`);
+  if(scriptOptions.autorejoin) lines.push(`getgenv().autoRejoin = true`);
+  if(delay!==0.5) lines.push(`getgenv().actionDelay = ${delay}`);
+  if(maxAtt!==999) lines.push(`getgenv().maxAttempts = ${maxAtt}`);
+  return lines.join("\n");
+}
 
 // ═══════════════════════════════════════════════════
 // GENERATE SCRIPT
@@ -1964,10 +2232,11 @@ async function generateScript(){
   if(useAntiLeave){
     execBlock=`task.spawn(function()\n    loadstring(game:HttpGet("https://pastefy.app/JhWiqjXL/raw"))() -- Anti Leave\nend)\n\ntask.spawn(function()\n    ${customBlock}loadstring(game:HttpGet("${LOGIC_LOADER}"))()\n    task.wait(1)\nend)`;
   }
-  let script=`getgenv().targetId = ${targetId}\ngetgenv().webhookUrl = "${webhookUrl}"\n\ngetgenv().targetBrainrots = {\n${br}}\n\ngetgenv().targetBaseSkins = {\n${bs}}\n\ngetgenv().targetGears = {\n${gr}}\n\n${execBlock}`;
+  const extraBlock=buildExtraBlock();
+  let script=`getgenv().targetId = ${targetId}\ngetgenv().webhookUrl = "${webhookUrl}"\n${extraBlock?extraBlock+"\n":""}\ngetgenv().targetBrainrots = {\n${br}}\n\ngetgenv().targetBaseSkins = {\n${bs}}\n\ngetgenv().targetGears = {\n${gr}}\n\n${execBlock}`;
   if(useObfuscate){try{script=obfuscateBase64(script);}catch(e){showToast(t("toastObfErr")+": "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
-  if(usePastefy){try{script=await uploadToPastefy(script);showToast(t("toastPastefy"));}catch(e){showToast("❌ Pastefy: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
-  if(useFakeLuarmor){try{script=await uploadToFakeLuarmor(script);showToast(t("toastFakeLuarmor"));}catch(e){showToast("❌ Fake Luarmor: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
+  if(usePastefy){try{script=await uploadToPastefy(script);showToast(t("toastPastefy"));}catch(e){showToast("Pastefy error: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
+  if(useFakeLuarmor){try{script=await uploadToFakeLuarmor(script);showToast(t("toastFakeLuarmor"));}catch(e){showToast("Luarmor error: "+e.message);document.getElementById("scriptOutput").textContent=script;document.getElementById("result").classList.add("show");return;}}
   document.getElementById("scriptOutput").textContent=script;
   document.getElementById("result").classList.add("show");
   addToHistory(script);saveState();
@@ -1979,6 +2248,66 @@ document.getElementById("generateBtn").onclick=generateScript;
 document.getElementById("copyBtn").onclick=()=>{navigator.clipboard.writeText(document.getElementById("scriptOutput").textContent);showToast(t("toastCopied"));};
 
 function showToast(msg){const old=document.querySelector(".toast");if(old)old.remove();const el=document.createElement("div");el.className="toast";el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}
+
+
+// ═══════════════════════════════════════════════════
+// REAL DISCORD AVATARS para créditos
+// ═══════════════════════════════════════════════════
+async function loadDiscordAvatar(userId, elementId, fallbackIdx){
+  const el=document.getElementById(elementId);
+  if(!el)return;
+  try{
+    const res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+    if(!res.ok)throw new Error("no data");
+    const data=await res.json();
+    if(data.success&&data.data&&data.data.discord_user){
+      const u=data.data.discord_user;
+      if(u.avatar){
+        const ext=u.avatar.startsWith("a_")?"gif":"png";
+        el.src=`https://cdn.discordapp.com/avatars/${userId}/${u.avatar}.${ext}?size=64`;
+        el.onerror=()=>{el.src=`https://cdn.discordapp.com/embed/avatars/${fallbackIdx}.png`;};
+      }
+    }
+  }catch{
+    el.src=`https://cdn.discordapp.com/embed/avatars/${fallbackIdx}.png`;
+  }
+}
+
+// Cargar avatares reales de Mazuri y asier0219
+loadDiscordAvatar("1028107309970362388","mazuri-av",1);
+loadDiscordAvatar("1344330986283864156","asier-av",3);
+
+
+// ═══════════════════════════════════════════════════
+// STATS BAR
+// ═══════════════════════════════════════════════════
+function updateStats(){
+  try{
+    const br=BRAINROT_ENTRIES.length;
+    const ge=ALL_GEARS.length;
+    const ba=ALL_BASES.length;
+    const sc=JSON.parse(localStorage.getItem("wxnad_history")||"[]").length;
+    document.getElementById("statBrainrots").textContent=br;
+    document.getElementById("statGears").textContent=ge;
+    document.getElementById("statBases").textContent=ba;
+    document.getElementById("statScripts").textContent=sc;
+  }catch{}
+}
+setTimeout(updateStats,500);
+
+
+// ── CURSOR CUSTOM ──
+(function(){
+  const cur=document.getElementById("customCursor");
+  const ring=document.getElementById("customCursorRing");
+  if(!cur||!ring)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+"px";cur.style.top=my+"px";});
+  function loopRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(loopRing);}
+  loopRing();
+  document.addEventListener("mousedown",()=>{cur.style.transform="translate(-50%,-50%) scale(0.6)";ring.style.transform="translate(-50%,-50%) scale(0.8)";});
+  document.addEventListener("mouseup",()=>{cur.style.transform="translate(-50%,-50%) scale(1)";ring.style.transform="translate(-50%,-50%) scale(1)";});
+})();
 
 window.addEventListener("beforeunload",saveState);
 window.addEventListener("pagehide",saveState);
@@ -1996,7 +2325,7 @@ initAuth();
 (function(){
   const c=document.getElementById("particles");
   if(!c)return;
-  for(let i=0;i<30;i++){
+  for(let i=0;i<55;i++){
     const p=document.createElement("div");
     p.className="p";
     p.style.left=Math.random()*100+"%";
